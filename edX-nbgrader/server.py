@@ -11,7 +11,7 @@ import subprocess
 import time
 import random
 
-import gc
+# import gc
 from bs4 import BeautifulSoup as bs
 
 
@@ -59,6 +59,7 @@ def grade(problem, student_response):
     randfilename = randgen()
     grading_dir = 'submitted/hacker/ps1/'
     feedback_html = 'feedback/hacker/ps1/problem1.html'
+    score = None
 
     # Create python file to be tested from student's submitted program
     program_name = "problem1.ipynb"
@@ -67,18 +68,19 @@ def grade(problem, student_response):
             for l in urllib.urlopen(student_response):
                 f.write(l)
     except:
-        return json.dumps({'msg':'invalid link', 'correct':None, 'score':None})
+        'msg' = 'invalid link'
+        return process_result(msg, score)
     p = subprocess.Popen(["nbgrader", "autograde", "ps1", "--student", "hacker"],
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
 
     print "Out is: >>>\n{0}\n<<<".format(out)
     print "Err is: >>>\n{0}\n<<<".format(err)
-    # os.system('nbgrader autograde ps1 --student hacker')
     if 'AutogradeApp | ERROR' not in err:
         os.system('nbgrader feedback ps1 --student hacker')
     else:
-        return json.dumps({'msg':'There is some problem during grading', 'correct':None, 'score':None})
+        'msg' = 'There is some problem during grading'
+        return process_result(msg, score)
 
     with open(feedback_html, 'r') as f:
         soup = bs(''.join(f.readlines()), 'html.parser')
@@ -91,16 +93,14 @@ def grade(problem, student_response):
     os.remove(feedback_html)
     
     score = float(report[0].split(' ')[-3])
-    correct = score > 0
     msg = '\n'.join(report)
-    #garbage collect
-    gc.collect()
-    return json.dumps({'correct': correct, 'score': score, 'msg': msg})
+    return process_result(msg, score)
     
     
-def process_result(result):
-    #TODO: error handling
-    pass
+def process_result(msg, score):
+    if score is not None:
+        correct = score > 0
+    return {'msg': msg, 'score': score, 'correct': correct}
 
 
 def get_info(body_content):
