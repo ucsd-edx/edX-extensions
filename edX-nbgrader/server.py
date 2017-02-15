@@ -30,9 +30,10 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         body_len = int(self.headers.getheader('content-length', 0))
         body_content = self.rfile.read(body_len)
+        print body_content
         problem, student_response = get_info(body_content)
         result = grade(problem, student_response)
-	print result
+        print result
         self.send_response(200)
         self.end_headers()
         self.wfile.write(result)
@@ -68,7 +69,7 @@ def grade(problem, student_response):
             for l in urllib.urlopen(student_response):
                 f.write(l)
     except:
-        'msg' = 'invalid link'
+        msg = 'invalid link'
         return process_result(msg, score)
     p = subprocess.Popen(["nbgrader", "autograde", "ps1", "--student", "hacker"],
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -79,7 +80,7 @@ def grade(problem, student_response):
     if 'AutogradeApp | ERROR' not in err:
         os.system('nbgrader feedback ps1 --student hacker')
     else:
-        'msg' = 'There is some problem during grading'
+        msg = 'There is some problem during grading'
         return process_result(msg, score)
 
     with open(feedback_html, 'r') as f:
@@ -100,6 +101,7 @@ def grade(problem, student_response):
 def process_result(msg, score):
     if score is not None:
         correct = score > 0
+    correct = None
     return {'msg': msg, 'score': score, 'correct': correct}
 
 
