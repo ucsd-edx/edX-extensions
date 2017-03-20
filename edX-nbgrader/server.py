@@ -28,6 +28,7 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def do_POST(self):
+	print "something"
         body_len = int(self.headers.getheader('content-length', 0))
         body_content = self.rfile.read(body_len)
         print body_content
@@ -115,6 +116,7 @@ def get_info(body_content):
 
 
 if __name__ == '__main__':
-    server = ThreadedHTTPServer(('localhost', 1710), Handler)
-    print 'Starting server on port 1710...'
+    port = 80
+    server = ThreadedHTTPServer(('localhost', port), Handler)
+    print 'Starting server on port {}...'.format(port)
     server.serve_forever()
