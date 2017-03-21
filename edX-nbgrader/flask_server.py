@@ -51,10 +51,9 @@ def grade(problem, student_response):
     
     
 def process_result(msg, score):
+    correct = None
     if score is not None:
         correct = score > 0
-    correct = None
-    # return {'msg': msg, 'score': score, 'correct': correct}
     return [msg, score, correct]
 
 
