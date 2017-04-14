@@ -1,0 +1,13 @@
+{
+    "ucsdx_eg_test": {
+        "SERVER": "http://xqueue.edx.org",
+        "CONNECTIONS": 1,
+        "AUTH": ["ucsdx_eg_test", "ndtye$r@Xz9_gq#B"],
+        "HANDLERS": [
+            {
+                "HANDLER": "dummy-course.nbg_grader.SimpleGrader",
+                "KWARGS": {}
+            }
+        ]
+    }
+}
