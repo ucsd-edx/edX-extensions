@@ -1,0 +1,3 @@
+[submodule "edX-nbgrader/xqueue-watcher"]
+	path = edX-nbgrader/xqueue-watcher
+	url = https://github.com/ComeOnGetMe/xqueue-watcher.git
