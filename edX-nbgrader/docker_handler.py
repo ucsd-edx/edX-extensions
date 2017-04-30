@@ -2,6 +2,7 @@ import requests
 import docker
 import subprocess
 from time import sleep
+import json
 
 class DockerHandler:
     def __init__(self, ip='localhost', port=4000, grader_image='zhipengyan/ucsdx:simple_grader'):
@@ -32,7 +33,6 @@ class DockerHandler:
         return results
 
 if __name__ == '__main__':
-    import json
     test_json = {"xqueue_files": "{\"problem1.ipynb\": \"http://google.com\"}", "xqueue_body": "{\"grader_payload\": \"ps1\"}"}
     dh = DockerHandler()
     print dh(test_json)
