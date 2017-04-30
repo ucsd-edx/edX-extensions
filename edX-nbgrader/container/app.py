@@ -6,7 +6,6 @@ Author: Zhipeng Yan
 Date: Apr 30 2017
 """
 
-from docker_grader import SimpleGrader
 from flask import Flask, request, jsonify
 import os
 import json
@@ -14,7 +13,7 @@ from simple_grader import SimpleGrader
 
 
 app = Flask(__name__)
-grader = SimpleGrader('/home/ubuntu/edX-extensions/edX-nbgrader/container/')
+grader = SimpleGrader('/app')
 
 
 def shutdown_server():
