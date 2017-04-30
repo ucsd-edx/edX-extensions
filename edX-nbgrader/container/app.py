@@ -17,8 +17,17 @@ app = Flask(__name__)
 grader = SimpleGrader('/home/ubuntu/edX-extensions/edX-nbgrader/container/')
 
 
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+
+@app.route("/shutdown", methods=['POST'])
 def shutdown():
-    raise RuntimeError("finish grading")
+    shutdown_server()
+    return "Docker server shutting down\n"
 
 
 @app.route("/grade", methods=['POST'])
@@ -29,21 +38,9 @@ def grade():
     submission_files = json.loads(data['xqueue_files'])
     submission_url = submission_files['problem1.ipynb']
 
-    try:
-        feedback = grader.grade(section_name, submission_url)
-        return jsonify(feedback)
-    except Exception, msg:
-        print 'Internal Error:', msg
-        return jsonify({'msg': msg})
-    finally:
-        shutdown()
+    feedback = grader.grade(section_name, submission_url)
+    return jsonify(feedback)
 
 
 if __name__ == "__main__":
-    try:
-        app.run(host='0.0.0.0', port=80)
-    except RuntimeError, msg:
-        if msg == 'finish grading':
-            pass
-        else:
-            raise RuntimeError(msg)
+    app.run(host='0.0.0.0', port=80)
