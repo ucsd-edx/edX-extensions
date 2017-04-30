@@ -22,8 +22,6 @@ class SimpleGrader:
         p = subprocess.Popen(["nbgrader", "autograde", section_name, "--student", "hacker"],
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
-        # print "Out is: >>>\n{0}\n<<<".format(out)
-        # print "Err is: >>>\n{0}\n<<<".format(err)
         return out, err
 
     @staticmethod
@@ -88,14 +86,6 @@ class SimpleGrader:
         self._clean()
         return {'correct': correct, 'score': score, 'msg': msg}
 
-    def __call__(self, student_response):
-        xqueue_body = json.loads(student_response['xqueue_body'])
-        problem_name = xqueue_body['grader_payload']
-        submission_files = json.loads(student_response['xqueue_files'])
-        submission_url = submission_files['problem1.ipynb']
-
-        result = self.grade(problem_name, submission_url)
-        return result
 
 if __name__ == '__main__':
     test = SimpleGrader('/home/ubuntu/edX-extensions/edX-nbgrader/container/')
