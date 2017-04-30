@@ -5,7 +5,7 @@
         "AUTH": ["ucsdx_eg_test", "ndtye$r@Xz9_gq#B"],
         "HANDLERS": [
             {
-                "HANDLER": "dummy-course.nbg_grader.SimpleGrader",
+                "HANDLER": "docker_handler.DockerHandler",
                 "KWARGS": {}
             }
         ]
