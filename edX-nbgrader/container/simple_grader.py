@@ -72,7 +72,7 @@ class SimpleGrader:
             return SimpleGrader._handle_result(False, msg=err, correct=correct, score=score)
 
         # Get feedback
-        # TODO: more feedback?
+        # TODO: scores from DB
         feedback_html = 'feedback/hacker/{}/{}.html'.format(section_name, problem_name)
         with open(feedback_html, 'r') as f:
             soup = bs(''.join(f.readlines()), 'html.parser')
