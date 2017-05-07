@@ -84,6 +84,7 @@ class SimpleGrader:
         correct = score > 0
         msg = '<br />'.join(report)
         self._clean()
+        print {'correct': correct, 'score': score, 'msg': msg}
         return {'correct': correct, 'score': score, 'msg': msg}
 
 

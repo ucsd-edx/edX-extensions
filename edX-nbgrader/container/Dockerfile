@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 ENV NAME Grader
 
 # Run app.py when the container launches
-CMD ["python", "app.py"]
+CMD ["python", "grade.py"]
