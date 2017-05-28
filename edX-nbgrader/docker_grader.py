@@ -5,7 +5,7 @@ import os
 import json
 
 # DOCKER_IMAGE = 'zhipengyan/ucsdx:docker-grader'
-DOCKER_IMAGE = 'zhipengyan/ucsdx:test'
+DOCKER_IMAGE = 'zhipengyan/ucsdx:docker-grader-v2'
 COURSE_VOLUME = {'/home/ubuntu/edX-extensions/edX-nbgrader/dummy-course': {'bind': '/app/dummy-course', 'mode': 'rw'}}
 
 class DockerGrader(Grader):
