@@ -34,6 +34,7 @@ Python class defined in `edX-nbgrader/docker_grader.py` that links the Docker im
   - grader_root: the directory **inside the Docker image** where the copied course folder will be mounted. Default: `/app`, no need to change it. If it needs to be changed, make sure that the Docker image uses the same directory to do the grading.
   - course_dir: the path **in the grader server** that leads to the real course folder. For example, `edX-nbgrader/dummy-course`. The grader will copy the whole directory into some random-named folder in `/tmp` and mount the copy into the docker image.
   - fork_per_item and logger_name: currently no need. Required by the parent class: `xqueue_watcher.grader`.
+
 - `DockerGrader._handle_result(result_str, error_msg)`: post-process the message returned by the Docker.
   - If no error happend inside Docker, `result_str` should be a json string that could be assembled using either `eval(result_str)` or `json.loads(result_str)`.
   - If any error happened, the message will be printed.
@@ -41,3 +42,23 @@ Python class defined in `edX-nbgrader/docker_grader.py` that links the Docker im
 
   ​
 
+
+## Multiple grader on one instance
+
+Usage:`python xqueue-watcher/load-test/run.py -wc [NUM_WORKERS] -a http://xqueue.edx.org`
+
+- This simply invokes multiple process of python grader. The config file they read is defined inside `run.py`, which could be changed to read from `conf.d`.
+
+
+
+## To make each extra worker run the grader process when booted
+
+[Shweta's Google Doc](https://docs.google.com/document/d/1NbmSNG8pCuf8nyTVR86x_0ItsKWFJBDzT4QiX4inucQ/edit).
+
+- This is already set and tested in the grader AMI *UCSDX_docker_grader_with_volume* under our Amazon account.
+
+
+
+## Ravi's external grader guide
+
+[berkeleyX](https://berkeleyx.berkeley.edu/wiki/autograding)
