@@ -14,7 +14,7 @@ class SimpleGrader:
     @staticmethod
     def _handle_result(success, **kwargs):
         if not success:
-            print kwargs['msg']
+            print json.dumps(kwargs)
         return kwargs
 
     @staticmethod
@@ -39,8 +39,8 @@ class SimpleGrader:
 
     def grade(self, section_name, submission_url, problem_name):
         # return vars
-        correct = None
-        score = None
+        correct = False
+        score = 0
         msg = ''
 
         # if section_name != 'ps1':
