@@ -37,14 +37,14 @@ class SimpleGrader:
             if os.path.isdir(dir_path):
                 shutil.rmtree(dir_path)
 
-    def grade(self, section_name, submission_url, problem_name='problem1'):
+    def grade(self, section_name, submission_url, problem_name):
         # return vars
         correct = None
         score = None
         msg = ''
 
-        if section_name != 'ps1':
-            return SimpleGrader._handle_result(False, msg='Wrong section name.', correct=correct, score=score)
+        # if section_name != 'ps1':
+        #     return SimpleGrader._handle_result(False, msg='Wrong section name.', correct=correct, score=score)
 
         os.chdir(self.course_dir)
 
@@ -90,4 +90,4 @@ class SimpleGrader:
 
 if __name__ == '__main__':
     test = SimpleGrader('/home/ubuntu/edX-extensions/edX-nbgrader/container/')
-    test.grade('ps1', 'https://google.com')
+    test.grade('ps1', 'https://google.com', 'problem1')
