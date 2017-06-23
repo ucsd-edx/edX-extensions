@@ -69,8 +69,16 @@ to refactor the problem parsing code and make sure that it is clean, easy to exp
 
 ## Next steps:
 
-1. Copy and organize directories.
-2. Refactor the imd 2 xml compilation code (Use Markdown compiler, RE, PLY)
-2. Refactor the definition / documentation of an `imd` file.
-3. Write a tutorial on writing problems, with examples.
+1. Copy and organize directories.   **Zhen**
+2. Refactor the imd 2 xml compilation code, have it also perform:  **Matt and Zhen**
+   * Generate html with interpolated values
+   * Perform tests on python part. (require asking the author to define some correct Input output pairs).
+2. Cleaning up syntax: **Zhen and Matt **
+  * How to define interpolated variables in a way that will not conflict.
+  * Check if you can interplate strings for variables. Can they include html?
+  * Define size of input box.
+2. Find a document that describes what python2XML supports, to be included in the documentation. **Zhen**
+3. Write a tutorial on writing problems, with examples. **Matt**
+5. Refactor and document the answer checker code. ** Matt and Zhen**
+
 
