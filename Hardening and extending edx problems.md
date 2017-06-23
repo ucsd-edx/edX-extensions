@@ -52,3 +52,11 @@ to refactor the problem parsing code and make sure that it is clean, easy to exp
 ### Some specific problems:
 * Varying the shape of the input box.
 * Generating image variations: CDF
+
+## Next steps:
+
+1. Copy and organize directories.
+2. Refactor the imd 2 xml compilation code (Use Markdown compiler, RE, PLY)
+2. Refactor the definition / documentation of an `imd` file.
+3. Write a tutorial on writing problems, with examples.
+
