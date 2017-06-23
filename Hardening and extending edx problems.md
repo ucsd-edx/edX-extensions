@@ -16,7 +16,7 @@ A problem definition file consists of the following elements:
 
 1. **Python code** that gets executed right before the problem is presented to the student. This code typically creates different variants of the problem.
 2. Markdown code that defines how the problem will be presented to the student. The markdown code include the following hooks to connect it with the rest of the system:
-  1. **Python symbol intrpolation** : are replaced by the values of variables defined in the python code. i.e. "you are given \$n_balls balls" will be replaced by "you are given 5 balls" if `n_balls=5`
+  1. **Python symbol interpolation** : are replaced by the values of variables defined in the python code. i.e. "you are given \$n_balls balls" will be replaced by "you are given 5 balls" if `n_balls=5`
   2. **Answer boxes** : regions of the problem where the student is to type his/her answer. Each answer box is associated with a correct answer, that can be fixed or can be an interpolated variable.
 3. **Answer checking code**: This code runs after the student submitted his/her answer. It compares the student's answer with the correct answer, tells the student whether the answer is correct, and potentially provides a hint. (At this point the hint will not be a question, just a sententence, possibly with some latex math.) 
 
