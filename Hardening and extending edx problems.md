@@ -20,6 +20,16 @@ A problem definition file consists of the following elements:
   2. **Answer boxes** : regions of the problem where the student is to type his/her answer. Each answer box is associated with a correct answer, that can be fixed or can be an interpolated variable.
 3. **Answer checking code**: This code runs after the student submitted his/her answer. It compares the student's answer with the correct answer, tells the student whether the answer is correct, and potentially provides a hint. (At this point the hint will not be a question, just a sententence, possibly with some latex math.) 
 
+### Creating a problem
+
+The steps, using the current methodology, are :
+
+1. Write the problem in .imd
+2. Generate an XML
+3. Cut and paste the XML into the edX interface.
+
+In the future, we want to create code that can take the exported course content, parse it to identify the location of the problem files, and change those files appropriately.
+
 ### The `imd` format
 
 The `.imd` format is an extension of the markdown `.md` format that we developed to add capabilities and make it easier to write problems. 
