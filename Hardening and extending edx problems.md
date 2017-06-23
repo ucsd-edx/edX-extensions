@@ -30,15 +30,15 @@ The steps, using the current methodology, are :
 
 In the future, we want to create code that can take the exported course content, parse it to identify the location of the problem files, and change those files appropriately.
 
+#### Importing and exporting course content from/to edx
+
+* http://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/releasing_course/export_import_course.html
+
 ### The `imd` format
 
 The `.imd` format is an extension of the markdown `.md` format that we developed to add capabilities and make it easier to write problems. 
 
 The format is designed to be used inside a jupyter notebooks (iPython - hence the `i` in `imd`). This allows the problem developer to work in a single environment when writing the python code and when writing the markdown for the problem, and to easily check the different parts.
-
-### Importing and exporting course content from/to edx
-
-* http://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/releasing_course/export_import_course.html
 
 ### The directories
 
