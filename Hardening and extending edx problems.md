@@ -25,3 +25,30 @@ A problem definition file consists of the following elements:
 The `.imd` format is an extension of the markdown `.md` format that we developed to add capabilities and make it easier to write problems. 
 
 The format is designed to be used inside a jupyter notebooks (iPython - hence the `i` in `imd`). This allows the problem developer to work in a single environment when writing the python code and when writing the markdown for the problem, and to easily check the different parts.
+
+### The directories
+
+Code that resides in different parts of different github repositories should be copied to appropriate parts of this repository.
+
+#### List of current directories:
+
+Put pointers to new locations one repositories have been copied:
+
+1. Code for problems and problem translation is here. https://github.com/zhenzhai/TA_repo/tree/master/problem_database
+2. Code for writing hints is here. https://github.com/zhenzhai/TA_repo/tree/master/hint_database
+3. Answer checking code: https://github.com/zhenzhai/edx-platform/tree/master/common/lib/sandbox-packages/hint
+
+Directories 1 and 2 contain both code and problem and hint definitions. The code should be put here, while the problem definition files should be put directories under the Probability and Statistics subdirectory.
+
+###  Compatibility and division of work.
+
+1. **Most urgent**: write documentation (not just a video) explaining how to write problems, check them, and load the to edX studio. This is critical because it allows others (Sanjoy, Alon and their students) to start writing and editing problem sets.
+
+2. We plan to do varius improvements, some of which we do not know yet. It is important to keep backward compatibility with the current way in which problems are written, going back to change the problem definitions is error prone and a big pain.
+
+3. 1 and 2 are somewhat in conflict with each other, if we do the documentation too soon, it will include various stange hacks (such as $,$$, \$$ all meaning different things) that make it hard to achieve backward compatibility. We should therefor have as a **First Step** 
+to refactor the problem parsing code and make sure that it is clean, easy to explain, and easy to extend (We should use a standard markdown parser so that we can support images, sections etc.) . Then we write documentation, and then we start working on extending the capabilities. 
+
+### Some specific problems:
+* Varying the shape of the input box.
+* Generating image variations: CDF
