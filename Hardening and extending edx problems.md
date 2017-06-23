@@ -8,3 +8,6 @@ This is the plan for working on software to support the problem sets on edX. The
 2. All public parts of the code must have detailed in-code documentation using [Sphinx](http://www.sphinx-doc.org/en/stable/contents.html)
    * If you are using emacs, I recommend [sphinx-doc](http://sphinx-doc.org/index.html) that add a sphinx-mode to the editor. this mode is helpful for writing well formatte4d docstrings.
    * Once sphinx is installed and configured, it takes a single command to traverse a code repository and generate out of it a documentation web site such as [ReadTheDocs](http://docs.readthedocs.io/en/latest/getting_started.html)
+3. In addition to the code documentation, which is intended for programmers, there should be documentation describing how to write problems.
+
+### The `imd` format
