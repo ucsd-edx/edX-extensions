@@ -1,6 +1,14 @@
 Plan For July
 ==========================
 
+
+The above header should be an H2 tag. Now, for a list of fruits:
+
+* Red Apples
+* Purple Grapes
+* Green Kiwifruits
+
+
 Week 1: (1-7)
     * Add fies to edX-extensions and organize
     * Create Tutorials
