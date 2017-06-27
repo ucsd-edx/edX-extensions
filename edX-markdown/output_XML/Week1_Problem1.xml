@@ -1,0 +1,55 @@
+<problem>
+  <text>
+    <script type="loncapa/python">
+# random variables (no need to import random library)
+n = random.randrange(3,6,1)
+k = random.randrange(1,6,2)
+
+# Solutions with variables converted to string
+# Make sure you name the solution with part id at the end. e.g. 'solution1' will be solution for part 1. 
+solution1 = "(26^{0})-(25^{0})+{1}".format(n,k)
+solution2 = "8"
+solution3 = "35*{0}".format(k)
+
+# Group all solutions into a list
+solutions = [solution1, solution2, solution3]
+
+
+    </script>
+
+
+<ul>
+<li>You can use variables like this: $n and $k</li>
+</ul>
+    <customresponse cfn="check" expect="solution1">
+      <textline/>
+    </customresponse>
+
+<ul>
+<li>You can use centered math expression like this:</li>
+</ul>
+<p>\[ \mathbb{E}(X) \ = \ \sum_{x} x \, \mbox{Pr}(X = x) \]</p>
+    <customresponse cfn="check" expect="solution2">
+      <textline/>
+    </customresponse>
+
+<ul>
+<li>You can also use inline math expression \(\mathbb{E}(X) = 3\).</li>
+</ul>
+    <customresponse cfn="check" expect="solution3">
+      <textline/>
+    </customresponse>
+
+<ul>
+<li>You can have variables inside math expression:</li>
+</ul>
+<p>\[ \mathbb{E}(X) \ = $k * $n \]</p>
+    <script type="loncapa/python">
+from hint import evaluate
+def check(expect, ans):
+  return evaluate.evaluate(expect, ans)
+    </script>
+
+
+  </text>
+</problem>

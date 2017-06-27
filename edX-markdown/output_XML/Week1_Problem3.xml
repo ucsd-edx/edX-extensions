@@ -1,0 +1,62 @@
+<problem>
+  <text>
+    <script type="loncapa/python">
+# random variables (no need to import random library)
+a = random.randrange(3,6,1)
+b = random.randrange(1,6,2)
+c = "string"
+d = "string2"
+
+    </script>
+
+
+<ul>
+<li>You can use variables like this: $n and $k</li>
+</ul>
+
+
+    <choiceresponse>
+      <checkboxgroup>
+<choice correct="false"> This is a wrong choice</choice>
+<choice correct="true"> This is a wrong choice</choice>
+<choice correct="false"> This is a wrong choice</choice>
+<choice correct="true"> This is another right choice</choice>
+      </checkboxgroup>
+    </choiceresponse>
+
+<ul>
+<li>You can use centered math expression like this:</li>
+</ul>
+<p>\[ \mathbb{E}(X) \ = \ \sum_{x} x \, \mbox{Pr}(X = x) \]</p>
+
+
+    <choiceresponse>
+      <checkboxgroup>
+<choice correct="false"> \(x^2+1\)</choice>
+<choice correct="true"> \(x^2+5\)</choice>
+      </checkboxgroup>
+    </choiceresponse>
+
+<ul>
+<li>You can have variables inside:</li>
+</ul>
+
+
+    <choiceresponse>
+      <checkboxgroup>
+<choice correct="true"> $a</choice>
+<choice correct="false"> $a</choice>
+<choice correct="false"> $a</choice>
+<choice correct="true"> $d</choice>
+      </checkboxgroup>
+    </choiceresponse>
+
+    <script type="loncapa/python">
+from hint import evaluate
+def check(expect, ans):
+  return evaluate.evaluate(expect, ans)
+    </script>
+
+
+  </text>
+</problem>
