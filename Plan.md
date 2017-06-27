@@ -1,26 +1,25 @@
 Plan For July
 ==========================
 
-
-The above header should be an H2 tag. Now, for a list of fruits:
-
-* Red Apples
-* Purple Grapes
-* Green Kiwifruits
-
-
 Week 1: (1-7)
+
+* Add fies to edX-extensions and organize
+* Create Tutorials
+
+
+
+
     * Add fies to edX-extensions and organize
     * Create Tutorials
-        - Basic
-        - Multiple Choice
-        - Checkbox
-        - Variable Assignment
+      * Basic
+      * Multiple Choice
+      * Checkbox
+      * Variable Assignment
         
 Week 2-3: (7-21)
     * Refactor Checking system
-        - Add eval statements
-        - Use eval statements to perform tests on python part
+        * Add eval statements
+        * Use eval statements to perform tests on python part
     * Refactor imd2xml to generate html with interpolated values
     
 Week 4: (21-29)
