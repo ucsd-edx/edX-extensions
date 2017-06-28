@@ -2,7 +2,7 @@ Plan For July
 ==========================
 
 **Week 1: (1-7)**
-* Add fies to edX-extensions and organize
+* Add files to edX-extensions and organize
 * Create Tutorials
    * Basic
    * Multiple Choice
