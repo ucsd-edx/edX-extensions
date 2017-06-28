@@ -1,4 +1,4 @@
-## Written by Zipeng Yan and Zhen Zhai
+## Written by Zhipeng Yan and Zhen Zhai
 ## Translate imd files to xml
 ## Can have math expressions wrapped with $$ \math $$
 ## and also inline math expression $ \math $
@@ -90,6 +90,7 @@ def read_md(contents):
 	html_code = markdown.markdown("".join(md_code), extensions=['markdown.extensions.tables'], output_format="HTML")
 
 	f.close()
+
 	return python_code, html_code
 
 def convert_html(html_code, py_code):
