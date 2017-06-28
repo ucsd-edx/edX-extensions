@@ -16,10 +16,10 @@ XML_PY_END = '    </script>\n\n\n'
 XML_PY_EVAL = XML_PY_START + 'from hint import evaluate\ndef check(expect, ans):\n  return evaluate.evaluate(expect, ans)\n' + XML_PY_END
 
 def math_wrapper(sol):
-	return '    <customresponse cfn="check" expect="{0}">\n      <textline/>\n    </customresponse>\n\n'.format(sol)
+	return '    <customresponse cfn="check" expect="\[${0}\]">\n      <textline/>\n    </customresponse>\n\n'.format(sol)
 
 def option_wrapper(opt, sol):
-	opt_string = '      <optioninput options="{0}" correct="{1}"/>'.format(opt, sol)
+	opt_string = '      <optioninput options="${0}" correct="${1}"/>'.format(opt, sol)
 	return '    <optionresponse>\n'+opt_string+'\n    </optionresponse>\n\n'
 
 def multi_choice_wrapper(choices):
