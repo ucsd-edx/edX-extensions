@@ -4,6 +4,12 @@
   3. Cleaned up code in md2xml.
   4. Added simple tutorial of md2xml.
 
-* 6/27 TODO
-  1. Add more tutorial for md2xml.
-  2. Clean up tutorial for writing imd.
+* 6/27
+  1. Fixed translate.py errors.
+  2. Re-wrote imd tutorial.
+  3. Cleaned up the repository further.
+  4. Cleaned up the CSE103-DSE210x repository.
+
+* 6/28 (TODO)
+  1. Re-write tutorial for CSE103-DSE210x repository.
+  2. Work with Matt to refactor the translator.py code.
