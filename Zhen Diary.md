@@ -15,10 +15,10 @@
   2. Move HW files to the correct folder. Removed duplicate files.
   3. Updated readme files in CSE103-DSE210x repository.
 
-* 6/29 (TODO)
+* 6/29
   1. Re-write tutorial for CSE103-DSE210x repository.
   2. Translate .pg files to .imd files.
 
-* 6/30 (TODO)
+* TODO
   1. Work with Matt to refactor translator.py
   2. Make sure the translator can be imported and used in CSE103-DSE210x repo.
