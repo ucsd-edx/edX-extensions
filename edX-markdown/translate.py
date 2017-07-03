@@ -8,12 +8,12 @@ import markdown
 import json
 import sys
 
-XML_HEAD = '<problem>\n  <text>\n'
-XML_END = '  </text>\n</problem>\n'
+def XML_wrapper(content):
+	return '<problem>\n  <text>\n{0}\n  </text>\n</problem>\n'.format(content)
 
-XML_PY_START = '    <script type="loncapa/python">\n'
-XML_PY_END = '    </script>\n\n\n'
-XML_PY_EVAL = XML_PY_START + 'from hint import evaluate\ndef check(expect, ans):\n  return evaluate.evaluate(expect, ans)\n' + XML_PY_END
+def py_wrapper(code):
+	#XML_PY_EVAL = XML_PY_START + 'from hint import evaluate\ndef check(expect, ans):\n  return evaluate.evaluate(expect, ans)\n' + XML_PY_END
+	return '    <script type="loncapa/python">\n{0}\n    </script>\n\n\n'.format(code)
 
 def math_wrapper(sol):
 	return '    <customresponse cfn="check" expect="\[${0}\]">\n      <textline/>\n    </customresponse>\n\n'.format(sol)
@@ -165,7 +165,7 @@ def convert_html(html_code, py_code):
 			updated_html_code.append("\n")
 
 	updated_html_code = "".join(updated_html_code)
-	template = XML_HEAD + XML_PY_START + py_code + XML_PY_END + updated_html_code + XML_PY_EVAL + XML_END
+	template = XML_wrapper(py_wrapper(py_code) + updated_html_code)
 	return template
 
 
