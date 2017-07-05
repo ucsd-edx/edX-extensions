@@ -78,7 +78,12 @@ def read_imd(contents):
 
 	if "```test\n" in contents:
 		start_index = contents.index("```test\n")
-		end_index = contents.index("```\n")
+		if "```\n" in contents:
+			end_index = contents.index("```\n")
+		elif "```" in contents:
+			end_index = contents.index("```")
+		else:
+			print "didn't close test section"
 		test_code = contents[start_index+1:end_index]
 		test_code = "".join(test_code)
 		contents = contents[:start_index] + contents[end_index+1:]
@@ -124,7 +129,6 @@ def read_imd(contents):
 		# mark variables with $ sign
 		line = line.replace('\001','$')
 		md_code[j] = line
-	f.close()
 
 	return python_code, md_code, test_code
 
@@ -226,15 +230,18 @@ if __name__ == "__main__":
 		sys.exit("Error, see 'python translate.py --help' for input requirement")
 
 	# Start converting
+	print "  Reading imd ..."
 	input_file_name, output_file_name = read_json(week, problem)
 	contents = read_file(input_file_name)
 	py_code, imd_code, test_code = read_imd(contents)
 
-	print "generating XML"
+	print "  Generating XML ..."
 	html_code = convert_imd2html(imd_code)
 	xml_code = make_xml(html_code, py_code)
 	write_xml(output_file_name, xml_code)
-	print "Done! XML files saved in output_XML folder!"
 
-	print "testing XML"
+	print "  Testing XML ..."
 	# TODO HERE
+
+	print "All tests passed. XML files saved in output_XML folder!"
+
