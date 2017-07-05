@@ -8,6 +8,7 @@ import markdown
 import json
 import sys
 
+# Wrapper functions
 def XML_wrapper(content):
 	return '<problem>\n  <text>\n{0}\n  </text>\n</problem>\n'.format(content)
 
@@ -33,14 +34,37 @@ def correct_choice_wrapper(choice):
 def wrong_choice_wrapper(choice):
 	return '<choice correct="false">{0}</choice>\n'.format(choice)
 
-def read_md(contents):
+
+# class functions
+def read_json(assign_id, prob_id):
+	# Get mapping from json file
+	mapping = json.load(open("problems_mapping.json"))
+	mapping_key = "Assignment{0}_Problem{1}".format(assign_id, prob_id)
+	file_name = mapping[mapping_key]
+	input_file_name = "input_imd/{0}".format(file_name)
+	output_file_name = "output_XML/{0}.xml".format(mapping_key)
+	return input_file_name, output_file_name
+
+def read_file(file_name):
+	f = open(file_name, "r")
+	contents = f.readlines()
+	f.close()
+	return contents
+
+def write_xml(file_name, xml_code):
+	f = open(file_name, "w")
+	f.write(xml_code)
+	f.close()
+
+def read_imd(contents):
 	'''
-	Given imd file content, split python code and markdown code. Then, convert markdown code to HTML.
+	Given imd file content, split python code, markdown code, and test code.
 	input:
 		contents: imd file content
 	output:
 		python_code: python code
-		html_code: converted from markdown code to html code
+		md_code: markdown code
+		test_code: test code
 	'''
 
 	if "```python\n" in contents:
@@ -48,10 +72,20 @@ def read_md(contents):
 		end_index = contents.index("```\n")
 		python_code = contents[start_index+1:end_index]
 		python_code = "".join(python_code)
-		md_code = contents[end_index+1:]
+		contents = contents[:start_index] + contents[end_index+1:]
 	else:
 		python_code = ""
-		md_code = contents
+
+	if "```test\n" in contents:
+		start_index = contents.index("```test\n")
+		end_index = contents.index("```\n")
+		test_code = contents[start_index+1:end_index]
+		test_code = "".join(test_code)
+		contents = contents[:start_index] + contents[end_index+1:]
+	else:
+		test_code = ""
+
+	md_code = contents[:]
 
 	inline = 0  # open or closed parantheses
 	double = 0  # open or closed brackets
@@ -70,8 +104,10 @@ def read_md(contents):
 		while len(line) > 3 and line[-2] == " ":
 			line = line[:-2] + line[-1]
 
-		line = line.replace('\\$','\001')   # record dollar sign in $var by a safe substitute
+		# record $ sign in $var by a safe substitute
+		line = line.replace('\\$','\001')
 
+		# substitute inline and newline math expression wrapper
 		i=0
 		while i < len(line):
 			if line[i:i+2] == '$$':
@@ -85,19 +121,22 @@ def read_md(contents):
 			else:
 				i += 1
 
+		# mark variables with $ sign
 		line = line.replace('\001','$')
 		md_code[j] = line
-	html_code = markdown.markdown("".join(md_code), extensions=['markdown.extensions.tables'], output_format="HTML")
-
 	f.close()
 
-	return python_code, html_code
+	return python_code, md_code, test_code
 
-def convert_html(html_code, py_code):
+def convert_imd2html(md_code):
+	html_code = markdown.markdown("".join(md_code), extensions=['markdown.extensions.tables'], output_format="HTML")
+	return html_code
+
+def make_xml(html_code, py_code):
 	html_code = html_code.splitlines()
 	py_code_lines = py_code.splitlines()
-	choice_list = ""
 
+	choice_list = ""
 	updated_html_code = []
 	part_id = 1
 	for line in html_code:
@@ -165,18 +204,19 @@ def convert_html(html_code, py_code):
 			updated_html_code.append("\n")
 
 	updated_html_code = "".join(updated_html_code)
-	template = XML_wrapper(py_wrapper(py_code) + updated_html_code)
-	return template
-
+	xml_code = XML_wrapper(py_wrapper(py_code) + updated_html_code)
+	return "".join(xml_code)
 
 
 
 if __name__ == "__main__":
+	# Define help
 	if sys.argv[1] == "--help":
 		print "Please type in parameters as follow(if you have variables type in 1 at the end):"
 		print "python translate.py <Week ID> <Problem ID> <1>"
 		sys.exit()
 
+	# Get variables
 	var = ""
 	if len(sys.argv) == 3:
 		week, problem = sys.argv[1:]
@@ -185,28 +225,16 @@ if __name__ == "__main__":
 	else:
 		sys.exit("Error, see 'python translate.py --help' for input requirement")
 
-    # Get source file name
-	mapping = json.loads(open("problems_mapping.json").read())
-	mapping_key = "Week{0}_Problem{1}".format(week, problem)
-	#mapping_key = "PracticeFinal{1}".format(week, problem)
-	file_name = mapping[mapping_key]
-	input_file_name = "input_imd/{0}".format(file_name)
-	output_file_name = "output_XML/{0}.xml".format(mapping_key)
-
-	f = open(input_file_name, "r")
-	contents = f.readlines()
-	f.close()
+	# Start converting
+	input_file_name, output_file_name = read_json(week, problem)
+	contents = read_file(input_file_name)
+	py_code, imd_code, test_code = read_imd(contents)
 
 	print "generating XML"
-
-	py_code, html_code = read_md(contents)
-
-	template = convert_html(html_code, py_code)
-
-	print "writing files ..."
-
-	f = open(output_file_name, "w")
-	f.write("".join(template))
-	f.close()
-
+	html_code = convert_imd2html(imd_code)
+	xml_code = make_xml(html_code, py_code)
+	write_xml(output_file_name, xml_code)
 	print "Done! XML files saved in output_XML folder!"
+
+	print "testing XML"
+	# TODO HERE
