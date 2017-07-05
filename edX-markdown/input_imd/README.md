@@ -1,5 +1,6 @@
 ## How to write imd files
-####Python code
+
+#### Python code
 	* Wrap the python code with the following with no space at front.
 
 		\`\`\`python
@@ -43,9 +44,24 @@
 
 	5. After you finish the problem, double check to make sure the solutions you defined in your python code match the order of the questions in the problem.
 
-	6. Save your file and assign a problem to the file in the ```problems_mapping.json```
+#### test
 
-#### Different types of problem
+	1. Assign values to all variables in the problem.
+
+	2. Provide a list of tuple of (answer_string, true/false) for each problem part.
+
+	3. Program will output one of the following:
+
+		i. Program crash report
+		ii. Incorrect operation(s)
+		iii. All tests passed
+
+#### Save the file
+
+	After all the tests are passed, save your file and assign your file to a problem in the ```problems_mapping.json```
+
+
+#### Problem with check box and drop down list
  	* Check box
 
 		[ ] and [x] stands for the check box. [x] represent the box that need to be checked.
