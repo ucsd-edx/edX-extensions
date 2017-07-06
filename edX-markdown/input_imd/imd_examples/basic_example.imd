@@ -34,3 +34,13 @@ $$ \mathbb{E}(X) \ = \ \sum_{x} x \, \mbox{Pr}(X = x) $$
 * You can have variables inside math expression:
 
 $$ \mathbb{E}(X) \ = \$k * \$n $$
+
+
+
+```test
+n = 3
+k = 5
+checking1 = [("26^3-25^3+5", true) ("26**3-25**3+5", true), ("26^3-25^3+2", false)]
+checking2 = [("8", true), ("10", false)]
+checking3 = [("35^5", true), ("35^2", false)]
+```
