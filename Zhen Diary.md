@@ -11,14 +11,34 @@
   4. Cleaned up the CSE103-DSE210x repository.
 
 * 6/28
-  1. Convert all .md files to .imd files in the CSE103-DSE210x repository.
-  2. Move HW files to the correct folder. Removed duplicate files.
+  1. Converted all .md files to .imd files in the CSE103-DSE210x repository.
+  2. Moved HW files to the correct folder. Removed duplicate files.
   3. Updated readme files in CSE103-DSE210x repository.
 
 * 6/29
-  1. Re-write tutorial for CSE103-DSE210x repository.
-  2. Translate .pg files to .imd files.
+  1. Re-wrote tutorial for CSE103-DSE210x repository.
+  2. Translated .pg files to .imd files.
 
-* TODO
-  1. Work with Matt to refactor translator.py
-  2. Make sure the translator can be imported and used in CSE103-DSE210x repo.
+* 7/3
+  Meeting
+
+* 7/5
+  Refactored translate.py based on discussion with Yoav.
+  1. Splitted functions.
+  2. Added doc string to functions.
+
+* 7/6
+  1. Read Matt's class definition.
+  2. Moved codes in corresponding class functions.
+  3. Finished doc string for each class function.
+
+* 7/7
+  Skype meeting with Matt.
+  Started to work on the test function of the translator class.
+  1. Found codes for parse trees and math expression evaluation.
+  2. Moved codes to github and cleaned up the code.
+  3. Added doc string.
+
+* 7/8 (TODO)
+  1. Refactor eval function.
+  2. Make sure translator class can import eval and use it in the test function.
