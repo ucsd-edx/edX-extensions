@@ -12,7 +12,7 @@ July
     
 **5:** Made translator.ipynb file to speed up work flow. Put everything on jupyter server for zhen and I to work on. Did edits to translator functions.
 
-
+**8:** Cleaned up translator code. Fixed some bugs. Updating Parser.
 
 
 
