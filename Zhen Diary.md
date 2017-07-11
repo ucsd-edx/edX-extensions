@@ -39,6 +39,7 @@
   2. Moved codes to github and cleaned up the code.
   3. Added doc string.
 
-* 7/8 (TODO)
-  1. Refactor eval function.
-  2. Make sure translator class can import eval and use it in the test function.
+* 7/10
+  1. Find and refactor eval function.
+  2. Make sure eval can be imported in translator class.
+  3. Cleaned up translatorClass.py
