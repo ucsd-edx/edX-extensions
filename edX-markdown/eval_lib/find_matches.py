@@ -63,8 +63,6 @@ def find_Hits(List,tol):
         # get the tree node
         node1 = get_top_node(item1)
         node2 = get_top_node(item2)
-        print '1 ', item1
-        print '2 ', item2
         if item1[1]!=item2[1] and ratio < tol and ratio > (1/tol) and node1 == node2:
             if item1[1]=='c':
                 Hits.append((item1,item2))

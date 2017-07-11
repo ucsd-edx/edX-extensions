@@ -1,4 +1,5 @@
 ```python
+import random
 # random variables (no need to import random library)
 n = random.randrange(3,6,1)
 k = random.randrange(1,6,2)
@@ -8,11 +9,6 @@ k = random.randrange(1,6,2)
 solution1 = "(26^{0})-(25^{0})+{1}".format(n,k)
 solution2 = "8"
 solution3 = "35*{0}".format(k)
-
-# Group all solutions into a list
-solutions = [solution1, solution2, solution3]
-
-
 ```
 
 
@@ -40,7 +36,7 @@ $$ \mathbb{E}(X) \ = \$k * \$n $$
 ```test
 n = 3
 k = 5
-checking1 = [("26^3-25^3+5", true) ("26**3-25**3+5", true), ("26^3-25^3+2", false)]
-checking2 = [("8", true), ("10", false)]
-checking3 = [("35^5", true), ("35^2", false)]
+check1 = [("26^3-25^3+5", True), ("26**3-25**3+5", True), ("26^3-25^3+2", False)]
+check2 = [("8", True), ("10", False)]
+check3 = [("35*5", True), ("35^5", False), ("35*2", False)]
 ```
