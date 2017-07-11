@@ -314,31 +314,7 @@ class Translator:
         self.toXml()
         self.write_xml()
 
-
-
-
-
-
-
-# # <span style="color:blue">Function: </span> Display Html
-
-# This function displays the HTML code of the IMD file. Ideally, this function will display the code as it is seen on the EDX interface. Also, currently the function only really does anything inside a jupyter notebook.
-
-# In[22]:
-
-from IPython.display import display,HTML
-
-def displayHtml(self):  
-        display(HTML( self.html_code  ))
-        
-Translator.displayHtml = displayHtml
-
-
-# # <span style="color:red">~Unfinished~</span> <span style="color:blue">Function: </span> Test Problem 
-
-# In[ ]:
-
-def test(self):
+    def test(self):
     """
     Tests the IMD code, the code will be in 3 parts. 
         1: python code
@@ -358,15 +334,26 @@ def test(self):
     """
     print(self.x)
 
-    
-Translator.test = test
 
 
-# # <span style="color:lime">Main Code</span> 
+# # <span style="color:blue">Function: </span> Display Html
+
+# This function displays the HTML code of the IMD file. Ideally, this function will display the code as it is seen on the EDX interface. Also, currently the function only really does anything inside a jupyter notebook.
+
+# In[22]:
+
+from IPython.display import display,HTML
+
+def displayHtml(self):  
+        display(HTML( self.html_code  ))
+        
+Translator.displayHtml = displayHtml
+
+
 
 # ## Running Code
 # 
-# This is this is the code that runs when you call the `TranslaterClass.py` file. This code is called by opening your computer's **terminal** and running a command like the following:
+# This isthe code that runs when you call the `TranslaterClass.py` file. This code is called by opening your computer's **terminal** and running a command like the following:
 # 
 # ```
 # python TranslaterClass.py -assignment  1 -problem  1
@@ -384,11 +371,11 @@ if __name__ == "__main__":
     
     # Setup arguments to be parsed
     ap = argparse.ArgumentParser()
-    ap.add_argument('-assignment', type=int)
-    ap.add_argument('-problem', type=int)
-    ap.add_argument('-JSON_filename')
-    ap.add_argument('-input_dir')
-    ap.add_argument('-output_dir')
+    ap.add_argument('-assignment', type=int, help='Assignment ID (integer)')
+    ap.add_argument('-problem', type=int, help='Problem ID (integer)')
+    ap.add_argument('-JSON_filename', help='The filename of the mapping. (default: "problems_mapping.json")')
+    ap.add_argument('-input_dir', help='The folder containing all the input files(imd files). (default:"input_imd")')
+    ap.add_argument('-output_dir', help='The folder containing all the output files(XML files). (default:"output_xml")')
     #args = ap.parse_args() #<-- For Debugging: comment out this line, and uncomment the line below
     args = type('',(),{})();  args.assignment, args.problem, args.JSON_filename, args.input_dir, args.output_dir = 1, 1, "problems_mapping.json", "input_imd", "output_xml"
     
@@ -421,22 +408,6 @@ if __name__ == "__main__":
 #     sys.exit()
 # ```
 
-# ## Saving This File to <span style="color:purple">.py</span> format
-# 
-# This code <span style="color:gray">(as of now)</span> is meant to be run as a **.py** file. The default python file to use is `TransalterClass.py`. Checkout the <span style="color:lime">Main Code</span> section to learn how use this **.py** file. The following code converts this **.ipynb** file to a **.py** file called `TransalterClass.py`.
-
-# In[32]:
-
-try:
-    get_ipython().system(u'jupyter nbconvert --to script TranslaterClass.ipynb')
-except NameError:
-    pass
-    
-
-
-# # <hr>
-
-# In[ ]:
 
 
 
