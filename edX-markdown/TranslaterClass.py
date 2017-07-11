@@ -351,6 +351,8 @@ class Translator:
 
         # TODO: is it easier to have a list of solutions in the form of {0}.var
         #   or have instructor write the solutions in order.
+        # Modify code below(not robust):
+        #<===========
         sol_code = self.py_code[self.py_code.index('\nsolution1'):]
         exec sol_code in scope
 
@@ -358,6 +360,7 @@ class Translator:
         for i in scope.keys():
             if i.startswith('solution'):
                 part_counts+=1
+        #<===========
 
         for i in xrange(part_counts):
             sol = 'solution{0}'.format(i+1)
