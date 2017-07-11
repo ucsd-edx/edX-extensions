@@ -315,24 +315,60 @@ class Translator:
         self.write_xml()
 
     def test(self):
-    """
-    Tests the IMD code, the code will be in 3 parts. 
-        1: python code
-        2: tests
-        3: the markdown
+        """
+        Tests the IMD code, the code will be in 3 parts. 
+            1: python code
+            2: tests
+            3: the markdown
 
-    2: Tests
-        A test consists of:
-            set variables
-            computed answers
-            correct and incorrect answers
+        2: Tests
+            A test consists of:
+                set variables
+                computed answers
+                correct and incorrect answers
 
-    Tests returns
-        a boolean variable of correctness
-        a string describing the error if it was incorrect
+        Tests returns
+            a boolean variable of correctness
+            a string describing the error if it was incorrect
+        """
+        import traceback
+        from eval_lib.evaluate import evaluate
 
-    """
-    print(self.x)
+        scope = {}
+        try:
+            exec self.py_code in scope
+        except Exception as err:
+            print "!!!Python Code Error:"
+            print traceback.format_exc()
+            return False
+
+        try:
+            exec self.test_code in scope
+        except Exception as err:
+            print "!!!Test Code Error:"
+            print traceback.format_exc()
+            return False
+
+        # TODO: is it easier to have a list of solutions in the form of {0}.var
+        #   or have instructor write the solutions in order.
+        sol_code = self.py_code[self.py_code.index('\nsolution1'):]
+        exec sol_code in scope
+
+        part_counts = 0
+        for i in scope.keys():
+            if i.startswith('solution'):
+                part_counts+=1
+
+        for i in xrange(part_counts):
+            sol = 'solution{0}'.format(i+1)
+            s = scope[sol]
+            check = 'check{0}'.format(i+1)
+            for c in scope[check]:
+                if evaluate(s, c[0]) != c[1]:
+                    print c, " doesn't match solution ", s
+                    return False
+        
+        return True
 
 
 
@@ -353,49 +389,50 @@ Translator.displayHtml = displayHtml
 
 # ## Running Code
 # 
-# This isthe code that runs when you call the `TranslaterClass.py` file. This code is called by opening your computer's **terminal** and running a command like the following:
+# This is the code that runs when you call the `TranslaterClass.py` file. This code is called by opening your computer's **terminal** and running a command like the following:
 # 
 # ```
-# python TranslaterClass.py -assignment  1 -problem  1
+# python TranslaterClass.py 1 1
 # ```
 # 
-# Note that `-assignment` and `-problem` are required input arguments for the code to run. To get the full list of possible inputs, runn the following:
+# Note that `assignment` and `problem` are required input arguments for the code to run. To get the full list of possible inputs, runn the following:
 # 
 # ```
 # python TranslaterClass.py -h
 # ```
 
-# In[ ]:
 
 if __name__ == "__main__":
     
     # Setup arguments to be parsed
-    ap = argparse.ArgumentParser()
-    ap.add_argument('-assignment', type=int, help='Assignment ID (integer)')
-    ap.add_argument('-problem', type=int, help='Problem ID (integer)')
-    ap.add_argument('-JSON_filename', help='The filename of the mapping. (default: "problems_mapping.json")')
-    ap.add_argument('-input_dir', help='The folder containing all the input files(imd files). (default:"input_imd")')
-    ap.add_argument('-output_dir', help='The folder containing all the output files(XML files). (default:"output_xml")')
-    #args = ap.parse_args() #<-- For Debugging: comment out this line, and uncomment the line below
-    args = type('',(),{})();  args.assignment, args.problem, args.JSON_filename, args.input_dir, args.output_dir = 1, 1, "problems_mapping.json", "input_imd", "output_xml"
+    ap = argparse.ArgumentParser(description = 'This python script will translate imd files into XML files, \
+        which can be used in edX studio to create problems.')
+    ap.add_argument('assignmentID', type=int, help='Assignment ID (integer)')
+    ap.add_argument('problemID', type=int, help='Problem ID (integer)')
+    ap.add_argument('-json', metavar='json_filename', default="problems_mapping.json",
+        help='The filename of the mapping. (default: "problems_mapping.json")')
+    ap.add_argument('-input', metavar='input_dir', default="input_imd",
+        help='The folder containing all the input(imd) files. (default:"input_imd")')
+    ap.add_argument('-output', metavar='output_dir', default="output_xml",
+        help='The folder containing all the output(XML) files. (default:"output_xml")')
+    args = ap.parse_args() #<-- For Debugging: comment out this line, and uncomment the line below
+    #args = type('',(),{})();  args.assignment, args.problem, args.JSON_filename, args.input_dir, args.output_dir = 1, 1, "problems_mapping.json", "input_imd", "output_xml"
     
     # check if user supplied requried arguments
-    if args.assignment == None or args.problem==None:
-        sys.exit("Error: -assignment or -problem vars are missing. See 'python translate.py -h' for input requirements")
-    
-    # If necessary, set default variables.
-    if args.JSON_filename == None: args.JSON_filename="problems_mapping.json"
-    if args.input_dir     == None: args.input_dir    ="input_imd"
-    if args.output_dir    == None: args.output_dir   ="output_xml"
+    if args.assignmentID == None or args.problemID == None:
+        sys.exit("Error: missing arguments. See 'python translate.py -h' for input requirements.")
         
     print "Translating imd into xml"
-    translator = Translator(args.assignment, args.problem, args.JSON_filename, args.input_dir, args.output_dir)
+    translator = Translator(args.assignmentID, args.problemID, args.json, args.input, args.output)
     translator.translate()
     
     print "  Testing XML ..."
-    # TODO HERE
+    check = translator.test()
 
-    print "All tests passed. XML files saved in output_XML folder!"
+    if check:
+        print "All tests passed. XML files saved in output_XML folder!"
+    else:
+        print "Please fix above errors and try again."
 
 
 # **Old Code**:
