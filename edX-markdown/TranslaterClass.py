@@ -3,7 +3,7 @@
 
 # # Translator Class
 
-# <strong style="font-size: 16pt">Intro: </strong >
+# ## Intro
 # 
 # <strong> This file contains all of the code for the translator class. </strong>
 # 
@@ -12,14 +12,23 @@
 # Once we have finished the translator class we can copy and paste all this stuff into a .py file for implementation.
 #  
 # 
-# <strong style="color:#FF5733;font-size: 16pt">Idea: </strong >
+# <strong style="color:#FF5733;font-size: 14pt">Idea: </strong >
 # <div>We could have the class be something that people just import into a jupyter notebook. The nice thing about this is that if they create the markdown in a jupyter notebook and write their python code in a jupyter notebook. We could just make it so that they give the path an output file and then hte xml is produced their. Then they can do all their work in a single notebook. The user wont have to copy all their code into a seperate imd file and they wont have to worry about the JSON file. This would also be simpler to code.</div> 
+
+# ## Running Code
+# 
+# This code <span style="color:gray">(as of now)</span> is meant to be run as a **.py** file. The default python file to use is `TransalterClass.py`. Checkout the <span style="color:lime">Main Code</span> section to learn how use this **.py** file. To convert this **.ipynb** file to a **.py** run the following line of code in your computer's **terminal**:
+# 
+# ```
+# jupyter nbconvert --to script TranslaterClass.ipynb
+# ```
+# 
 
 # # <strong style="color:fuchsia">Class</strong>  Translater <span style="color:gray">(empty)</span>
 
 # import required packages
 
-# In[ ]:
+# In[1]:
 
 import markdown
 import json
@@ -34,7 +43,7 @@ import argparse
 # * assign_id: The assignment number that you would like to translate.
 # * prob_id: The problem number you would like to translate.
 
-# In[ ]:
+# In[2]:
 
 
 class Translator:
@@ -103,7 +112,7 @@ class Translator:
 
 # The following functions are all helper functions for the Translator class. They are used when code is being converted into the XML format. Basically, what these functions do is provide the correct xml format when converting specifics parts of the `.imd` into `.xml`
 
-# In[ ]:
+# In[3]:
 
 def XML_wrapper(self, content):
     return '<problem>\n  <text>\n{0}\n  </text>\n</problem>\n'.format(content)
@@ -111,7 +120,7 @@ def XML_wrapper(self, content):
 Translator.XML_wrapper = XML_wrapper
 
 
-# In[ ]:
+# In[4]:
 
 def py_wrapper(self, code):
     #XML_PY_EVAL = XML_PY_START + 'from hint import evaluate\ndef check(expect, ans):\n  return evaluate.evaluate(expect, ans)\n' + XML_PY_END
@@ -120,7 +129,7 @@ def py_wrapper(self, code):
 Translator.py_wrapper = py_wrapper
 
 
-# In[ ]:
+# In[5]:
 
 def math_wrapper(self, sol):
     return '    <customresponse cfn="check" expect="\[${0}\]">\n      <textline/>\n    </customresponse>\n\n'.format(sol)
@@ -128,7 +137,7 @@ def math_wrapper(self, sol):
 Translator.math_wrapper = math_wrapper
 
 
-# In[ ]:
+# In[6]:
 
 def option_wrapper(self, opt, sol):
     opt_string = '      <optioninput options="${0}" correct="${1}"/>'.format(opt, sol)
@@ -137,7 +146,7 @@ def option_wrapper(self, opt, sol):
 Translator.option_wrapper = option_wrapper
 
 
-# In[ ]:
+# In[7]:
 
 def multi_choice_wrapper(self, choices):
     head = '    <choiceresponse>\n      <checkboxgroup>\n'
@@ -147,7 +156,7 @@ def multi_choice_wrapper(self, choices):
 Translator.multi_choice_wrapper = multi_choice_wrapper
 
 
-# In[ ]:
+# In[8]:
 
 def correct_choice_wrapper(self, choice):
     return '<choice correct="true">{0}</choice>\n'.format(choice)
@@ -155,7 +164,7 @@ def correct_choice_wrapper(self, choice):
 Translator.correct_choice_wrapper = correct_choice_wrapper
 
 
-# In[ ]:
+# In[9]:
 
 def wrong_choice_wrapper(self, choice):
     return '<choice correct="false">{0}</choice>\n'.format(choice)
@@ -168,7 +177,7 @@ Translator.wrong_choice_wrapper = wrong_choice_wrapper
 
 # This function loads the imd code from the input file. It then splits the imd code into the  python portion, the test portion, and the true imd portion.
 
-# In[ ]:
+# In[10]:
 
 def loadImd(self):
     '''
@@ -258,7 +267,7 @@ Translator.loadImd = loadImd
 
 # # <span style="color:blue">Function: </span> Make XML
 
-# In[ ]:
+# In[11]:
 
 def toXml(self):
     """
@@ -348,7 +357,7 @@ Translator.toXml = toXml
 
 # This is one big function that does all of the steps of the functions of loading, converting, and saving the imd2xml code.
 
-# In[ ]:
+# In[12]:
 
 def translate(self):  
     self.loadImd()
@@ -358,7 +367,21 @@ def translate(self):
 Translator.translate = translate
 
 
-# # <font style="color:red">~Unfinished~</font> <span style="color:blue">Function: </span> Test Problem 
+# # <span style="color:blue">Function: </span> Display Html
+
+# This function displays the HTML code of the IMD file. Ideally, this function will display the code as it is seen on the EDX interface. Also, currently the function only really does anything inside a jupyter notebook.
+
+# In[22]:
+
+from IPython.display import display,HTML
+
+def displayHtml(self):  
+        display(HTML( self.html_code  ))
+        
+Translator.displayHtml = displayHtml
+
+
+# # <span style="color:red">~Unfinished~</span> <span style="color:blue">Function: </span> Test Problem 
 
 # In[ ]:
 
@@ -392,6 +415,20 @@ Translator.test = test
 
 
 # # <span style="color:lime">Main Code</span> 
+
+# ## Running Code
+# 
+# This is this is the code that runs when you call the `TranslaterClass.py` file. This code is called by opening your computer's **terminal** and running a command like the following:
+# 
+# ```
+# python TranslaterClass.py -assignment  1 -problem  1
+# ```
+# 
+# Note that `-assignment` and `-problem` are required input arguments for the code to run. To get the full list of possible inputs, runn the following:
+# 
+# ```
+# python TranslaterClass.py -h
+# ```
 
 # In[ ]:
 
@@ -435,6 +472,19 @@ if __name__ == "__main__":
 #     print "python Translator2.py <assignment num> <problem num>"
 #     sys.exit()
 # ```
+
+# ## Saving This File to <span style="color:purple">.py</span> format
+# 
+# This code <span style="color:gray">(as of now)</span> is meant to be run as a **.py** file. The default python file to use is `TransalterClass.py`. Checkout the <span style="color:lime">Main Code</span> section to learn how use this **.py** file. The following code converts this **.ipynb** file to a **.py** file called `TransalterClass.py`.
+
+# In[32]:
+
+try:
+    get_ipython().system(u'jupyter nbconvert --to script TranslaterClass.ipynb')
+except NameError:
+    pass
+    
+
 
 # # <hr>
 
