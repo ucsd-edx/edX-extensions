@@ -43,3 +43,15 @@
   1. Find and refactor eval function.
   2. Make sure eval can be imported in translator class.
   3. Cleaned up translatorClass.py
+
+* 7/11
+  1. Added detail help function using argparse in translatorClass.py
+  2. Finished implementing test function in translatorClass.py
+    i. Added code to test py_code and test_code to make sure it compiles.
+    ii. Made sure solution definition in py_code is executed after test_code.
+    iii. Had both codes execute in scope and test the solution values.
+
+* 7/12 (TODO)
+  1. Modify code from 2(ii) above.
+  2. Add more test in example imd files.
+  3. Work with Matt on html rendering.
