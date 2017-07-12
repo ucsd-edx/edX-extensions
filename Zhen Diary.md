@@ -53,5 +53,5 @@
 
 * 7/12 (TODO)
   1. Modify code from 2(ii) above.
-  2. Add more test in example imd files.
-  3. Work with Matt on html rendering.
+  2. Implement --selftest
+  3. Add more test in example imd files.
