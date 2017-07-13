@@ -333,6 +333,7 @@ class Translator:
         """
         import traceback
         from eval_lib.evaluate import evaluate
+        from eval_lib.evaluate import evaluate_w_variables
 
         scope = {}
         try:
@@ -366,10 +367,16 @@ class Translator:
             sol = 'solution{0}'.format(i+1)
             s = scope[sol]
             check = 'check{0}'.format(i+1)
-            for c in scope[check]:
-                if evaluate(s, c[0]) != c[1]:
-                    print c, " doesn't match solution ", s
-                    return False
+            if 'variable_values' in scope.keys():
+                for c in scope[check]:
+                    if evaluate_w_variables(s, c[0], scope['variable_values']) != c[1]:
+                        print c, " doesn't match solution ", s
+                        return False
+            else:
+                for c in scope[check]:
+                    if evaluate(s, c[0]) != c[1]:
+                        print c, " doesn't match solution ", s
+                        return False
         
         return True
 

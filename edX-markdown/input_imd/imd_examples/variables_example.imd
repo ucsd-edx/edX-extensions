@@ -1,4 +1,6 @@
 ```python
+import random
+
 # variable names and values
 # if multiple variables, the number of values to test should be the same
 variable_values = {'n':[1,2,3], 'k':[4,5,6]}
@@ -12,10 +14,6 @@ r = random.randrange(3,6,1)
 solution1 = "(26^n)-(25^n)+{0}".format(r)
 solution2 = "8"
 solution3 = "35*k"
-
-# Group all solutions into a list
-solutions = [solution1, solution2, solution3]
-
 
 ```
 
@@ -33,3 +31,12 @@ solutions = [solution1, solution2, solution3]
 * Part 3, fill in your answer here.
 
 [_]
+
+
+
+```test
+r = 3
+check1 = [("26^n-25^n+3", True), ("26**n-25**n+3", True), ("26^n-25^n+6", False)]
+check2 = [("8", True), ("10", False)]
+check3 = [("35*k", True), ("35*6", False), ("35^k", False)]
+```
