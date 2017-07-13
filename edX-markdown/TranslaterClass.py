@@ -404,29 +404,43 @@ Translator.displayHtml = displayHtml
 # python TranslaterClass.py -h
 # ```
 
+def usage():
+    return '''   TranslaterClass.py -h
+       OR TranslaterClass.py -selftest
+       OR TranslaterClass.py -assign assignmentID -prob problemID
+                            [-json json_filename] [-input input_dir]
+                            [-output output_dir]
+           '''
 
 if __name__ == "__main__":
     
     # Setup arguments to be parsed
     ap = argparse.ArgumentParser(description = 'This python script will translate imd files into XML files, \
-        which can be used in edX studio to create problems.')
-    ap.add_argument('assignmentID', type=int, help='Assignment ID (integer)')
-    ap.add_argument('problemID', type=int, help='Problem ID (integer)')
+        which can be used in edX studio to create problems.', usage = usage())
+    ap.add_argument('-assign', metavar='assignmentID', type=int, help='Assignment ID (integer)')
+    ap.add_argument('-prob', metavar='problemID', type=int, help='Problem ID (integer)')
     ap.add_argument('-json', metavar='json_filename', default="problems_mapping.json",
         help='The filename of the mapping. (default: "problems_mapping.json")')
     ap.add_argument('-input', metavar='input_dir', default="input_imd",
         help='The folder containing all the input(imd) files. (default:"input_imd")')
     ap.add_argument('-output', metavar='output_dir', default="output_xml",
         help='The folder containing all the output(XML) files. (default:"output_xml")')
-    args = ap.parse_args() #<-- For Debugging: comment out this line, and uncomment the line below
-    #args = type('',(),{})();  args.assignment, args.problem, args.JSON_filename, args.input_dir, args.output_dir = 1, 1, "problems_mapping.json", "input_imd", "output_xml"
-    
+    ap.add_argument('-selftest', action='store_true', help='compile, test, and generate XML for assignment1 problem1')
+    args = ap.parse_args()
+    if args.selftest:
+        args = type('',(),{})(); \
+            args.assign, args.prob, args.json, args.input, args.output \
+            = 1, 1, "problems_mapping.json", "input_imd", "output_xml"
+    else:
     # check if user supplied requried arguments
-    if args.assignmentID == None or args.problemID == None:
-        sys.exit("Error: missing arguments. See 'python translate.py -h' for input requirements.")
+        if args.assign == None or args.prob == None:
+            sys.exit(
+                "!!!Error: missing arguments.\
+                \n   Assignment ID and problem ID are required.\
+                \n   Use -h to see input requirements.")
         
     print "Translating imd into xml"
-    translator = Translator(args.assignmentID, args.problemID, args.json, args.input, args.output)
+    translator = Translator(args.assign, args.prob, args.json, args.input, args.output)
     translator.translate()
     
     print "  Testing XML ..."
