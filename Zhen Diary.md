@@ -51,7 +51,10 @@
     ii. Made sure solution definition in py_code is executed after test_code.
     iii. Had both codes execute in scope and test the solution values.
 
-* 7/12 (TODO)
-  1. Modify code from 2(ii) above.
-  2. Implement --selftest
-  3. Add more test in example imd files.
+* 7/12
+  1. Implemented --selftest
+  2. Added more test in example imd files.
+  3. Added code to test problems with variables.
+
+* 7/14(meeting)
+  1. Discuss code in TranslateClass.py
