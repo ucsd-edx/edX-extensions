@@ -1,43 +1,10 @@
+#!/user/bin/python
 
-# coding: utf-8
-
-# # Translator Class
-
-# ## Intro
-# 
-# <strong> This file contains all of the code for the translator class. </strong>
-# 
-# Putting the code for this class in an .ipynb makes it so that we can work on this class together in real time. There could possibly be some overwrite issues if we are both working on the file at the same time. But an easy fix to that problem is to simply make a copy of this file and then to work on the copy. We should also notify each other when we are changing the main .ipynb file. Once finished, the copy can be pasted back into the main Translator Class file.
-# 
-# Once we have finished the translator class we can copy and paste all this stuff into a .py file for implementation.
-#  
-# 
-# <strong style="color:#FF5733;font-size: 14pt">Idea: </strong >
-# <div>We could have the class be something that people just import into a jupyter notebook. The nice thing about this is that if they create the markdown in a jupyter notebook and write their python code in a jupyter notebook. We could just make it so that they give the path an output file and then hte xml is produced their. Then they can do all their work in a single notebook. The user wont have to copy all their code into a seperate imd file and they wont have to worry about the JSON file. This would also be simpler to code.</div> 
-
-# ## Running Code
-# 
-# This code <span style="color:gray">(as of now)</span> is meant to be run as a **.py** file. The default python file to use is `TransalterClass.py`. Checkout the <span style="color:lime">Main Code</span> section to learn how use this **.py** file. To convert this **.ipynb** file to a **.py** run the following line of code in your computer's **terminal**:
-# 
-# ```
-# jupyter nbconvert --to script TranslaterClass.ipynb
-# ```
-# 
-
-
+## Translator Class
 import markdown
 import json
 import sys
 import argparse
-
-
-# The translator <font style="color:fuchsia">Class</font> translates IMD files, into other formats. The code below just proved some very basic helper functions and the the initialization function. The other functions are added in the <font style="color:blue">Function</font> sections.
-# 
-# Translator is initialized with the specific problem you would like to translate. The initialization variables are: 
-# * JSON_filename: this provides a mapping from assignment/problem to the imd file. See JSON file for an example.
-# * assign_id: The assignment number that you would like to translate.
-# * prob_id: The problem number you would like to translate.
-
 
 class Translator:
     
