@@ -14,6 +14,9 @@ July
 
 **8:** Cleaned up translator class. Fixed some bugs. Updating Parser.
 
+**14:** Added display HTML, but need to put more work into the funciton.
+
+
 
 
 
