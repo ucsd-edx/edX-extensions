@@ -23,28 +23,13 @@ class Translator:
     The translator class translates IMD files, into other formats.     
     """
     
-    def __init__(self, assign_num, prob_num, JSON_filename="problems_mapping.json",
-                input_dir="input_imd", output_dir="output_xml"):
+    def __init__(self, imd_filename):
         
         """
-        On initializtion we select the problem to translate from the JSON mapping file.
-        We use this mapping file to designate the input_file and the output_file.
-
-        Here is an example of what the JSON file look like:
-        {
-            "Assignment1_Problem1": "imd_examples/basic_example.imd",
-            "Assignment1_Problem2": "imd_examples/variables_example.imd",
-            "Assignment1_Problem3": "imd_examples/checkbox_example.imd",
-            "Assignment1_Problem4": "imd_examples/dropdown_example.imd"
-        }
-
-        """
-        mapping = json.load(open(JSON_filename,"r"))
-        mapping_key = "Assignment{0}_Problem{1}".format( str(assign_num), str(prob_num) )
-        file_name = mapping[mapping_key]
-        
-        self.input_file  = input_dir+"/{0}".format(file_name)
-        self.output_file = output_dir+"/{0}.xml".format(mapping_key) 
+        On initializtion we give the path to the imd file that needed to be translated.
+        """        
+        self.input_file  = imd_filename
+        self.output_file = self.input_file[:-3]+'xml'
 
     """
     Private wrappers
@@ -381,52 +366,31 @@ Translator.displayHtml = displayHtml
 # python translate.py -h
 # ```
 
-def usage():
-    return '''   translate.py -h
-       OR translate.py -selftest
-       OR translate.py -assign assignmentID -prob problemID
-                            [-json json_filename] [-input input_dir]
-                            [-output output_dir]
-           '''
-
 if __name__ == "__main__":
     
     # Setup arguments to be parsed
     ap = argparse.ArgumentParser(description = 'This python script will translate imd files into XML files, \
-        which can be used in edX studio to create problems.', usage = usage())
-    ap.add_argument('-assign', metavar='assignmentID', type=int, help='Assignment ID (integer)')
-    ap.add_argument('-prob', metavar='problemID', type=int, help='Problem ID (integer)')
-    ap.add_argument('-json', metavar='json_filename', default="problems_mapping.json",
-        help='The filename of the mapping. (default: "problems_mapping.json")')
-    ap.add_argument('-input', metavar='input_dir', default="input_imd",
+        which can be used in edX studio to create problems.')
+    ap.add_argument('imd_filename', default="imd_examples\\basic_example.imd",
         help='The folder containing all the input(imd) files. (default:"input_imd")')
-    ap.add_argument('-output', metavar='output_dir', default="output_xml",
-        help='The folder containing all the output(XML) files. (default:"output_xml")')
-    ap.add_argument('-selftest', action='store_true', help='compile, test, and generate XML for assignment1 problem1')
     args = ap.parse_args()
-    if args.selftest:
-        args = type('',(),{})(); \
-            args.assign, args.prob, args.json, args.input, args.output \
-            = 1, 1, "problems_mapping.json", "input_imd", "output_xml"
-    else:
     # check if user supplied requried arguments
-        if args.assign == None or args.prob == None:
-            sys.exit(
-                "!!!Error: missing arguments.\
-                \n   Assignment ID and problem ID are required.\
-                \n   Use -h to see input requirements.")
+    if args.imd_filename == None:
+        sys.exit(
+            "!!!Error: missing arguments.\
+            \n   imd filepath is required.\
+            \n   Use -h to see input requirements.")
         
 
-    print "Looking at Assignment{0} Problem{1}".format(args.assign, args.prob)
-    print "Translating imd into xml"
-    translator = Translator(args.assign, args.prob, args.json, args.input, args.output)
+    print "Translating {} into xml".format(args.imd_filename)
+    translator = Translator(args.imd_filename)
     translator.translate()
     
     print "  Testing XML ..."
     check = translator.test()
 
     if check:
-        print "All tests passed. XML files saved in output_XML folder!"
+        print "All tests passed. {} created!".format(args.imd_filename[:-3]+'xml')
     else:
         print "Please fix above errors and try again."
 

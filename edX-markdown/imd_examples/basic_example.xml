@@ -16,7 +16,7 @@ solution3 = "35*{0}".format(k)
 
 
 <ul>
-<li>You can use variables like this: $n and $k</li>
+<li>You can use variables like this: $n and $k.</li>
 </ul>
     <customresponse cfn="check" expect="\[$solution1\]">
       <textline/>

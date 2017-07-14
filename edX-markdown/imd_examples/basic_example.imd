@@ -13,7 +13,7 @@ solution3 = "35*{0}".format(k)
 
 
 
-* You can use variables like this: \$n and \$k
+* You can use variables like this: \$n and \$k.
 
 [_]
 

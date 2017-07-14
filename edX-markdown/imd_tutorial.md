@@ -33,7 +33,7 @@
 
 	3. When there is power operation "\*\*", change it to "^". Also wrap the exponent with {{}} when you have variable(s) in the exponent. For example, ```2^n``` will need to be written as ```"2^{{{0}}}"```.format(n) with variable ```n```. If you don't have any variable in the exponent, you only need one {}. For example: 2^{10}.
 
-#### markdown code
+#### Markdown code
 	See [Python Markdown Library](http://pythonhosted.org/Markdown/) for supported syntax
 	1. Please format the problem nicely using markdown syntax. Bullet points are highly recommended.
 
@@ -45,7 +45,7 @@
 
 	5. After you finish the problem, double check to make sure the solutions you defined in your python code match the order of the questions in the problem.
 
-#### test code
+#### Test code
 
 	1. Assign values to all variables in the problem.
 
@@ -56,10 +56,6 @@
 		i. Program crash report
 		ii. Incorrect operation(s)
 		iii. All tests passed
-
-#### Save the file
-
-	After all the tests are passed, save your file and assign your file to a problem in the ```problems_mapping.json```
 
 
 #### Problem with check box and drop down list
