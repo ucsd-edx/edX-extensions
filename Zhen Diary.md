@@ -40,8 +40,8 @@
   3. Added doc string.
 
 * 7/10
-  1. Find and refactor eval function.
-  2. Make sure eval can be imported in translator class.
+  1. Found and refactor eval function.
+  2. Made sure eval can be imported in translator class.
   3. Cleaned up translatorClass.py
 
 * 7/11
@@ -56,5 +56,18 @@
   2. Added more test in example imd files.
   3. Added code to test problems with variables.
 
-* 7/14(meeting)
-  1. Discuss code in TranslateClass.py
+* 7/13
+  Meeting with Matt:
+  1. Talked about the structure of the translator class.
+  2. Talked about how test work.
+  3. Talked about ideas of rendering HTML.
+
+* 7/14
+  1. Discuss code in translate.py. What format will the solutions be?
+
+    Two options:
+    (i) Have instructors write "solution1", "solution2", etc.
+    (ii) Have instructors write "solutions = [{}.format(var1), {}.format(var2), ...]"
+
+    Change code in translate.py correspondingly.
+  2. About next step.
