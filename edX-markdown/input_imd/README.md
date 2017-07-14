@@ -33,7 +33,8 @@
 
 	3. When there is power operation "\*\*", change it to "^". Also wrap the exponent with {{}} when you have variable(s) in the exponent. For example, ```2^n``` will need to be written as ```"2^{{{0}}}"```.format(n) with variable ```n```. If you don't have any variable in the exponent, you only need one {}. For example: 2^{10}.
 
-#### imd code
+#### markdown code
+	See [Python Markdown Library](http://pythonhosted.org/Markdown/) for supported syntax
 	1. Please format the problem nicely using markdown syntax. Bullet points are highly recommended.
 
 	2. Math expression can be inline or on a new line. If you want to have inline math expression use "$" to wrap the expression. If you want the math expression on a new line, use "$$".
@@ -44,7 +45,7 @@
 
 	5. After you finish the problem, double check to make sure the solutions you defined in your python code match the order of the questions in the problem.
 
-#### test
+#### test code
 
 	1. Assign values to all variables in the problem.
 
