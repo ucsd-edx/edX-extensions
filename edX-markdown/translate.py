@@ -129,6 +129,10 @@ class Translator:
         f.close()
            
     def toHtml(self):
+        """
+        Used markdown library to translate markdown code to html code.
+        Markdown library reference here -> http://pythonhosted.org/Markdown/
+        """
         return markdown.markdown("".join(self.md_code),extensions=['markdown.extensions.tables'],output_format="HTML")
 
 

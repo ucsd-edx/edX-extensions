@@ -8,9 +8,9 @@ Each problem unit contains two parts, python script and markdown concept. Python
 
 1. Write .imd files in ```input_imd``` folder.
 2. fill in ```problems_mapping.json``` with imd file names.
-3. open terminal to run
+3. open terminal and run the following to see usage of script.
 
-		python translate.py <week_id> <problem_id>
+		python translate.py -h
 
 4. find output files in ```output_XML``` folder
 5. paste XML content to edX to generate problems.
