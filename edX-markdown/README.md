@@ -6,7 +6,7 @@ Each problem unit contains three parts, python script, problem markdown, and tes
 
 Instructors write python code, markdown code, and test code in one file and save it in a file with an .imd extension. The translator will then take the .imd file and translate it into a XML file which edX studio recognizes. Then, instructors can paste the XML code into edX studio to create a problem.
 
-#### Setup
+### 1. Setup
 Before the start of each session, cd to this directory and run
 
 	source setup.sh
@@ -22,7 +22,7 @@ Once you have run this script, you can cd to your work directory and use the tra
 	
 **You also need to use Python2.**
 
-#### SelfTest
+### 2. SelfTest
 Run the following in this directory to verify the translate.py runs correctly.
 
 		translate.py imd_examples/basic_example.imd
@@ -40,7 +40,7 @@ You should see the following output:
 
 Look in ```imd_examples``` for more examples of imd files.
 
-#### Using translate.py
+### 3. Using translate.py
 1. ```translate.py -h``` prints out help message.
 2. ```translate.py imd_filename``` runs the test code and generate XML.
 3. ```translate.py -html imd_filename``` translate the imd file into an HTML page.
