@@ -1,4 +1,4 @@
-#!/user/bin/python
+#!/usr/bin/env python
 
 ## Translator Class
 import markdown
@@ -429,18 +429,6 @@ if __name__ == "__main__":
         print "All tests passed. XML files saved in output_XML folder!"
     else:
         print "Please fix above errors and try again."
-
-
-# **Old Code**:
-# ``` python  
-# if sys.argv[1] == "--help":
-#     print "This file translates the imd file you wrote into an xml file"
-#     print "The name of your imd file should be in the JSON mapping file"
-#     print "You should use this file by running a command in your terminal that has the following format:"
-#     print "python Translator2.py <assignment num> <problem num>"
-#     sys.exit()
-# ```
-
 
 
 
