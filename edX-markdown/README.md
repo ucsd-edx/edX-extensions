@@ -15,6 +15,13 @@ Once you have run this script, you can cd to your work directory and use the tra
 
 (If you want this setup script to run automatically, add a line to your .bashrc)
 
+**You also need to install ply and markdown.**
+
+	pip install ply
+	pip install markdown
+	
+**You also need to use Python2.**
+
 #### SelfTest
 Run the following in this directory to verify the translate.py runs correctly.
 
