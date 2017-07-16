@@ -48,6 +48,9 @@ class Translator:
         return '    <script type="loncapa/python">\n{0}\n    </script>\n\n\n'.format(code)
 
     def __math_wrapper(self, sol):
+        return '    <numericalresponse answer="${0}">\n      <formulaequationinput/>\n    </numericalresponse>\n\n'.format(sol)
+        
+    def __custom_math_wrapper(self, sol):
         return '    <customresponse cfn="check" expect="\[${0}\]">\n      <textline/>\n    </customresponse>\n\n'.format(sol)
 
     def __option_wrapper(self, opt, sol):
@@ -64,6 +67,16 @@ class Translator:
 
     def __wrong_choice_wrapper(self, choice):
         return '<choice correct="false">{0}</choice>\n'.format(choice)
+
+    def __factorial_replacement(self, exp):
+        while '!' in exp:
+            end = exp.index('!')
+            front = end-1
+            while exp[front:end].isdigit():
+                front -= 1
+            front += 1
+            exp = exp[:front]+'fact('+exp[front:end]+')'+exp[end+1:]
+        return exp
 
 
     """
@@ -180,9 +193,16 @@ class Translator:
         html_code = self.html_code.splitlines()
         py_code_lines = self.py_code.splitlines()
 
+        for i in xrange(len(py_code_lines)):
+            l = py_code_lines[i]
+            if 'solution' in l:
+                if '!' in l:
+                    py_code_lines[i] = self.__factorial_replacement(l)
+
         choice_list = ""
         updated_html_code = []
         part_id = 1
+        first_ol = True
         for line in html_code:
             if '<p>[_choice]</p>' == line:
                 updated_html_code += ['\n', '\n']
@@ -243,14 +263,29 @@ class Translator:
                     part_id += 1
                     choice_list = ""
 
+            elif line == "<ol>":
+                if first_ol:
+                    first_ol = False
+                    updated_html_code.append(line)
+                    updated_html_code.append('\n')
+                else:
+                    continue
             else:
                 updated_html_code.append(line)
-                updated_html_code.append("\n")
+                updated_html_code.append('\n')
 
-        updated_html_code = "".join(updated_html_code)
+        new_html = []
+        for i in xrange(len(updated_html_code)):
+            l = updated_html_code[i]
+            if l == '</ol>' and '</ol>' in updated_html_code[i+1:]:
+                continue
+            else:
+                new_html.append(l)
+
+        updated_html_code = "".join(new_html)
+        updated_py_code = "\n".join(py_code_lines)
         
-        """   ERROR ERROR ERROR"""
-        xml_code = self.__XML_wrapper( self.__py_wrapper(self.py_code) + updated_html_code)
+        xml_code = self.__XML_wrapper( self.__py_wrapper(updated_py_code) + updated_html_code)
         self.xml_code = "".join(xml_code)
 
     def translate(self):  
@@ -385,14 +420,17 @@ if __name__ == "__main__":
     print "Translating {} into xml".format(args.imd_filename)
     translator = Translator(args.imd_filename)
     translator.translate()
-    
-    print "  Testing XML ..."
-    check = translator.test()
-
-    if check:
-        print "All tests passed. {} created!".format(args.imd_filename[:-3]+'xml')
+    if translator.test_code == "":
+        print "  No tests defined."
+        print "{} created!".format(args.imd_filename[:-3]+'xml')
     else:
-        print "Please fix above errors and try again."
+        print "  Testing XML ..."
+        check = translator.test()
+
+        if check:
+            print "All tests passed. {} created!".format(args.imd_filename[:-3]+'xml')
+        else:
+            print "Please fix above errors and try again."
 
 
 
