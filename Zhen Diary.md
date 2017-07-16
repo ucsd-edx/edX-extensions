@@ -70,4 +70,7 @@
     (ii) Have instructors write "solutions = [{}.format(var1), {}.format(var2), ...]"
 
     Change code in translate.py correspondingly.
-  2. About next step.
+
+  2. Removed the json from translator
+  3. Allow to input direct path to the file that need to be translated.
+  4. XML will save in the same dir as imd files.
