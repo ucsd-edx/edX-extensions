@@ -300,20 +300,12 @@ class Translator:
 
     def test(self):
         """
-        Tests the IMD code, the code will be in 3 parts. 
-            1: python code
-            2: tests
-            3: the markdown
-
-        2: Tests
-            A test consists of:
-                set variables
-                computed answers
-                correct and incorrect answers
-
-        Tests returns
-            a boolean variable of correctness
-            a string describing the error if it was incorrect
+        Tests python code and test code in the imd file.
+        1. Try to interpret python code
+        2. Try to interpret test code
+        3. Run test code to see whether all tests pass.
+        Returns
+            a boolean variable to indicate pass or not.
         """
         import traceback
         from eval_lib.evaluate import evaluate
@@ -348,7 +340,7 @@ class Translator:
 
         part_counts = 0
         for i in scope.keys():
-            if i.startswith('solution'):
+            if i.startswith('solution') and i[8:].strip().isdigit():
                 part_counts+=1
         #<===========
 
