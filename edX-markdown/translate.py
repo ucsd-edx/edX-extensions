@@ -335,7 +335,8 @@ class Translator:
         #   or have instructor write the solutions in order.
         # Modify code below(not robust):
         #<===========
-        sol_code = self.py_code[self.py_code.index('\nsolution1'):]
+        tmp_py = self.py_code.replace(" ", "")
+        sol_code = tmp_py[tmp_py.index('solution1='):]
         exec sol_code in scope
 
         part_counts = 0
