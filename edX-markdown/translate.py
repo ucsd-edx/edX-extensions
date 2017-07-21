@@ -68,6 +68,9 @@ class Translator:
     def __wrong_choice_wrapper(self, choice):
         return '<choice correct="false">{0}</choice>\n'.format(choice)
 
+    def __string_wrapper(self, sol):
+        return '    <stringresponse answer="${}" type="ci">\n      <textline size="20"/>\n    </stringresponse>\n\n'.format(sol)
+
     def __factorial_replacement(self, exp):
         while '!' in exp:
             end = exp.index('!')
@@ -172,6 +175,10 @@ class Translator:
                     line = line[:i]+inlineSub[inline]+line[i+1:]
                     inline = 1-inline
                     i += 4
+                #elif line[i:i+2] == '\{':
+                #    TODO
+                #elif line[i:i+2] == '\}':
+                #    TODO
                 else:
                     i += 1
 
@@ -234,6 +241,11 @@ class Translator:
 
             elif '<p>[_]</p>' == line:
                 xml_code = self.__math_wrapper('solution'+str(part_id))
+                updated_html_code += xml_code
+                part_id += 1
+
+            elif '<p>[_str]</p>' == line:
+                xml_code = self.__string_wrapper('solution'+str(part_id))
                 updated_html_code += xml_code
                 part_id += 1
 
@@ -353,6 +365,11 @@ class Translator:
             if 'variable_values' in scope.keys():
                 for c in scope[check]:
                     if evaluate_w_variables(s, c[0], scope['variable_values']) != c[1]:
+                        print c, " doesn't match solution ", s
+                        return False
+            elif '[_str]\n' in self.md_code:
+                for c in scope[check]:
+                    if (s == c[0]) != c[1]:
                         print c, " doesn't match solution ", s
                         return False
             else:
