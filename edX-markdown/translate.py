@@ -175,10 +175,12 @@ class Translator:
                     line = line[:i]+inlineSub[inline]+line[i+1:]
                     inline = 1-inline
                     i += 4
-                #elif line[i:i+2] == '\{':
-                #    TODO
-                #elif line[i:i+2] == '\}':
-                #    TODO
+                elif line[i:i+2] == '\{':
+                    line = line[:i]+'\\\\\\{'+line[i+2:]
+                    i += 4
+                elif line[i:i+2] == '\}':
+                    line = line[:i]+'\\\\\\}'+line[i+2:]
+                    i += 4
                 else:
                     i += 1
 
