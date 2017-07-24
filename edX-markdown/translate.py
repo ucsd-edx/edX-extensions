@@ -5,6 +5,7 @@ import markdown
 import json
 import sys
 import argparse
+import re
 
 class Translator:
     
@@ -394,98 +395,70 @@ class Translator:
 
 
     
+    
+    
+    
     def createHtml(self):
         """
         This code create the viewable version of the html code and then saves it as a file
         """
+        
+        ### Get Python Code Variables inside namespace scope
+        scope = {}
+        try:
+            exec self.py_code in scope
+        except Exception as err:
+            print "!!!Python Code Error:"
+            print traceback.format_exc()
+            return False
+        #else:
+        #    print "     python code interpreted."
+        
         html_code = self.html_code.splitlines()
-
-        choice_list = ""
         updated_html_code = []
         
-        for line in html_code:
-            line = line.replace("$", "")
+        for line in html_code:    
+            ###   Replace $* with scope[*] in line of text
+            text = re.split('([^a-zA-Z0-9_$]+)',line)
+            for i in range(len(text)):
+                    if len(text[i])>0 and text[i][0] == '$':
+                        text[i]= str(scope[ text[i][1:] ]) 
+            line = ''.join(text)
             
-            if '<p>[_]</p>' == line:
-                updated_html_code += '<input type="text" name="">'
-            
-            else:
-                updated_html_code += line +"\n"    
-            """
-            elif '<p>[_choice]</p>' == line:
-                updated_html_code += ['\n', '\n']
-
-                xml_code = self.__option_wrapper(opt, sol)
-                updated_html_code += xml_code
-                part_id += 1
-
-            elif '[ ]' in line or '[x]' in line:
-                # trim <p> and </p>
-                if '<p>' in line:
-                    updated_html_code += ['\n', '\n']
-                    choice_context = line[3:]
-                if '</p>' in line:
-                    end_index = line.index("</p>")
-                    choice_context = line[:end_index]
-
-                while choice_context[0] == ' ':
-                    choice_context = choice_context[1:]
-                while choice_context[-1] == ' ':
-                    choice_context = choice_context[:-1]
-
-                if '[ ]' in line:
-                    choice_insert = self.__wrong_choice_wrapper(choice_context[3:])
-                elif '[x]' in line:
-                    choice_insert = self.__correct_choice_wrapper(choice_context[3:])
-
-                choice_list += choice_insert
-
-                if '</p>' in line:
-                    updated_html_code += self.__multi_choice_wrapper(choice_list)
-                    part_id += 1
-                    choice_list = ""
-
-            elif line == "<ol>":
-                if first_ol:
-                    first_ol = False
-                    updated_html_code.append(line)
-                    updated_html_code.append('\n')
-                else:
-                    continue
-            """
-
+            ###   Replace imd inputs with html inuputs
+            line= line.replace('<p>[_]</p>','<input type="text" name="">')
+            line= line.replace("[ ]",'</p>\n<p><input type="checkbox">')
+            line= line.replace('[x]','</p>\n<p><input type="checkbox">')
+            line= line.replace('<p>[_choice]</p>','</p>\n<p><select><option>T</option><option>F</option></select>')
+            updated_html_code += line +"\n"  
         
+        ###  Create the New HTML page
         new_html = []
-        
-        """
         new_html +='''
     <html lang="en">
         <head>
-          <title>Bootstrap Example</title>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+          <script type="text/javascript" async
+              src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+          </script>          
         </head>
+        
         <body>
         <div class='container'>
+        <div class="row">
+        <div class="col-xs-12 col-md-6">
     '''
-        """
-    
+        for line in updated_html_code:
+            new_html.append(line)                      
+        new_html += '''
+        <p>&nbsp</p>
+        <button type="button">Submit</button>
         
-        for i in xrange(len(updated_html_code)):
-            l = updated_html_code[i]
-            if False:    #l == '</ol>' and '</ol>' in updated_html_code[i+1:]:
-                continue
-            else:
-                new_html.append(l)
-                
-        new_html += '\n' +"<p>&nbsp</p>"+ "\n" +'<button type="button">Submit</button>'        
-        # +'\n'+ "</div></body></html>"
-        
+        </div></div></div>
+        </body></html>
+        '''
         self.html = "".join(new_html)
-
+        
     
 
 
@@ -545,3 +518,5 @@ if __name__ == "__main__":
     print;print "Finished!"
 
 
+
+    
