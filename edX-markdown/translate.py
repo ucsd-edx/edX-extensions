@@ -17,6 +17,7 @@ class Translator:
     test_code    =None
     html_code    =None
     xml_code     =None
+    html         =None    #<-- this is the version of the html code that is viewable in a browser
 
     
     """
@@ -30,10 +31,10 @@ class Translator:
         """        
         self.input_file  = imd_filename
         self.output_file = self.input_file[:-3]+'xml'
+        self.output_html = self.input_file[:-3]+'html'
 
     """
     Private wrappers
-
         The following functions are all helper functions for the Translator class.
         They are used when code is being converted into the XML format.
         Basically, what these functions do is provide the correct xml format
@@ -96,14 +97,22 @@ class Translator:
         f.write(self.xml_code)
         f.close()
            
+    def write_html(self):
+        f = open(self.output_html, "w")
+        f.write(self.html)
+        f.close()        
+        
+        
     def toHtml(self):
         """
         Used markdown library to translate markdown code to html code.
         Markdown library reference here -> http://pythonhosted.org/Markdown/
         """
         return markdown.markdown("".join(self.md_code),extensions=['markdown.extensions.tables'],output_format="HTML")
-
-
+           
+    
+    
+    
     def loadImd(self, imd_contents):
         '''
         Splits imd codes into the python portion, the test portion, and the true imd portion.
@@ -384,18 +393,100 @@ class Translator:
 
 
 
-# # <span style="color:blue">Function: </span> Display Html
+    
+    def createHtml(self):
+        """
+        This code create the viewable version of the html code and then saves it as a file
+        """
+        html_code = self.html_code.splitlines()
 
-# This function displays the HTML code of the IMD file. Ideally, this function will display the code as it is seen on the EDX interface. Also, currently the function only really does anything inside a jupyter notebook.
-
-# In[22]:
-
-from IPython.display import display,HTML
-
-def displayHtml(self):  
-        display(HTML( self.html_code  ))
+        choice_list = ""
+        updated_html_code = []
         
-Translator.displayHtml = displayHtml
+        for line in html_code:
+            line = line.replace("$", "")
+            
+            if '<p>[_]</p>' == line:
+                updated_html_code += '<input type="text" name="">'
+            
+            else:
+                updated_html_code += line +"\n"    
+            """
+            elif '<p>[_choice]</p>' == line:
+                updated_html_code += ['\n', '\n']
+
+                xml_code = self.__option_wrapper(opt, sol)
+                updated_html_code += xml_code
+                part_id += 1
+
+            elif '[ ]' in line or '[x]' in line:
+                # trim <p> and </p>
+                if '<p>' in line:
+                    updated_html_code += ['\n', '\n']
+                    choice_context = line[3:]
+                if '</p>' in line:
+                    end_index = line.index("</p>")
+                    choice_context = line[:end_index]
+
+                while choice_context[0] == ' ':
+                    choice_context = choice_context[1:]
+                while choice_context[-1] == ' ':
+                    choice_context = choice_context[:-1]
+
+                if '[ ]' in line:
+                    choice_insert = self.__wrong_choice_wrapper(choice_context[3:])
+                elif '[x]' in line:
+                    choice_insert = self.__correct_choice_wrapper(choice_context[3:])
+
+                choice_list += choice_insert
+
+                if '</p>' in line:
+                    updated_html_code += self.__multi_choice_wrapper(choice_list)
+                    part_id += 1
+                    choice_list = ""
+
+            elif line == "<ol>":
+                if first_ol:
+                    first_ol = False
+                    updated_html_code.append(line)
+                    updated_html_code.append('\n')
+                else:
+                    continue
+            """
+
+        
+        new_html = []
+        
+        """
+        new_html +='''
+    <html lang="en">
+        <head>
+          <title>Bootstrap Example</title>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        </head>
+        <body>
+        <div class='container'>
+    '''
+        """
+    
+        
+        for i in xrange(len(updated_html_code)):
+            l = updated_html_code[i]
+            if False:    #l == '</ol>' and '</ol>' in updated_html_code[i+1:]:
+                continue
+            else:
+                new_html.append(l)
+                
+        new_html += '\n' +"<p>&nbsp</p>"+ "\n" +'<button type="button">Submit</button>'        
+        # +'\n'+ "</div></body></html>"
+        
+        self.html = "".join(new_html)
+
+    
 
 
 
@@ -420,7 +511,9 @@ if __name__ == "__main__":
         which can be used in edX studio to create problems.')
     ap.add_argument('imd_filename', default="imd_examples\\basic_example.imd",
         help='The folder containing all the input(imd) files. (default:"input_imd")')
+    ap.add_argument('-html', action='store_true')
     args = ap.parse_args()
+    
     # check if user supplied requried arguments
     if args.imd_filename == None:
         sys.exit(
@@ -443,18 +536,12 @@ if __name__ == "__main__":
             print "All tests passed. {} created!".format(args.imd_filename[:-3]+'xml')
         else:
             print "Please fix above errors and try again."
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
+    if args.html:
+        print;print "Creating {}".format(args.imd_filename[:-3]+'html')
+        translator.createHtml()
+        translator.write_html()
+    
+    print;print "Finished!"
 
 
