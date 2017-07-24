@@ -9,6 +9,8 @@ n = "q345"
 k = "245"
 ```
 
+## IMD with checkbox
+
 * You can use variables like this: \$n and \$k
 
 [ ] This is a wrong choice

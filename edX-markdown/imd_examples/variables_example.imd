@@ -16,7 +16,7 @@ solution3 = "35*k"
 
 ```
 
-
+## IMD with free variables in question and answer.
 
 * How many strings of length $n$ consisting of lower case English letters, and including at least one "x", are there?
 
