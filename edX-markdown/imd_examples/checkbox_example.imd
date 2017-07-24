@@ -5,7 +5,8 @@ a = random.randrange(3,6,1)
 b = random.randrange(1,6,2)
 c = "string"
 d = "string2"
-
+n = "q345"
+k = "245"
 ```
 
 * You can use variables like this: \$n and \$k
