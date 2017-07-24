@@ -11,9 +11,9 @@ solution2 = "8"
 solution3 = "35*{0}".format(k)
 ```
 
+## Basic imd example
 
-
-* You can use variables like this: \$n and \$k.
+* You can interpolate variables like this: \$n and \$k.
 
 [_]
 
@@ -27,7 +27,7 @@ $$ \mathbb{E}(X) \ = \ \sum_{x} x \, \mbox{Pr}(X = x) $$
 
 [_]
 
-* You can have variables inside math expression:
+* You can interpolate variables inside math expression:
 
 $$ \mathbb{E}(X) \ = \$k * \$n $$
 
