@@ -312,15 +312,6 @@ class Translator:
         xml_code = self.__XML_wrapper( self.__py_wrapper(updated_py_code) + updated_html_code)
         self.xml_code = "".join(xml_code)
 
-    def translate(self):  
-        """
-        Contains all the steps of converting from imd file to xml file.
-        Includes loading imd file, converting imd code to XML code, and saving the XML code.
-        """
-        imd_code = self.read_imd()
-        self.loadImd(imd_code)
-        self.toXml()
-        self.write_xml()
 
     def test(self):
         """
@@ -422,7 +413,10 @@ class Translator:
             text = re.split('([^a-zA-Z0-9_$]+)',line)
             for i in range(len(text)):
                     if len(text[i])>0 and text[i][0] == '$':
-                        text[i]= str(scope[ text[i][1:] ]) 
+                        if text[i][1:] in scope.keys():
+                            text[i]= str(scope[ text[i][1:] ])
+                        else:
+                            raise ValueError('Error: Your imd code uses a variable (\$someVariable) that is not defined')
             line = ''.join(text)
             
             ###   Replace imd inputs with html inuputs
@@ -484,37 +478,43 @@ if __name__ == "__main__":
         which can be used in edX studio to create problems.')
     ap.add_argument('imd_filename', default="imd_examples\\basic_example.imd",
         help='The folder containing all the input(imd) files. (default:"input_imd")')
-    ap.add_argument('-html', action='store_true')
     args = ap.parse_args()
     
-    # check if user supplied requried arguments
+    # Check that User Supplied Requried Arguments
     if args.imd_filename == None:
         sys.exit(
             "!!!Error: missing arguments.\
             \n   imd filepath is required.\
             \n   Use -h to see input requirements.")
         
-
+    # Create XML Output
     print "Translating {} into xml".format(args.imd_filename)
     translator = Translator(args.imd_filename)
-    translator.translate()
+    imd_code = translator.read_imd()
+    translator.loadImd(imd_code)
+    translator.toXml()
+    
+    # Run Tests 
     if translator.test_code == "":
         print "  No tests defined."
-        print "{} created!".format(args.imd_filename[:-3]+'xml')
     else:
         print "  Testing XML ..."
         check = translator.test()
 
         if check:
-            print "All tests passed. {} created!".format(args.imd_filename[:-3]+'xml')
+            print "All tests passed."
         else:
             print "Please fix above errors and try again."
-            
-    if args.html:
-        print;print "Creating {}".format(args.imd_filename[:-3]+'html')
-        translator.createHtml()
-        translator.write_html()
     
+    # Create HTML Output     
+    print "Translating {} into html".format(args.imd_filename)
+    translator.createHtml()
+    
+    # Write HTML and XML to Files
+    translator.write_xml()
+    print; print "Created: {} ".format(args.imd_filename[:-3]+'xml')
+    translator.write_html()
+    print "Created: {}".format(args.imd_filename[:-3]+'html')
     print;print "Finished!"
 
 

@@ -5,13 +5,14 @@ a = random.randrange(3,6,1)
 b = random.randrange(1,6,2)
 c = "string"
 d = "string2"
-n = "q345"
-k = "245"
 ```
 
 ## IMD with checkbox
 
-* You can use variables like this: \$n and \$k
+Below we have examples of how to create checkbox problems.
+
+
+* Click the boxes that are correct:
 
 [ ] This is a wrong choice
 [x] This is a right choice
@@ -20,16 +21,14 @@ k = "245"
 
 
 
-* You can use centered math expression like this:
-
-$$ \mathbb{E}(X) \ = \ \sum_{x} x \, \mbox{Pr}(X = x) $$
+* Click the boxes with the correct answer:
 
 [ ] $x^2+1$
 [x] $x^2+5$
 
 
 
-* You can have variables inside:
+* Click the boxes with the correct answer:
 
 [x] \$a
 [ ] \$b

@@ -13,23 +13,20 @@ solution3 = "35*{0}".format(k)
 
 ## Basic imd example
 
-* You can interpolate variables like this: \$n and \$k.
+
+* What is the value of: $$ 26^\$n - 25^\$n + \$k  $$
 
 [_]
 
-* You can use centered math expression like this:
-
-$$ \mathbb{E}(X) \ = \ \sum_{x} x \, \mbox{Pr}(X = x) $$
+* What is $ 4+4 $ ?
 
 [_]
 
-* You can also use inline math expression $\mathbb{E}(X) = 3$.
+* What is $ 35 * \$k $
 
 [_]
 
-* You can interpolate variables inside math expression:
 
-$$ \mathbb{E}(X) \ = \$k * \$n $$
 
 
 
