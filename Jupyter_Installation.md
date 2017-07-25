@@ -2,7 +2,8 @@
 
 ### Installing Jupyter
 We highly recommend using anaconda (conda) installation. Directions are available 
-* here: http://jupyter.readthedocs.io/en/latest/install.html
+* here: https://www.continuum.io/downloads
+* also here: http://jupyter.readthedocs.io/en/latest/install.html
 * and here: https://mas-dse.github.io/startup/
 
 ### Installing Extensions to jupyter
