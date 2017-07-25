@@ -22,7 +22,9 @@ conda install -c conda-forge jupyter_nbextensions_configurator
 
 from: https://github.com/jupyter/nbgrader/blob/master/nbgrader/docs/source/user_guide/installation.rst
 
+```
 conda install -c conda-forge nbgrader
+```
 
 ### rise
 
