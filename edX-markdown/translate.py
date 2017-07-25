@@ -507,16 +507,14 @@ if __name__ == "__main__":
             print "All tests passed."
         else:
             print "Please fix above errors and try again."
-            return
+            raise SystemExit, 0
     
     # Create HTML Output     
     print "Translating {} into html".format(args.imd_filename)
     check = translator.createHtml()
     if not check:
         print "Please fix above errors and try again."
-        return
-    else:
-        print "Translated to html."
+        raise SystemExit, 0
     
     # Write HTML and XML to Files
     translator.write_xml()
