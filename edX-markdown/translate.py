@@ -416,7 +416,8 @@ class Translator:
                         if text[i][1:] in scope.keys():
                             text[i]= str(scope[ text[i][1:] ])
                         else:
-                            raise ValueError('Error: Your imd code uses a variable (\$someVariable) that is not defined')
+                            print 'Error: Your imd code uses a variable {} that is not defined'.format(text[i])
+                            return False
             line = ''.join(text)
             
             ###   Replace imd inputs with html inuputs
@@ -452,6 +453,7 @@ class Translator:
         </body></html>
         '''
         self.html = "".join(new_html)
+        return True
         
     
 
@@ -505,17 +507,23 @@ if __name__ == "__main__":
             print "All tests passed."
         else:
             print "Please fix above errors and try again."
+            return
     
     # Create HTML Output     
     print "Translating {} into html".format(args.imd_filename)
-    translator.createHtml()
+    check = translator.createHtml()
+    if not check:
+        print "Please fix above errors and try again."
+        return
+    else:
+        print "Translated to html."
     
     # Write HTML and XML to Files
     translator.write_xml()
-    print; print "Created: {} ".format(args.imd_filename[:-3]+'xml')
+    print "Created: {} ".format(args.imd_filename[:-3]+'xml')
     translator.write_html()
     print "Created: {}".format(args.imd_filename[:-3]+'html')
-    print;print "Finished!"
+    print "Finished!"
 
 
 
