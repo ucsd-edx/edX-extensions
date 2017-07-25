@@ -3,38 +3,39 @@
 * [Here](http://edx.readthedocs.io/projects/edx-guide-for-students/en/latest/completing_assignments/SFD_mathformatting.html)
  is the reference to the mathematical expression allowed on edX.
 
-####Python code
-	* Wrap the python code with the following with no space at front.
+#### Python code
+1. Wrap the python code with the following with no space at front.
 
-		\`\`\`python
+	\`\`\`python
 
-		\`\`\`
+	\`\`\`
 
-	1. Use python code to define random variables. It is recommended to have random variables in the problem so that different students see slightly different problems.
+2. Use python code to define random variables. It is recommended to have random variables in the problem so that different students see slightly different problems.
 
-	2. Define solutions for all the questions in the problem. Then define a variable ```solutions```, ```solutions``` is a list of answers for the questions in the order it is listed in the problem.
+3. Define solutions for all the questions in the problem. ```solution1``` is the solution for the first part. ```solution2``` is the solution for the second part.
 
-		- You can't assign a variable to solutions. Solution variables have to be assigned with a string directly. For example, you can't do
+4. You can't assign a variable to solutions. Solution variables have to be assigned with a string directly. For example, you **can't** do
 
-				a = "3*5"
-				solution1 = a
+        a = "3*5"
+        solution1 = a
 
-			instead, you need to do
+      instead, you need to do
 
-				solution1 = "3*5"
+        solution1 = "3*5"
 
-			or
+      or
+        a = "3*5"
+        solution1 = "{}".format(a)
 
-				a = "3*5"
-				solution1 = "{0}".format(a)
+5. When there is power operation "\*\*", change it to "^". Also wrap the exponent with {}. For example, ```2^n``` will need to be written as
 
-		- Make sure answers are listed in order in the variable ```solutions```. For example,
+        "2^{{{0}}}".format(n)
+      or
+        "2^{%d}"%n
 
-				solutions = [a, s, c, x]
+  If you don't have any variable in the exponent, you can simply write
 
-			meaning the answer for the first question in the problem is ```a```, the second answer is ```s```, and so on.
-
-	3. When there is power operation "\*\*", change it to "^". Also wrap the exponent with {{}} when you have variable(s) in the exponent. For example, ```2^n``` will need to be written as ```"2^{{{0}}}"```.format(n) with variable ```n```. If you don't have any variable in the exponent, you only need one {}. For example: 2^{10}.
+        2^{10}
 
 #### imd code
 	1. Please format the problem nicely using markdown syntax. Bullet points are highly recommended.
@@ -48,43 +49,43 @@
 	5. After you finish the problem, double check to make sure the solutions you defined in your python code match the order of the questions in the problem.
 
 #### Different types of problems
- 	* Check box
+* Check box
 
-		[ ] and [x] stands for the check box. [x] represent the box that need to be checked.
+  [ ] and [x] stands for the check box. [x] represent the box that need to be checked.
 
-		Example:
+  Example:
 
-				[ ] This is a wrong choice
-				[x] This is a right choice
-				[ ] This is another wrong choice
-				[x] This is another right choice
+      [ ] This is a wrong choice
+      [x] This is a right choice
+      [ ] This is another wrong choice
+      [x] This is another right choice
 
-	* Drop down list
+* Drop down list
 
-		[\_choice] stands for a drop down list. If [\_choice] is found as the first input box, ```option1``` and ```solution1``` are expected in the python code.
+	[\_choice] stands for a drop down list. If [\_choice] is found as the first input box, ```option1``` and ```solution1``` are expected in the python code.
 
-		Example:
+	Example:
 
-				```Python
-				option1 = ('True', 'False', 'Null')
-				solution1 = "True"
-				solution2 = "3*5"
-				solution3 = "2-1+6"
-				option4 = ('A', 'B', 'C')
-				solution4 = "B"
-				```
-				First question. Please select one answer from the drop down list.
+      ```Python
+      option1 = ('True', 'False', 'Null')
+      solution1 = "True"
+      solution2 = "3*5"
+      solution3 = "2-1+6"
+      option4 = ('A', 'B', 'C')
+      solution4 = "B"
+      ```
+      First question. Please select one answer from the drop down list.
 
-				[_choice]
+      [_choice]
 
-				Second question. Please fill in the box below.
+      Second question. Please fill in the box below.
 
-				[_]
+      [_]
 
-				Third question. Please fill in the box below.
+      Third question. Please fill in the box below.
 
-				[_]
+      [_]
 
-				Fourth question. Please select one answer from the drop down list.
+      Fourth question. Please select one answer from the drop down list.
 
-				[_choice]
+      [_choice]
