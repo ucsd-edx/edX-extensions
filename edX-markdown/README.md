@@ -26,22 +26,22 @@ Once you have run this script, you can cd to your work directory and use the tra
 ### 2. SelfTest
 Run the following in this directory to verify the translate.py runs correctly.
 
-		translate.py imd_examples/basic_example.imd
+	translate.py imd_examples/basic_example.imd
 
 You should see the following output:
 
-		Translating basic_example.imd into xml
-		Testing XML ...
-		 python code interpreted.
-		 test code interpreted.
-		 testing part 1 ...
-		 testing part 2 ...
-		 testing part 3 ...
-		All tests passed.
-		Translating basic_example.imd into html
-		Created: basic_example.xml
-		Created: basic_example.html
-		Finished!
+	Translating basic_example.imd into xml
+	Testing XML ...
+	 python code interpreted.
+	 test code interpreted.
+	 testing part 1 ...
+	 testing part 2 ...
+	 testing part 3 ...
+	All tests passed.
+	Translating basic_example.imd into html
+	Created: basic_example.xml
+	Created: basic_example.html
+	Finished!
 
 Look in ```imd_examples``` for more examples of imd files.
 
