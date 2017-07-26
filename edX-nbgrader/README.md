@@ -22,7 +22,8 @@ jupyter contrib nbextension install --user`
 * [nbGrader](https://github.com/jupyter/nbgrader/blob/master/nbgrader/docs/source/user_guide/installation.rst) is the extension we will use to create and grade assignments. Here is [nbGrader's documentation page](https://nbgrader.readthedocs.io/en/stable/)
     * Conda Terminal Code: `conda install -c conda-forge nbgrader`
 
-
+* [install Rise](https://github.com/damianavila/RISE) for making presentation's from jupyter noteboooks.
+   * Conda Terminal Code: `conda install -c damianavila82 rise`
 
 
 
