@@ -1,8 +1,3 @@
-# nbgrader-edx
------
-To start:
-  1. `cd xqueue-watcher`
-  2. `python -m xqueue-watcher -d .`
 
 
 # Installation:
@@ -27,5 +22,12 @@ jupyter contrib nbextension install --user`
 * [nbGrader](https://github.com/jupyter/nbgrader/blob/master/nbgrader/docs/source/user_guide/installation.rst) is the extension we will use to create and grade assignments. Here is [nbGrader's documentation page](https://nbgrader.readthedocs.io/en/stable/)
     * Conda Terminal Code: `conda install -c conda-forge nbgrader`
 
+
+
+
+# Starting XQueu Watcher:
+To start:
+  1. `cd xqueue-watcher`
+  2. `python -m xqueue-watcher -d .`
 
 
