@@ -62,5 +62,15 @@ A directory called *feedback* has been created. Try viewing the feedback that *h
 To start:
   1. `cd xqueue-watcher`
   2. `python -m xqueue-watcher -d .`
+  
+  
+  
+  
+## To Be Done: Creating New Problem Set
+`nbgrader db assignment add ps2`- creates new problem se
+   * Inside source create ipynb file and put in problem
+`nbgrader asign ps2`
+`cp -r release/ps2 submitted/hacker`
+
 
 
