@@ -6,6 +6,7 @@ import json
 import sys
 import argparse
 import re
+import traceback
 
 class Translator:
     
@@ -322,11 +323,15 @@ class Translator:
         Returns
             a boolean variable to indicate pass or not.
         """
-        import traceback
         from eval_lib.evaluate import evaluate
         from eval_lib.evaluate import evaluate_w_variables
-
+        
+        print "  Testing XML ..."
         scope = {}
+
+        if self.py_code == "":
+            print "     No python code defined. Need to use python code to define solutions."
+            return False
         try:
             exec self.py_code in scope
         except Exception as err:
@@ -336,6 +341,9 @@ class Translator:
         else:
             print "     python code interpreted."
 
+        if self.test_code == "":
+            print "     No tests defined."
+            return True
         try:
             exec self.test_code in scope
         except Exception as err:
@@ -348,7 +356,6 @@ class Translator:
 
         # TODO: is it easier to have a list of solutions in the form of {0}.var
         #   or have instructor write the solutions in order.
-        # Modify code below(not robust):
         #<===========
         tmp_py = self.py_code.replace(" ", "")
         sol_code = tmp_py[tmp_py.index('solution1='):]
@@ -497,17 +504,13 @@ if __name__ == "__main__":
     translator.toXml()
     
     # Run Tests 
-    if translator.test_code == "":
-        print "  No tests defined."
-    else:
-        print "  Testing XML ..."
-        check = translator.test()
+    check = translator.test()
 
-        if check:
-            print "All tests passed."
-        else:
-            print "Please fix above errors and try again."
-            raise SystemExit, 0
+    if check:
+        print "All tests passed."
+    else:
+        print "Please fix above errors and try again."
+        raise SystemExit, 0
     
     # Create HTML Output     
     print "Translating {} into html".format(args.imd_filename)
