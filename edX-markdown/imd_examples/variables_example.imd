@@ -10,25 +10,23 @@ r = random.randrange(3,6,1)
 
 # Solutions with variables converted to string
 # Make sure you name the solution with part id at the end. e.g. 'solution1' will be solution for part 1.
-solution1 = "(26^n)-(25^n)+{0}".format(r)
-solution2 = "8"
-solution3 = "35*k"
+solution1 = "(26^n)-(25^n)"
+solution2 = "{}^n".format(r)
+solution3 = "k*26"
 
 ```
 
 ## IMD with free variables in question and answer.
 
-NOTE: This example is not yet finished. It does not have correct answer to it's questions.
-
 * How many strings of length $n$ consisting of lower case English letters, and including at least one "x", are there?
 
 [_]
 
-* Another part, the answer is?
+* How many strings of length $n$ consisting of \$r letters.
 
 [_]
 
-* Part 3, fill in your answer here.
+* How many strings of length 2 has a digit smaller than $k$ followed by a lower case English letter. ($k <= 9)
 
 [_]
 
@@ -36,7 +34,7 @@ NOTE: This example is not yet finished. It does not have correct answer to it's 
 
 ```test
 r = 3
-check1 = [("26^n-25^n+3", True), ("26**n-25**n+3", True), ("26^n-25^n+6", False)]
-check2 = [("8", True), ("10", False)]
-check3 = [("35*k", True), ("35*6", False), ("35^k", False)]
+check1 = [("26^n-25^n", True), ("26**n-25**n", True), ("26^n+25^n", False)]
+check2 = [("3^n", True), ("3^2", False)]
+check3 = [("26*k", True), ("3*26", False), ("26^k", False)]
 ```

@@ -6,6 +6,7 @@ import json
 import sys
 import argparse
 import re
+import traceback
 
 class Translator:
     
@@ -322,11 +323,15 @@ class Translator:
         Returns
             a boolean variable to indicate pass or not.
         """
-        import traceback
         from eval_lib.evaluate import evaluate
         from eval_lib.evaluate import evaluate_w_variables
-
+        
+        print "  Testing XML ..."
         scope = {}
+
+        if self.py_code == "":
+            print "     No python code defined. Need to use python code to define solutions."
+            return False
         try:
             exec self.py_code in scope
         except Exception as err:
@@ -336,6 +341,9 @@ class Translator:
         else:
             print "     python code interpreted."
 
+        if self.test_code == "":
+            print "     No tests defined."
+            return True
         try:
             exec self.test_code in scope
         except Exception as err:
@@ -348,7 +356,6 @@ class Translator:
 
         # TODO: is it easier to have a list of solutions in the form of {0}.var
         #   or have instructor write the solutions in order.
-        # Modify code below(not robust):
         #<===========
         tmp_py = self.py_code.replace(" ", "")
         sol_code = tmp_py[tmp_py.index('solution1='):]
@@ -416,7 +423,8 @@ class Translator:
                         if text[i][1:] in scope.keys():
                             text[i]= str(scope[ text[i][1:] ])
                         else:
-                            raise ValueError('Error: Your imd code uses a variable (\$someVariable) that is not defined')
+                            print 'Error: Your imd code uses a variable {} that is not defined'.format(text[i])
+                            return False
             line = ''.join(text)
             
             ###   Replace imd inputs with html inuputs
@@ -452,6 +460,7 @@ class Translator:
         </body></html>
         '''
         self.html = "".join(new_html)
+        return True
         
     
 
@@ -495,27 +504,27 @@ if __name__ == "__main__":
     translator.toXml()
     
     # Run Tests 
-    if translator.test_code == "":
-        print "  No tests defined."
-    else:
-        print "  Testing XML ..."
-        check = translator.test()
+    check = translator.test()
 
-        if check:
-            print "All tests passed."
-        else:
-            print "Please fix above errors and try again."
+    if check:
+        print "All tests passed."
+    else:
+        print "Please fix above errors and try again."
+        raise SystemExit, 0
     
     # Create HTML Output     
     print "Translating {} into html".format(args.imd_filename)
-    translator.createHtml()
+    check = translator.createHtml()
+    if not check:
+        print "Please fix above errors and try again."
+        raise SystemExit, 0
     
     # Write HTML and XML to Files
     translator.write_xml()
-    print; print "Created: {} ".format(args.imd_filename[:-3]+'xml')
+    print "Created: {} ".format(args.imd_filename[:-3]+'xml')
     translator.write_html()
     print "Created: {}".format(args.imd_filename[:-3]+'html')
-    print;print "Finished!"
+    print "Finished!"
 
 
 

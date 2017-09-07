@@ -6,6 +6,8 @@ Each problem unit contains three parts, python script, problem markdown, and tes
 
 Instructors write python code, markdown code, and test code in one file and save it in a file with an .imd extension. The translator will then take the .imd file and translate it into a XML file which edX studio recognizes. Then, instructors can paste the XML code into edX studio to create a problem.
 
+[Here](https://github.com/ucsd-edx/edX-extensions/tree/master/edX-markdown/README.md) is a tutorial on how to write the .imd file.
+
 ### 1. Setup
 Before the start of each session, cd to this directory and run
 
@@ -15,32 +17,34 @@ Once you have run this script, you can cd to your work directory and use the tra
 
 (If you want this setup script to run automatically, add a line to your .bashrc)
 
-#### You also need to install ply and markdown. 
+#### You need to use Python2. You need to install ply and markdown.
 
 	pip install ply
 	pip install markdown
-	
-#### You also need to use Python2. 
+
 
 ### 2. SelfTest
 Run the following in this directory to verify the translate.py runs correctly.
 
-		translate.py imd_examples/basic_example.imd
+	translate.py imd_examples/basic_example.imd
 
 You should see the following output:
 
-		Translating imd_examples/basic_example.imd into xml
-		Testing XML ...
-			 python code interpreted.
-			 test code interpreted.
-			 testing part 1 ...
-			 testing part 2 ...
-			 testing part 3 ...
-		All tests passed. imd_examples/basic_example.xml created!
+	Translating basic_example.imd into xml
+	Testing XML ...
+	 python code interpreted.
+	 test code interpreted.
+	 testing part 1 ...
+	 testing part 2 ...
+	 testing part 3 ...
+	All tests passed.
+	Translating basic_example.imd into html
+	Created: basic_example.xml
+	Created: basic_example.html
+	Finished!
 
 Look in ```imd_examples``` for more examples of imd files.
 
 ### 3. Using translate.py
 1. ```translate.py -h``` prints out help message.
-2. ```translate.py imd_filename``` runs the test code and generate XML.
-3. ```translate.py -html imd_filename``` translate the imd file into an HTML page.
+2. ```translate.py imd_filename``` runs the test code, generate HTML, and generate XML.
