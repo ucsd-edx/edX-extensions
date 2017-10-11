@@ -3,6 +3,7 @@
 from pathlib import Path
 from collections import defaultdict
 import re
+import json
 
 class Doc:
     '''
@@ -24,6 +25,7 @@ class Doc:
 
     ## Structure of sections and units
     draft_problems_struct = defaultdict(list)
+    public_problems_struct = {}
 
 
     def __makeCourse(self):
@@ -91,13 +93,16 @@ class Doc:
             chap_name = first_line.split('"')[1]
             readme.write('* [Section] {0} - [{1}]({1})\n'.format(chap_name, str(cFile)))
             seq_list = [l.split('"')[1] for l in chap_txt if "sequential" in l]
-            self.describeSequen(seq_list, readme)
+            self.public_problems_struct[chap_name] = self.describeSequen(seq_list, readme)
+
+        self.public_problems_struct = dict((k, v) for k, v in self.public_problems_struct.iteritems() if v)
 
 
     def describeSequen(self, seq, readme):
         '''
         Write subsection information into readme
         '''
+        Seq = {}
         for s in seq:
             s_name = s + '.xml'
             sFile = self.seq_path / s_name
@@ -107,14 +112,16 @@ class Doc:
             readme.write('\t* [Subsection] {0} - [{1}]({1})  \n'.format(sequ_name, str(sFile)))
             if len(seq_txt) > 2:
                 unit_list = [l.split('"')[1] for l in seq_txt if "vertical" in l]
-                self.describeUnit(unit_list, readme)
+                Seq[sequ_name] = self.describeUnit(unit_list, readme)
             else: #check draft
                 self.describeDraftUnit(self.draft_problems_struct[s], readme)
+        return dict((k, v) for k, v in Seq.iteritems() if v)
 
     def describeUnit(self, uni, readme):
         """
         Write unit information into readme
         """
+        Uni = {}
         for u in uni:
             u += '.xml'
             uFile = self.vert_path / u
@@ -137,12 +144,14 @@ class Doc:
                 #    prob = l.split('"')[1]
                 #    comp_list.append(['discussion', prob])
 
-            self.describeProb(prob_list, readme)
+            Uni[u_name] = self.describeProb(prob_list, readme)
+        return dict((k, v) for k, v in Uni.iteritems() if v)
 
     def describeProb(self, prob_list, readme):
         '''
         Write component information into readme
         '''
+        Prob = {}
         pat1=re.compile(r'<problem ([^>]+)>')
         pat2 = re.compile(r'(\S+)="([^"]+)"')
 
@@ -159,12 +168,14 @@ class Doc:
                 p_name = Dict['display_name']
                 weight = Dict['weight']
                 max_att = Dict['max_attempts']
+                Prob[p_name] = {'file':pro_name, 'weight':Dict['weight'], 'max_attempts':Dict['max_attempts']}
 
             if pro[0] == 'problem':
                 readme.write('\t\t\t* [{0}] {1} - [{2}]({2})\n\n'.format(pro[0], p_name, str(pFile)))
                 readme.write('\t\t\t\t Weight: {0}, Max Attempts: {1}\n'.format(weight, max_att))
             else:
                 readme.write('\t\t\t* [{0}] - [{1}]({1})\n'.format(pro[0], str(pFile)))
+        return dict((k, v) for k, v in Prob.iteritems() if v)
 
     def describeDraftUnit(self, unit, readme):
         '''
@@ -198,4 +209,7 @@ class Doc:
 if __name__ == "__main__":
     writeDoc = Doc()
     writeDoc.describeCourse()
+    prob_config = writeDoc.public_problems_struct
+    with open('problem_config.json', 'w') as fp:
+        fp.write(json.dumps(prob_config, indent=4))
 
