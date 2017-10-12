@@ -1,3 +1,17 @@
+## Merging two edX repositories
+repository = exported course.
+
+1. Download and untar the two repositories.
+2. Create a description file that describes each chapter/section/problem for each repository.
+   Each line contains:
+   * A readable description of the section, the path to the xml file in the repository (includin the repository name)
+3. MANUAL: Using an editor, create a new description file that contains lines from either of the two original files.
+   For example, I combined weeks 1-2 from CSE103 with weeks 3-9 of DSE210x
+4 Create the new rpository based on the new description. One repository is considered the "origin" and the files that are not in the XML tree are taken from there. The xml files are taken from the incoming repository (we can have more than one). 
+   1. Remove files that correspond to description lines of the original that have been removed.
+   2. Copy new files from the incoming repositories.
+
+
 ## Describe edX Course Content Data
 [Detail description from edX](http://edx.readthedocs.io/projects/devdata/en/latest/internal_data_formats/course_structure.html#course-structure)
 
