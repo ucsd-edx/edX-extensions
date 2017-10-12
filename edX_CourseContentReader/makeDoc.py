@@ -2,6 +2,8 @@
 
 from pathlib import Path
 from collections import defaultdict
+import re
+import json
 
 class Doc:
     '''
@@ -13,14 +15,17 @@ class Doc:
     course_path = path / 'course'
     chapter_path = path / 'chapter'
     seq_path = path / 'sequential'
+    vert_path = path / 'vertical'
+
     draft_path = path / 'drafts'
-    vert_path = draft_path / 'vertical'
+    draft_vert_path = draft_path / 'vertical'
 
     ## List of all chapters
     chapter_list = []
 
     ## Structure of sections and units
-    problems_struct = defaultdict(list)
+    draft_problems_struct = defaultdict(list)
+    public_problems_struct = {}
 
 
     def __makeCourse(self):
@@ -34,13 +39,13 @@ class Doc:
                 chap_name = cline.split('"')[1]
                 self.chapter_list.append(chap_name)
 
-    def __makeStruct(self):
+    def __makeDraftStruct(self):
         '''
-        Create a problems to units mapping
+        Create a problems to units mapping for drafts
         by reading files from folder vertical
         '''
-        self.problems_struct = defaultdict(list)
-        for v in self.vert_path.iterdir():
+        self.draft_problems_struct = defaultdict(list)
+        for v in self.draft_vert_path.iterdir():
             if v.suffix != '.xml':
                 continue
             v_txt = v.open().readlines()
@@ -58,15 +63,15 @@ class Doc:
                 elif '<html ' in vline:
                     prob = vline.split('"')[1]
                     comp_list.append(['html', prob])
-            self.problems_struct[sec_name].append(comp_list)
-        for k in self.problems_struct:
-            sorted_struct = sorted(self.problems_struct[k], key = lambda x: x[0])
-            self.problems_struct[k] = [s[1:] for s in sorted_struct]
+            self.draft_problems_struct[sec_name].append(comp_list)
+        for k in self.draft_problems_struct:
+            sorted_struct = sorted(self.draft_problems_struct[k], key = lambda x: x[0])
+            self.draft_problems_struct[k] = [s[1:] for s in sorted_struct]
 
 
     def __init__(self):
         self.__makeCourse()
-        self.__makeStruct()
+        self.__makeDraftStruct()
 
 
     def describeCourse(self):
@@ -88,38 +93,105 @@ class Doc:
             chap_name = first_line.split('"')[1]
             readme.write('* [Section] {0} - [{1}]({1})\n'.format(chap_name, str(cFile)))
             seq_list = [l.split('"')[1] for l in chap_txt if "sequential" in l]
-            self.describeSequen(seq_list, readme)
+            self.public_problems_struct[chap_name] = self.describeSequen(seq_list, readme)
+
+        self.public_problems_struct = dict((k, v) for k, v in self.public_problems_struct.iteritems() if v)
 
 
     def describeSequen(self, seq, readme):
         '''
         Write subsection information into readme
         '''
+        Seq = {}
         for s in seq:
             s_name = s + '.xml'
             sFile = self.seq_path / s_name
-            s_txt = sFile.open().readlines()
-            fline = s_txt[0]
-            sequ_name = fline.split('"')[1]
+            seq_txt = sFile.open().readlines()
+            first_line = seq_txt[0]
+            sequ_name = first_line.split('"')[1]
             readme.write('\t* [Subsection] {0} - [{1}]({1})  \n'.format(sequ_name, str(sFile)))
-            self.describeUnit(self.problems_struct[s], readme)
+            if len(seq_txt) > 2:
+                unit_list = [l.split('"')[1] for l in seq_txt if "vertical" in l]
+                Seq[sequ_name] = self.describeUnit(unit_list, readme)
+            else: #check draft
+                self.describeDraftUnit(self.draft_problems_struct[s], readme)
+        return dict((k, v) for k, v in Seq.iteritems() if v)
 
-
-    def describeUnit(self, unit, readme):
-        '''
+    def describeUnit(self, uni, readme):
+        """
         Write unit information into readme
+        """
+        Uni = {}
+        for u in uni:
+            u += '.xml'
+            uFile = self.vert_path / u
+            uni_txt = uFile.open().readlines()
+            first_line = uni_txt[0]
+            u_name = first_line.split('"')[1]
+            readme.write('\t\t* [Unit] {0} - [{1}]({1})\n'.format(u_name, uFile))
+            prob_list = []
+            for l in uni_txt[1:]:
+                if '<problem ' in l:
+                    prob = l.split('"')[1]
+                    prob_list.append(['problem',prob])
+                elif '<video ' in l:
+                    prob = l.split('"')[1]
+                    prob_list.append(['video', prob])
+                elif '<html ' in l:
+                    prob = l.split('"')[1]
+                    prob_list.append(['html', prob])
+                #elif '<discussion ' in l:
+                #    prob = l.split('"')[1]
+                #    comp_list.append(['discussion', prob])
+
+            Uni[u_name] = self.describeProb(prob_list, readme)
+        return dict((k, v) for k, v in Uni.iteritems() if v)
+
+    def describeProb(self, prob_list, readme):
+        '''
+        Write component information into readme
+        '''
+        Prob = {}
+        pat1=re.compile(r'<problem ([^>]+)>')
+        pat2 = re.compile(r'(\S+)="([^"]+)"')
+
+        for pro in prob_list:
+            pro_name = pro[1]+'.xml'
+            pFile = self.path / pro[0] / pro_name
+            p_txt = pFile.open().readlines()
+            fline = p_txt[0]
+            m = pat1.match(fline)
+            if m:
+                params = m.group(1)
+                m2 = pat2.findall(params)
+                Dict= {key:val for key,val in m2 if key!='markdown'}
+                p_name = Dict['display_name']
+                weight = Dict['weight']
+                max_att = Dict['max_attempts']
+                Prob[p_name] = {'file':pro_name, 'weight':Dict['weight'], 'max_attempts':Dict['max_attempts']}
+
+            if pro[0] == 'problem':
+                readme.write('\t\t\t* [{0}] {1} - [{2}]({2})\n\n'.format(pro[0], p_name, str(pFile)))
+                readme.write('\t\t\t\t Weight: {0}, Max Attempts: {1}\n'.format(weight, max_att))
+            else:
+                readme.write('\t\t\t* [{0}] - [{1}]({1})\n'.format(pro[0], str(pFile)))
+        return dict((k, v) for k, v in Prob.iteritems() if v)
+
+    def describeDraftUnit(self, unit, readme):
+        '''
+        Write draft unit information into readme
         '''
         for u in unit:
             uPath = Path(u[0])
-            fline = uPath.open().readlines()[0]
-            u_name = fline.split('"')[1]
-            readme.write('\t\t* [Unit] {0} - [{1}]({1})\n'.format(u_name, u[0]))
-            self.describeProb(u[1:], readme)
+            first_line = uPath.open().readlines()[0]
+            u_name = first_line.split('"')[1]
+            readme.write('\t\t* [Unit]\(Draft\) {0} - [{1}]({1})\n'.format(u_name, u[0]))
+            self.describeDraftProb(u[1:], readme)
 
     
-    def describeProb(self, probs, readme):
+    def describeDraftProb(self, probs, readme):
         '''
-        Write component information into readme
+        Write draft component information into readme
         '''
         for pro in probs:
             pro_name = pro[1]+'.xml'
@@ -128,13 +200,16 @@ class Doc:
             fline = p_txt[0]
             p_name = fline.split('"')[1]
             if pro[0] == 'problem':
-                readme.write('\t\t\t* [{0}] {1} - [{2}]({2})\n'.format(pro[0], p_name, str(pFile)))
+                readme.write('\t\t\t* [{0}]\(Draft\) {1} - [{2}]({2})\n'.format(pro[0], p_name, str(pFile)))
             else:
-                readme.write('\t\t\t* [{0}] - [{1}]({1})\n'.format(pro[0], str(pFile)))
+                readme.write('\t\t\t* [{0}]\(Draft\) - [{1}]({1})\n'.format(pro[0], str(pFile)))
 
 
 
 if __name__ == "__main__":
     writeDoc = Doc()
     writeDoc.describeCourse()
+    prob_config = writeDoc.public_problems_struct
+    with open('problem_config.json', 'w') as fp:
+        fp.write(json.dumps(prob_config, indent=4))
 
