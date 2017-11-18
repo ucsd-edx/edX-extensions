@@ -18,16 +18,16 @@ from collections import OrderedDict
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        sys.exit("ERROR: Please pass in the name of the original course folder and the name of the incoming course folder.")
+        sys.exit("\033[91m ERROR: Please pass in the name of the original course folder and the name of the incoming course folder.\033[0m")
     else:
         orig_course_name = sys.argv[1]
         incoming_course_name = sys.argv[2]
 
     for folder_name in [orig_course_name,incoming_course_name]:
         if not os.path.isfile(folder_name+'.tar.gz'):
-            sys.exit("ERROR: {} not found.".format(folder_name+'.tar.gz'))
+            sys.exit("\033[91m ERROR: {} not found.\033[0m".format(folder_name+'.tar.gz'))
         if os.path.isdir(folder_name):
-            sys.exit('ERROR: {} already exists, remove it and rerun.'.format(folder_name))
+            sys.exit('\033[91m ERROR: {} already exists, remove it and rerun.\033[0m'.format(folder_name))
         print('unzipping %s ...'%folder_name)
         cmd = 'tar xzf %s.tar.gz'%folder_name
         print cmd; os.system(cmd)

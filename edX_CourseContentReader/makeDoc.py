@@ -64,7 +64,7 @@ class Doc:
             [start_path]: name of the course directory. The course need to be unzipped.
         """
         if not os.path.isdir(start_path):
-            sys.exit("ERROR: can't find directory {}".format(start_path))
+            sys.exit("\033[91m ERROR: can't find directory {} \033[0m".format(start_path))
 
         ## Path variables
         self.path = Path(start_path)
@@ -158,7 +158,8 @@ class Doc:
                     for u in old_list:
                         u_id = u[0].split('/')[-1].split('.xml')[0]
                         if u_id in unit_list:
-                            print('\033[93m Warning: There are unpublished changes in published problems. Please publish the changes on edX before exporting the course content.\033[0m')
+                            print('\033[93m Warning: There are unpublished changes in published problems under subsection {}.'.format(sequ_name))
+                            print('Please publish the changes on edX before exporting the course content.\033[0m')
                             self.draft_problems_struct[s].remove(u)
                     if self.draft_problems_struct[s]:
                         all_dict2 = self.describeDraftUnit(self.draft_problems_struct[s], readme)
@@ -297,7 +298,7 @@ class Doc:
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        sys.exit("Please pass in the name of the course folder.")
+        sys.exit("\033[91m Please pass in the name of the course folder.\033[0m")
     else:
         folder_name = sys.argv[1]
     writeDoc = Doc(folder_name)
