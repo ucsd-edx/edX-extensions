@@ -6,16 +6,17 @@ from collections import OrderedDict
 import re
 import json
 import sys
+import os
 
 class Doc:
-    '''
+    """
     Create a detail documentation for the course file exported from edX.
-    '''
+    """
 
     def __makeCourse(self):
-        '''
+        """
         Create a list of chapters by reading course.xml
-        '''
+        """
         course_file_list = list(self.course_path.iterdir())
         self.course_file = [x for x in course_file_list if x.suffix == '.xml'][0]
         course_txt = self.course_file.open().readlines()
@@ -25,10 +26,11 @@ class Doc:
                 self.chapter_list.append(chap_name)
 
     def __makeDraftStruct(self):
-        '''
-        Create a problems to units mapping for drafts
-        by reading files from folder vertical
-        '''
+        """
+        Create a problems to units mapping for drafts by reading files from folder vertical
+        Draft problems are linked backward. When draft problems are published, it will then link from top down.
+        Therefore, we need to construct the draft files ahead of time.
+        """
         for v in self.draft_vert_path.iterdir():
             if v.suffix != '.xml':
                 continue
@@ -56,6 +58,14 @@ class Doc:
             self.draft_problems_struct[k] = [s[1:] for s in sorted_struct]
 
     def __init__(self, start_path):
+        """
+        Initialize the class by assigning values to path variables.
+        Input:
+            [start_path]: name of the course directory. The course need to be unzipped.
+        """
+        if not os.path.isdir(start_path):
+            sys.exit("ERROR: can't find directory {}".format(start_path))
+
         ## Path variables
         self.path = Path(start_path)
         self.course_path = self.path / 'course'
@@ -80,6 +90,9 @@ class Doc:
 
 
     def describeCourse(self):
+        """
+        Write header to the README.md with the course name.
+        """
         readme = open(str(self.path)+'/README.md', 'w')
         readme.write("###Course structure - [course/{0}](course/{0})\n".format(self.course_file.name))
         self.describeChapter(readme)
@@ -87,19 +100,28 @@ class Doc:
 
 
     def describeChapter(self, readme):
-        '''
+        """
         Write section information into readme
-        '''
+        """
         for c in self.chapter_list:
+            # build path
             c += '.xml'
             cFile = self.chapter_path / c
+
+            # write to file
             chap_txt = cFile.open().readlines()
             cFile = cFile.relative_to(*cFile.parts[:1])
             first_line = chap_txt[0]
             chap_name = first_line.split('"')[1]
             readme.write('* [Section] {0} - [{1}]({1})\n'.format(chap_name, str(cFile)))
+
+            # remove empty sequential item
             seq_list = [l.split('"')[1] for l in chap_txt if "sequential" in l]
+
+            # pass to describe the sequence further
             pub_seq_struct, all_seq_struct = self.describeSequen(seq_list, readme)
+
+            ### public struct
             self.public_problems_struct[chap_name] = pub_seq_struct
             ### use section title + last 5 digits of file id as key
             self.all_problems_struct['('+c[-9:-4]+')'+chap_name] = (str(cFile), all_seq_struct)
@@ -108,9 +130,11 @@ class Doc:
 
 
     def describeSequen(self, seq, readme):
-        '''
+        """
         Write subsection information into readme
-        '''
+        Input:
+            [seq]: the list of sequential file to describe further
+        """
         pub_seq = OrderedDict()
         all_seq = OrderedDict()
         for s in seq:
@@ -156,6 +180,8 @@ class Doc:
     def describeUnit(self, uni, readme):
         """
         Write unit information into readme
+        Input:
+            [uni]: the list of unit files to describe further
         """
         pub_uni = OrderedDict()
         all_uni = OrderedDict()
@@ -190,9 +216,11 @@ class Doc:
         return pub_uni, all_uni
 
     def describeProb(self, prob_list, readme):
-        '''
+        """
         Write component information into readme
-        '''
+        Input:
+            [prob_list]: the list of problems to describe further
+        """
         pub_prob = OrderedDict()
         pro_list = []
 
@@ -225,9 +253,12 @@ class Doc:
         return pub_prob, pro_list
 
     def describeDraftUnit(self, unit, readme):
-        '''
+        """
         Write draft unit information into readme
-        '''
+        Again, draft need to be handled specifically because it is linked backward.
+        Input:
+            [unit]: the list of unit files that need to be described further.
+        """
         all_uni = OrderedDict()
         for u in unit:
             uFile = Path(u[0])
@@ -242,9 +273,12 @@ class Doc:
 
     
     def describeDraftProb(self, probs, readme):
-        '''
+        """
         Write draft component information into readme
-        '''
+        Again, draft need to be handled specifically because it is linked backward.
+        Input:
+            [probs]: the list of problem files that need to be described further.
+        """
         prob_list = []
         for pro in probs:
             pro_name = pro[1]+'.xml'
