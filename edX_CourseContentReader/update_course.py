@@ -10,7 +10,73 @@ from pathlib import Path
 from collections import OrderedDict
 
 
-# In[2]:
+
+def read_file(filename):
+    """
+    Read the README.md file and removed the first line.
+    Input:
+        [filename]: name of the file
+    Output:
+        [description_file]: a list of lines read from the input file
+    """
+    description_file = open(filename, 'r').read()
+    description_file = description_file.splitlines()
+    description_file = [x.rstrip() for x in description_file if x.rstrip()]
+    return description_file
+
+
+def format_doc(doc_lines):
+    """
+    Format the readme file to make sure it is in the right format.
+    Input:
+        [doc_lines]: list of lines from readme.md.
+    Return:
+        updated lines
+    """
+    new_lines = []
+    for l in doc_lines:
+        if '[Section]' in l:
+            if not l.startswith('* [Section]'):
+                new_l = '* [Section]' + l.split('[Section]')[1]
+                new_lines.append(new_l)
+            else:
+                new_lines.append(l)
+        elif '[Subsection]' in l:
+            if not l.startswith('\t* [Subsection]'):
+                new_l = '\t* [Subsection]' + l.split('[Subsection]')[1]
+                new_lines.append(new_l)
+            else:
+                new_lines.append(l)
+        elif '[Unit]' in l:
+            if not l.startswith('\t\t* [Unit]'):
+                new_l = '\t\t* [Unit]' + l.split('[Unit]')[1]
+                new_lines.append(new_l)
+            else:
+                new_lines.append(l)
+        elif '[video]' in l:
+            if not l.startswith('\t\t\t* [video]'):
+                new_l = '\t\t\t* [video]' + l.split('[video]')[1]
+                new_lines.append(new_l)
+            else:
+                new_lines.append(l)
+        elif '[html]' in l:
+            if not l.startswith('\t\t\t* [html]'):
+                new_l = '\t\t\t* [html]' + l.split('[html]')[1]
+                new_lines.append(new_l)
+            else:
+                new_lines.append(l)
+        elif '[problem]' in l:
+            if not l.startswith('\t\t\t* [problem]'):
+                new_l = '\t\t\t* [problem]' + l.split('[problem]')[1]
+                new_lines.append(new_l)
+            else:
+                new_lines.append(l)
+        else:
+            sys.exit("\033[91m ERROR: Can't parse the following line:\n{}\nPlease double check the format.\033[0m".format(repr(l)))
+
+    return new_lines
+
+
 
 
 def parse_level(level, lines, i):
@@ -48,7 +114,7 @@ def parse_level(level, lines, i):
             ### use problem title and last 5 digits of file id as the key
             dic['('+v[-9:-4]+')'+k] = (v, pro_list)
         else:
-            sys.exit('\033[91m ERROR: Please make sure the README.md file has the right format.\n [Section] should starts with "*"\n [Subsection] should starts with "\\t*"\n [Unit] should starts with "\\t\\t*"\n [Problem] should starts with "\\t\\t\\t*"\033[0m')
+            sys.exit("\033[91m ERROR: Please make sure the README.md file has the right format. Can't parse {}\033[0m".format(l))
     return dic, i
 
 
@@ -78,20 +144,6 @@ def parse_pros(lines, i):
             pros.append((v,k))
             i += 1
     return pros, i
-
-def read_file(filename):
-    """
-    Read the README.md file and removed the first line.
-    Input:
-        [filename]: name of the file
-    Output:
-        [description_file]: a list of lines read from the input file
-    """
-    description_file = open(filename, 'r').read()
-    description_file = description_file.splitlines()
-    description_file[0] = description_file[0].replace('###','')
-    description_file = [x for x in description_file if x]
-    return description_file
 
 
 # In[3]:
@@ -187,7 +239,6 @@ def find_top_file(file_obj, new_dir):
         The top file to add link to the file object and a link id which we will insert the file object link after.
     """
     new_file = read_file(new_dir+'_description.md')
-    print new_dir+'_description.md'
     new_course_file = new_file[0].split('[')[1].split(']')[0]
     new_struct, _ = parse_level(0, new_file[1:], 0)
 
@@ -242,8 +293,6 @@ def add_files_recursively(file_obj, from_dir, to_dir, ori_dir):
         # adding files not from from_dir
         # check to see whether this file is in ori_dir
         if os.path.isfile(ori_dir+'/'+file_obj[0]):
-            print('found in ori')
-            print file_obj
             ## find top file
             top_file, prev_id = find_top_file(file_obj, to_dir)
             add_files(top_file, file_obj, ori_dir, to_dir, ori_dir, prev_id)
@@ -359,71 +408,110 @@ def check_new(new_struct, to_struct, from_dir, to_dir, ori_dir, to_top_file):
         sys.exit('\033[91m ERROR: Input structures need to be both of type dictionary or both of type list.\033[0m')
 
 
+def make_course_struct(course_name, check=True):
+    """
+    Construct a course dictionary by reading description file after formatting the descripiton file correctly
+    Input:
+        [course_name]: folder name of the course.
+    Optional:
+        [check]: a boolean to indicate whether to check against original file
+    Return:
+        The file path of course.xml which is used to describe the course
+        A dictionary that describe the course
+    """
+    ### Read in struct
+    description = read_file(course_name+'_description.md')
+    course_file = description[0].split('[')[1].split(']')[0]
+    description_lines = description[1:]
+    if check:
+        # check file unchanged
+        check_description = read_file(course_name+'/README.md')
+        if description != check_description:
+            sys.exit("\033[91m ERROR: {0}_description.md is changed. Please only edit the {1}_description.md file. Rerun pre_update.py to regenerate {0}_description.md.\033[0m".format(orig_course_folder, new_course_folder))
+    else:
+        ### Format file
+        description_lines = format_doc(description[1:])
+
+        ### Check changes
+        description_file = open(course_name+'_description.md', 'r').read()
+        description_file = description_file.splitlines()
+        if description_lines != description_file[1:]:
+            print("Updating {}_description.md with the right format.".format(course_name))
+            readme = open(course_name+'_description.md', 'w')
+            readme.write(description[0]+'\n')
+            readme.write("\n".join(description_lines))
+            readme.close()
+
+    ### Parse file
+    course_struct, _ = parse_level(0, description_lines, 0)
+
+    return course_file, course_struct
+
+
+def render_readme(dir_name):
+    """
+    Render a README.md file in [dir_name]
+    Input:
+        [dir_name]: The directory name of the folder where the README.md will be generated.
+    """
+    print("Rendering new README.md file in {} ...".format(dir_name))
+    cmd = 'makeDoc.py {}'.format(dir_name)
+    os.system(cmd)
+
+
+
+
+
 if __name__ == '__main__':
     if len(sys.argv) != 3:
         sys.exit("\033[91m Please pass in the name of the original course folder and the name of the incoming course folder.\033[0m")
     else:
-        orig_course_name = sys.argv[1]
-        incoming_course_name = sys.argv[2]
+        orig_course_folder = sys.argv[1]
+        incoming_course_folder = sys.argv[2]
+        new_course_folder = 'new_' + orig_course_folder
 
-    orig_course_folder = orig_course_name
-    incoming_course_folder =incoming_course_name
-    new_course_folder = 'new_' + orig_course_folder
 
+    ### Read in struct
+    orig_course_file, orig_struct = make_course_struct(orig_course_folder)
+    incoming_course_file, incoming_struct = make_course_struct(incoming_course_folder)
+    new_course_file, new_struct = make_course_struct(new_course_folder, check=False)
+
+
+    ### Make a duplicate of original course
     print('Generating the new course by copying {} to {} ...'.format(orig_course_folder, new_course_folder))
     if os.path.isdir(new_course_folder):
         sys.exit("\033[91m ERROR: {} already exists, please remove it and rerun.\033[0m".format(new_course_folder))
     shutil.copytree(orig_course_folder, new_course_folder)
 
 
-    ### Read in struct
-    orig_file = read_file(orig_course_folder+'_description.md')
-    # check file unchanged
-    check_orig_file = read_file(orig_course_folder+'/README.md')
-    if orig_file != check_orig_file:
-        sys.exit("\033[91m ERROR: {0}_description.md is changed. Please only edit the {1}_description.md file. Rerun pre_update.py to regenerate {0}_description.md.\033[0m".format(orig_course_folder, new_course_folder))
-    orig_course_file = orig_file[0].split('[')[1].split(']')[0]
-    orig_struct, _ = parse_level(0, orig_file[1:], 0)
-
-    incoming_file = read_file(incoming_course_folder+'_description.md')
-    # check file unchanged
-    check_incoming_file = read_file(incoming_course_folder+'/README.md')
-    if incoming_file != check_incoming_file:
-        sys.exit("\033[91m ERROR: {0}_description.md is changed. Please only edit the {1}_description.md file. Rerun pre_update.py to regenerate {0}_description.md.\033[0m".format(incoming_course_folder, new_course_folder))
-    incoming_course_file = incoming_file[0].split('[')[1].split(']')[0]
-
-    new_file = read_file(new_course_folder+'_description.md')
-    new_course_file = new_file[0].split('[')[1].split(']')[0]
-    new_struct, _ = parse_level(0, new_file[1:], 0)
-
+    ### Remove files
     print("Checking unwanted files ...")
     check_remove(orig_struct, new_struct, new_course_folder, new_course_file)
-
-    print("Rendering new README.md file in {} ...".format(new_course_folder))
-    cmd = 'makeDoc.py {}'.format(new_course_folder)
-    os.system(cmd)
+    ### Update readme, update orig_struct
+    render_readme(new_course_folder)
     orig_file = read_file(new_course_folder+'/README.md')
     orig_struct, _ = parse_level(0, orig_file[1:], 0)
 
+
+    ### Add new files
     print("Checking new files ...")
     check_new(new_struct, orig_struct, incoming_course_folder, new_course_folder, orig_course_folder, new_course_file)
+    ### Update readme
+    render_readme(new_course_folder)
 
-    print("Rendering new README.md file in {} ...".format(new_course_folder))
-    cmd = 'makeDoc.py {}'.format(new_course_folder)
-    os.system(cmd)
 
-    print("Check whether new README.md matches the {} ...".format(new_course_folder+'_description.md'))
+    ### Check new readme match new description file
+    print("Checking whether new README.md matches the {}_description.md ...".format(new_course_folder))
     ### Check readme.md
     new_readme = read_file('{}/README.md'.format(new_course_folder))
-    old_readme = new_file
+    old_readme = read_file('{}_description.md'.format(new_course_folder))
     check_pass = (new_readme == old_readme)
-
     if check_pass:
         cmd = "tar czf {0}.tar.gz {0}".format(new_course_folder)
         print(cmd)
         os.system(cmd)
         print("Success!")
     else:
-        sys.exit("\033[91m ERROR: The new course doesn't match the {}. Double check your description files to make sure that the format is correct and rerun.\033[0m".format(new_course_folder+'_description.md'))
-
-
+        print("Should have {}".format(set(old_readme)-set(new_readme)))
+        print("but have {}".format(set(new_readme)-set(old_readme)))
+        sys.exit("\033[91m ERROR: The new course doesn't match the {}_description.md. Double check your description files to make sure that the format is correct and rerun.\033[0m".format(new_course_folder))
