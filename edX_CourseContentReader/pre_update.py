@@ -28,11 +28,21 @@ if __name__ == "__main__":
             sys.exit("\033[91m ERROR: {} not found.\033[0m".format(folder_name+'.tar.gz'))
         if os.path.isdir(folder_name):
             sys.exit('\033[91m ERROR: {} already exists, remove it and rerun.\033[0m'.format(folder_name))
+        if os.path.isdir('course'):
+            sys.exit('\033[91m ERROR: folder "course" exists, unzipping {} may create a course folder that will overwrite the old one, please remove the old "course" folder and rerun.'.format(folder_name))
         print('unzipping %s ...'%folder_name)
         cmd = 'tar xzf %s.tar.gz'%folder_name
         print cmd; os.system(cmd)
+        if not os.path.isdir(folder_name):
+            if os.path.isdir('course'):
+                os.rename('course', folder_name)
+            else:
+                sys.exit("\033[91m ERROR: can't find directory {} or course\033[0m".format(folder_name))
         cmd = 'makeDoc.py {}'.format(folder_name)
-        os.system(cmd)
+        try:
+            os.system(cmd)
+        except:
+            sys.exit()
 
     ### Prepare struct
     orig_course_folder = orig_course_name
