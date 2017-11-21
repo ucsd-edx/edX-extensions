@@ -169,7 +169,6 @@ def check_remove(from_struct, new_struct, new_dir, top_file):
                 new_s = new_struct[k][1]
                 check_remove(from_s, new_s, new_dir, from_struct[k][0])
             else:
-                #print('removing course structure', from_struct[k])
                 remove_files(top_file, from_struct[k], new_dir)
     else:
         sys.exit('\033[91m ERROR: Input structures need to be both of type dictionary or both of type list.\033[0m')
@@ -178,48 +177,105 @@ def check_remove(from_struct, new_struct, new_dir, top_file):
 
 
 # In[17]:
+def find_top_file(file_obj, new_dir):
+    """
+    Find parent file and previous link of file_obj from new_dir.
+    Input:
+        [file_obj]: A tuple of file name and a dictionary or a tuple of file name and problem type. The file object that we want to find.
+        [new_dir]: the name of the course directory where we want to find the file object.
+    Output:
+        The top file to add link to the file object and a link id which we will insert the file object link after.
+    """
+    new_file = read_file(new_dir+'_description.md')
+    print new_dir+'_description.md'
+    new_course_file = new_file[0].split('[')[1].split(']')[0]
+    new_struct, _ = parse_level(0, new_file[1:], 0)
+
+    prev_id = ""
+    top_file = ""
+    if file_obj[0].startswith('sequential'):
+        for chap_key in new_struct.keys():
+            for sec_key in new_struct[chap_key][1].keys():
+                if file_obj == new_struct[chap_key][1][sec_key]:
+                    top_file = new_struct[chap_key][0]
+                    prev_id = prev_id.split('/')[-1].replace('.xml', '')
+                    return top_file, prev_id
+                else:
+                    prev_id = new_struct[chap_key][1][sec_key][0]
+    elif file_obj[0].startswith('vertical'):
+        for chap_key in new_struct.keys():
+            for sec_key in new_struct[chap_key][1].keys():
+                for subsec_key in new_struct[chap_key][1][sec_key][1].keys():
+                    if file_obj == new_struct[chap_key][1][sec_key][1][subsec_key]:
+                        top_file = new_struct[chap_key][1][sec_key][0]
+                        prev_id = prev_id.split('/')[-1].replace('.xml', '')
+                        return top_file, prev_id
+                    else:
+                        prev_id = new_struct[chap_key][1][sec_key][1][subsec_key][0]
+    elif isinstance(file_obj[1], str):
+        for chap_key in new_struct.keys():
+            for sec_key in new_struct[chap_key][1].keys():
+                for subsec_key in new_struct[chap_key][1][sec_key][1].keys():
+                    for pro_tuple in new_struct[chap_key][1][sec_key][1][subsec_key][1]:
+                        if file_obj == pro_tuple:
+                            top_file = new_struct[chap_key][1][sec_key][1][subsec_key][0]
+                            prev_id = prev_id.split('/')[-1].replace('.xml', '')
+                            return top_file, prev_id
+                        else:
+                            prev_id = pro_tuple[0]
 
 
-def add_files_recursively(file_obj, from_dir, to_dir):
+def add_files_recursively(file_obj, from_dir, to_dir, ori_dir):
     """
     Add files based on the passed in dictionary of the course structure.
     Input:
         [file_obj]: a dictionary describing sections, subsections, and units, or a list describing problems.
         [from_dir]: the course directory that we want to copy files from.
         [to_dir]: the course directory that we want to copy files to.
+        [ori_dir]: the course directory which is the base of the new directory.
     """
-    shutil.copyfile(from_dir+'/'+file_obj[0], to_dir+'/'+file_obj[0])
-    
-    if isinstance(file_obj[1], list):
-        for fi, fi_type in file_obj[1]:
-            shutil.copyfile(from_dir+'/'+fi, to_dir+'/'+fi)
-    elif isinstance(file_obj[1], dict):
-        for v in file_obj[1].values():
-            add_files_recursively(v, from_dir, to_dir)
+    if os.path.isfile(to_dir+'/'+file_obj[0]):
+        # adding duplicate files
+        print("\033[91m ERROR: Adding files with duplicate file ID {}".format(to_dir+'/'+file_obj[0]))
+        sys.exit("Please make sure to add files that are not already in the course.\033[0m")
+    elif not os.path.isfile(from_dir+'/'+file_obj[0]):
+        # adding files not from from_dir
+        # check to see whether this file is in ori_dir
+        if os.path.isfile(ori_dir+'/'+file_obj[0]):
+            print('found in ori')
+            print file_obj
+            ## find top file
+            top_file, prev_id = find_top_file(file_obj, to_dir)
+            add_files(top_file, file_obj, ori_dir, to_dir, ori_dir, prev_id)
     else:
-        if not isinstance(file_obj[1], str):
-            sys.exit("\033[91m ERROR: Course structure can only be either a dictionary or a list of tuples.\033[0m")
+        shutil.copyfile(from_dir+'/'+file_obj[0], to_dir+'/'+file_obj[0])
+        if isinstance(file_obj[1], list):
+            for fi, fi_type in file_obj[1]:
+                shutil.copyfile(from_dir+'/'+fi, to_dir+'/'+fi)
+        elif isinstance(file_obj[1], dict):
+            for v in file_obj[1].values():
+                add_files_recursively(v, from_dir, to_dir, ori_dir)
+        else:
+            if not isinstance(file_obj[1], str):
+                sys.exit("\033[91m ERROR: Course structure can only be either a dictionary or a list of tuples.\033[0m")
     
 
-def add_files(to_top_file, new_obj, from_dir, to_dir, pre_link):
+def add_files(to_top_file, new_obj, from_dir, to_dir, ori_dir, pre_link):
     """
     Edit top file by adding the link to new files.
     Copy all files in the in the new_obj from from_dir to to_dir.
     Input:
-        [from_top_file]: parent file of the course structure where we can find the link to copy over.
         [to_top_file]: parent file of the course structure where we can copy new link into.
         [new_obj]: a tuple of file name and dictionary/list indicating files to be added.
         [from_dir]: the course directory that we want to copy files from.
         [to_dir]: the course directory that we want to copy files to.
+        [ori_dir]: the course directory which is the base of the new directory.
         [pre_link]: Previous link in the top_file. When adding new link in top_file, we will add it right after pre_link. It's an indication of where to add the new link in the top_file.
     """
     if isinstance(new_obj, tuple):
 
         ### Copy files
-        add_files_recursively(new_obj, from_dir, to_dir)
-
-        print('add', new_obj)
-        print('to', to_dir)
+        add_files_recursively(new_obj, from_dir, to_dir, ori_dir)
         
         ### Edit top file
         top_to_lines = open(to_dir+'/'+to_top_file, 'r').readlines()
@@ -257,7 +313,7 @@ def add_files(to_top_file, new_obj, from_dir, to_dir, pre_link):
         
     
     
-def check_new(new_struct, to_struct, from_dir, to_dir, to_top_file):
+def check_new(new_struct, to_struct, from_dir, to_dir, ori_dir, to_top_file):
     """
     Recursively check to see whether there are files that needed to be added.
     Input:
@@ -265,6 +321,7 @@ def check_new(new_struct, to_struct, from_dir, to_dir, to_top_file):
         [to_struct]: a dictionary or list that represent the old course structure where we want to add files to.
         [from_dir]: directory where we want to copy files from.
         [to_dir]: directory where we want to copy files to.
+        [ori_dir]: directory which is the base of the new directory.
         [to_top_file]: parent file of the course structure where we can copy new link into.
 
     """
@@ -275,28 +332,28 @@ def check_new(new_struct, to_struct, from_dir, to_dir, to_top_file):
         for pro in new_struct:
             if pro in to_struct:
                 if pro != to_struct[pro_count]:
-                    print('new unit {} is already in list, can\'t add duplicate unit or new unit with duplicate name. Skipping.'.format(pro))
+                    sys.exit('\033[91m ERROR: new unit {} is already in list, can\'t add duplicate unit or new unit with duplicate name. Skipping.'.format(pro))
                 else:
                     pro_count += 1
             else: #pro not in to_struct:
                 #print('adding problem:', pro)
-                add_files(to_top_file, pro, from_dir, to_dir, pre_pro)
+                add_files(to_top_file, pro, from_dir, to_dir, ori_dir, pre_pro)
             pre_pro = pro[0].split('/')[-1].split('.xml')[0]
     elif isinstance(new_struct, dict) and isinstance(to_struct, dict):
         pre_key = ''
         key_count = 0
         for k in new_struct:
             new_s = new_struct[k][1]
-            if k in to_struct.keys():
+            if k in to_struct.keys():                    
                 if k != to_struct.keys()[key_count]:
-                    print('new section {} is already in course, can\'t add duplicate section or new section with duplicate name. Skipping.'.format(k))
+                    sys.exit('\033[91m ERROR: section {} is already in course, but in the wrong order Please check to see whether you are adding a section that already exist.\033[0m'.format(k))
                 else:
                     key_count += 1
                 to_s = to_struct[k][1]
-                check_new(new_s, to_s, from_dir, to_dir, to_struct[k][0])
+                check_new(new_s, to_s, from_dir, to_dir, ori_dir, to_struct[k][0])
             else:
                 #print('adding course structure', new_struct[k])
-                add_files(to_top_file, new_struct[k], from_dir, to_dir, pre_key)
+                add_files(to_top_file, new_struct[k], from_dir, to_dir, ori_dir, pre_key)
             pre_key = new_struct[k][0].split('/')[-1].split('.xml')[0]
     else:
         sys.exit('\033[91m ERROR: Input structures need to be both of type dictionary or both of type list.\033[0m')
@@ -321,10 +378,18 @@ if __name__ == '__main__':
 
     ### Read in struct
     orig_file = read_file(orig_course_folder+'_description.md')
+    # check file unchanged
+    check_orig_file = read_file(orig_course_folder+'/README.md')
+    if orig_file != check_orig_file:
+        sys.exit("\033[91m ERROR: {0}_description.md is changed. Please only edit the {1}_description.md file. Rerun pre_update.py to regenerate {0}_description.md.\033[0m".format(orig_course_folder, new_course_folder))
     orig_course_file = orig_file[0].split('[')[1].split(']')[0]
     orig_struct, _ = parse_level(0, orig_file[1:], 0)
 
     incoming_file = read_file(incoming_course_folder+'_description.md')
+    # check file unchanged
+    check_incoming_file = read_file(incoming_course_folder+'/README.md')
+    if incoming_file != check_incoming_file:
+        sys.exit("\033[91m ERROR: {0}_description.md is changed. Please only edit the {1}_description.md file. Rerun pre_update.py to regenerate {0}_description.md.\033[0m".format(incoming_course_folder, new_course_folder))
     incoming_course_file = incoming_file[0].split('[')[1].split(']')[0]
 
     new_file = read_file(new_course_folder+'_description.md')
@@ -334,8 +399,14 @@ if __name__ == '__main__':
     print("Checking unwanted files ...")
     check_remove(orig_struct, new_struct, new_course_folder, new_course_file)
 
+    print("Rendering new README.md file in {} ...".format(new_course_folder))
+    cmd = 'makeDoc.py {}'.format(new_course_folder)
+    os.system(cmd)
+    orig_file = read_file(new_course_folder+'/README.md')
+    orig_struct, _ = parse_level(0, orig_file[1:], 0)
+
     print("Checking new files ...")
-    check_new(new_struct, orig_struct, incoming_course_folder, new_course_folder, new_course_file)
+    check_new(new_struct, orig_struct, incoming_course_folder, new_course_folder, orig_course_folder, new_course_file)
 
     print("Rendering new README.md file in {} ...".format(new_course_folder))
     cmd = 'makeDoc.py {}'.format(new_course_folder)

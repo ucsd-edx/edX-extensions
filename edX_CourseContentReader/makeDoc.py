@@ -138,6 +138,7 @@ class Doc:
         pub_seq = OrderedDict()
         all_seq = OrderedDict()
         for s in seq:
+            unpublished = False
             s_name = s + '.xml'
             sFile = self.seq_path / s_name
             seq_txt = sFile.open().readlines()
@@ -158,8 +159,7 @@ class Doc:
                     for u in old_list:
                         u_id = u[0].split('/')[-1].split('.xml')[0]
                         if u_id in unit_list:
-                            print('\033[93m Warning: There are unpublished changes in published problems under subsection {}.'.format(sequ_name))
-                            print('Please publish the changes on edX before exporting the course content.\033[0m')
+                            unpublished = True
                             self.draft_problems_struct[s].remove(u)
                     if self.draft_problems_struct[s]:
                         all_dict2 = self.describeDraftUnit(self.draft_problems_struct[s], readme)
@@ -168,6 +168,10 @@ class Doc:
 
                 ### use subsection title + last 5 digits of file id as key
                 all_seq['('+s_name[-9:-4]+')'+sequ_name] = (str(sFile), all_dict)
+
+                if unpublished:
+                    print('\033[93m Warning: There are unpublished changes in published problems under subsection {}. Only looking at published version.\033[0m'.format(sequ_name))
+
             else: #check draft
                 if s not in self.draft_problems_struct.keys():
                     all_dict = OrderedDict()
@@ -175,6 +179,7 @@ class Doc:
                     all_dict = self.describeDraftUnit(self.draft_problems_struct[s], readme)
                 ### use subsection title + last 5 digits of file id as key
                 all_seq['('+s_name[-9:-4]+')'+sequ_name] = (str(sFile), all_dict)
+
         pub_seq = dict((k, v) for k, v in pub_seq.iteritems() if v)
         return pub_seq, all_seq
 
@@ -242,8 +247,11 @@ class Doc:
                 p_name = Dict['display_name']
                 if 'weight' in Dict.keys():
                     weight = Dict['weight']
-                    max_att = Dict['max_attempts']
-                    pub_prob[p_name] = {'file':pro_name, 'weight':Dict['weight'], 'max_attempts':Dict['max_attempts']}
+                    if 'max_attempts' in Dict.keys():
+                        max_att = Dict['max_attempts']
+                        pub_prob[p_name] = {'file':pro_name, 'weight':Dict['weight'], 'max_attempts':Dict['max_attempts']}
+                    else:
+                        pub_prob[p_name] = {'file':pro_name, 'weight':Dict['weight']}
                 readme.write('\t\t\t* [{0}] {1} - [{2}]({2})\n'.format(pro[0], p_name, str(pFile)))
                 #readme.write('\t\t\t\t Weight: {0}, Max Attempts: {1}\n'.format(weight, max_att))
             else:
