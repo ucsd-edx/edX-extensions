@@ -355,6 +355,21 @@ def add_files(to_top_file, new_obj, from_dir, to_dir, ori_dir, pre_link):
                     new_f_lines.append(l)
             else:
                 new_f_lines.append(l)
+        if pre_link != 'added': # top file with no items
+            tag = top_to_lines[0].split()[0].replace('<', '')
+            new_tag = allow_tag[allow_tag.index(tag)+1]
+            new_line = '  <{} url_name="{}"/>\n'.format(new_tag, add_link)
+            if isinstance(new_obj[1], str):
+                new_line = new_line.replace(new_tag, new_obj[1])
+
+            if len(top_to_lines) == 1:
+                new_f_lines = [top_to_lines[0].replace('/>', '>')]
+                new_f_lines.append(new_line)
+                new_f_lines.append('</{}>\n'.format(tag))
+            else:
+                new_f_lines = top_to_lines[:-1]
+                new_f_lines.append(new_line)
+                new_f_lines.append(top_to_lines[-1])
         open(to_dir+'/'+to_top_file, 'w').writelines(new_f_lines)
         
     else:
@@ -401,7 +416,7 @@ def check_new(new_struct, to_struct, from_dir, to_dir, ori_dir, to_top_file):
                 to_s = to_struct[k][1]
                 check_new(new_s, to_s, from_dir, to_dir, ori_dir, to_struct[k][0])
             else:
-                #print('adding course structure', new_struct[k])
+                # print('adding course structure', new_struct[k])
                 add_files(to_top_file, new_struct[k], from_dir, to_dir, ori_dir, pre_key)
             pre_key = new_struct[k][0].split('/')[-1].split('.xml')[0]
     else:
