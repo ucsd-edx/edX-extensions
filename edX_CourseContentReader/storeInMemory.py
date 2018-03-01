@@ -9,6 +9,7 @@ import sys
 import os
 from anytree import Node, PreOrderIter
 import xml.etree.ElementTree as ET
+from shutil import copyfile
 
 
 class DocDict:
@@ -71,7 +72,7 @@ class DocDict:
         self.draft_path = self.path / 'drafts'
         self.draft_vert_path = self.draft_path / 'vertical'
 
-        self.course_tree = Node(start_path + '_structured')
+
 
         ## List of all chapters
         self.chapter_list = []
@@ -83,42 +84,51 @@ class DocDict:
 
         ## Make course struct
         self.__makeCourse()
+        self.course_tree = Node(('course_structured', start_path.rstrip('/') + '_structured' ))
+        Node((self.course_file.name, str(self.course_path) + '.xml'),
+             parent=self.course_tree)
         if self.draft_path.exists() and self.draft_vert_path.exists():
             self.__makeDraftStruct()
 
     def get_valid_filename(self,s):
-        s = str(s).strip().replace(' ', '_')
+        s = str(s).strip().replace(' ', '_').replace('_-_','_')
         return re.sub(r'(?u)[^-\w.]', '', s).lower()
 
     def createFolderStructure(self):
-
+        # prefix = 'Node(\''
+        # postfix = '\')'
+        # folders = []
         for node in PreOrderIter(self.course_tree):
-            dirname = self.get_valid_filename(node.name)
 
-            if not os.path.exists(dirname):
-                if self.course_tree.root == node:
-                    print node.name
-                else:
-                    print dirname
-            # os.makedirs(dirname)
+            if node == self.course_tree.root:
+                directory = os.path.dirname(node.name[1])
+            else:
+                directory = node.parent.name[1] + '/' + node.name[0]
+
+            if node.name[0].endswith('.xml'):
+                copyfile(node.name[1], directory)
+            elif not os.path.exists(directory):
+                os.makedirs(directory)
+
+
 
 
     def describeCourse(self):
         """
         Write header to the README.md with the course name.
         """
-        # readme = open(str(self.path) + '/README.md', 'w')
-        # readme.write("###Course structure - [course/{0}](course/{0})\n".format(self.course_file.name))
         self.describeChapter()
         self.createFolderStructure()
 
-        # readme.close()
 
     def describeChapter(self):
         """
         Write section information into readme
         """
+        prefix = 'section_'
+        count = 0
         for c in self.chapter_list:
+            count+=1
             # build path
             c += '.xml'
             cFile = self.chapter_path / c
@@ -128,9 +138,10 @@ class DocDict:
 
             cFile = cFile.relative_to(*cFile.parts[:1])
             chap_name = chap_xml.attrib['display_name']
+            folder = prefix + str(count)
 
-            # readme.write('* [Section] {0} - [{1}]({1})\n'.format(chap_name, str(cFile)))
-            chapter_node = Node(chap_name, parent=self.course_tree)
+            chapter_node = Node((folder, self.course_tree.name[1] + '/' + folder), parent=self.course_tree)
+            Node((self.get_valid_filename(chap_name) + '.xml', '/' + str(cFile)), parent=chapter_node)
             # remove empty sequential item
             seq_list = [child.attrib['url_name'] for child in chap_xml]
             # pass to describe the sequence further
@@ -151,16 +162,20 @@ class DocDict:
         """
         pub_seq = OrderedDict()
         all_seq = OrderedDict()
+        prefix = 'subsection_'
+        count = 0
         for s in seq:
+            count += 1
             unpublished = False
             s_name = s + '.xml'
             sFile = self.seq_path / s_name
             seq_xml = ET.parse(str(sFile)).getroot()
             sequ_name = seq_xml.attrib['display_name']
             sFile = sFile.relative_to(*sFile.parts[:1])
+            folder = prefix + str(count)
 
-            # readme.write('\t* [Subsection] {0} - [{1}]({1})  \n'.format(sequ_name, str(sFile)))
-            subsection_node = Node(sequ_name, parent=chapter_node)
+            subsection_node = Node((folder, chapter_node.name[1] + '/' + folder), parent=chapter_node)
+            Node((self.get_valid_filename(sequ_name) + '.xml', '/' + str(sFile)), parent=subsection_node)
             if len(seq_xml.getchildren()) > 0:
                 unit_list = [child.attrib['url_name'] for child in seq_xml]
                 pub_dict, all_dict = self.describeUnit(unit_list, subsection_node)
@@ -209,14 +224,19 @@ class DocDict:
         """
         pub_uni = OrderedDict()
         all_uni = OrderedDict()
+        prefix = 'unit_'
+        count = 0
         for u in uni:
+            count += 1
             u += '.xml'
             uFile = self.vert_path / u
             uni_xml = ET.parse(str(uFile)).getroot()
             uFile = uFile.relative_to(*uFile.parts[:1])
             u_name = uni_xml.attrib['display_name']
-            # readme.write('\t\t* [Unit] {0} - [{1}]({1})\n'.format(u_name, uFile))
-            unit_node = Node(u_name, parent=subsection_node)
+            folder = prefix + str(count)
+
+            unit_node = Node((folder, subsection_node.name[1] + '/' + folder), parent=subsection_node)
+            Node((self.get_valid_filename(u_name) + '.xml' , '/' + str(uFile)), parent=unit_node)
             prob_list = []
             for child in uni_xml:
                 if child.tag in ['problem', 'video', 'html']:
@@ -240,27 +260,27 @@ class DocDict:
         pub_prob = OrderedDict()
         pro_list = []
 
-
+        counts = {'video': 0,'html': 0, 'problem': 0}
         for pro in prob_list:
             pro_name = pro[1] + '.xml'
             pFile = self.path / pro[0] / pro_name
             pro_xml = ET.parse(str(pFile)).getroot()
             pFile = pFile.relative_to(*pFile.parts[:1])
+            counts[pro[0]] += 1
+
             if 'display_name' in pro_xml.attrib.keys():
                 Dict = pro_xml.attrib
-                p_name = Dict['display_name']
+                p_name = '' if Dict['display_name'].isdigit() else '_' + pro_xml.attrib['display_name']
+
                 if 'weight' in Dict.keys():
                     if 'max_attempts' in Dict.keys():
                         pub_prob[p_name] = {'file': pro_name, 'weight': Dict['weight'],
                                             'max_attempts': Dict['max_attempts']}
                     else:
                         pub_prob[p_name] = {'file': pro_name, 'weight': Dict['weight']}
-                # readme.write('\t\t\t* [{0}] {1} - [{2}]({2})\n'.format(pro[0], p_name, str(pFile)))
-                Node(pro[0] + "_" + p_name, parent=unit_node)
-                # readme.write('\t\t\t\t Weight: {0}, Max Attempts: {1}\n'.format(weight, max_att))
+                Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.xml', '/' + str(pFile)), parent=unit_node)
             else:
-                # readme.write('\t\t\t* [{0}] - [{1}]({1})\n'.format(pro[0], str(pFile)))
-                Node(pro[0], parent=unit_node)
+                Node((pro[0] + str(counts[pro[0]]) + '.xml', '/' +str(pFile)), parent=unit_node)
 
             pro_list.append((str(pFile), pro[0]))
 
@@ -275,13 +295,19 @@ class DocDict:
             [unit]: the list of unit files that need to be described further.
         """
         all_uni = OrderedDict()
+        prefix = 'draft_unit_'
+        count = 0
         for u in unit:
+            count +=1
             uFile = Path(u[0])
             un_xml = ET.parse(str(uFile)).getroot()
             u_name = un_xml.attrib['display_name']
             uFile = uFile.relative_to(*uFile.parts[:1])
-            # readme.write('\t\t* [Unit]\(Draft\) {0} - [{1}]({1})\n'.format(u_name, str(uFile)))
-            unit_node = Node(u_name, parent=subsection_node)
+            folder = prefix + str(count)
+
+            unit_node = Node((folder, subsection_node.name[1] + '/' + folder), parent=subsection_node)
+            Node((self.get_valid_filename(u_name) + '.xml', '/' + str(uFile)), parent=unit_node)
+
             prob_list = self.describeDraftProb(u[1:],unit_node)
             ### use unit title + last 5 digits of file id as key
             all_uni['(' + u[0][-9:-4] + ')(draft)' + u_name] = (str(uFile), prob_list)
@@ -295,19 +321,20 @@ class DocDict:
             [probs]: the list of problem files that need to be described further.
         """
         prob_list = []
+        counts = {'video': 0,'html': 0, 'problem': 0}
+
         for pro in probs:
+            counts[pro[0]] += 1
             pro_name = pro[1] + '.xml'
             pFile = self.draft_path / pro[0] / pro_name
             pro_xml = ET.parse(str(pFile)).getroot()
             pFile = pFile.relative_to(*pFile.parts[:1])
-            p_name = pro_xml.attrib['display_name']
-            if pro[0] == 'problem':
-                Node(pro[0] + "_" + p_name, parent=unit_node)
-            #     readme.write('\t\t\t* [{0}]\(Draft\) {1} - [{2}]({2})\n'.format(pro[0], p_name, str(pFile)))
-            else:
-                Node(pro[0], parent=unit_node)
+            p_name = '' if pro_xml.attrib['display_name'].isdigit() else '_' + pro_xml.attrib['display_name']
 
-            #     readme.write('\t\t\t* [{0}]\(Draft\) - [{1}]({1})\n'.format(pro[0], str(pFile)))
+            if pro[0] == 'problem':
+                Node((self.get_valid_filename( 'draft_' + pro[0] + str(counts[pro[0]]) + p_name) + '.xml', '/' + str(pFile)), parent=unit_node)
+            else:
+                Node(('draft_' + pro[0] + str(counts[pro[0]]) + '.xml', '/' + str(pFile)), parent=unit_node)
 
             prob_list.append((str(pFile), '(draft)' + pro[0]))
         return prob_list
