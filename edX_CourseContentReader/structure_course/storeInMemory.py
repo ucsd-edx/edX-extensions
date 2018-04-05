@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 from pathlib2 import Path
 from collections import OrderedDict
 import re
@@ -130,12 +130,12 @@ class DocDict:
                 os.makedirs(directory)
         prefix = os.path.dirname(os.path.commonprefix(prefixes).rstrip('/'))
 
-        for k,v in folder_mapping.iteritems():
+        for k,v in iter(folder_mapping.items()):
             folder_mapping[k] = os.path.relpath(v,prefix)
         self.save_mapping(folder_mapping, self.course_tree.root.name[1]  + '/mapping.json')
 
         if not self.duplicate:
-            print 'Deleting old course folder...'
+            print('Deleting old course folder...')
             rmtree(folder_mapping['root'])
 
     def packageCourse(self, destination, compress=False, validate=''):
@@ -154,14 +154,13 @@ class DocDict:
         else:
             new_folder = data['root']
 
-        for key, value in data.iteritems():
+        for key, value in iter(data.items()):
             if key == 'root':
                 continue
             elif new_folder != '':
                 alternative_path = new_folder + '/' + value[value.find(value.split('/')[1]):]
             else:
                 alternative_path = value
-
             if not os.path.exists(os.path.dirname(alternative_path)):
                 os.makedirs(os.path.dirname(alternative_path))
 
@@ -171,23 +170,23 @@ class DocDict:
             if not os.path.exists(new_folder + p):
                 copytree(str(self.path) + p, new_folder + p)
             else:
-                print 'Path  ' + new_folder + p + ' already exists. Skipping copying'
+                print('Path  ' + new_folder + p + ' already exists. Skipping copying')
 
         if compress:
-            print 'Compressing course folder...'
+            print('Compressing course folder...')
             with tarfile.open(new_folder + '.tar.gz', 'w:gz') as tar:
                 tar.add(new_folder, arcname=os.path.basename(new_folder))
 
 
         if validate:
-            print validate
+            print(validate)
             self.compareCourses(new_folder, data['root'])
 
     def compareCourses(self, oldcourse, newcourse):
         comparison = filecmp.dircmp(newcourse,oldcourse)
 
-        print 'Files only included in ' + newcourse + ' : ' + str(comparison.left_only)
-        print 'Files only included in ' + oldcourse + ' : ' + str(comparison.left_only)
+        print('Files only included in ' + newcourse + ' : ' + str(comparison.left_only))
+        print('Files only included in ' + oldcourse + ' : ' + str(comparison.left_only))
 
     def save_mapping(self, folder_mapping, path):
 
@@ -240,7 +239,7 @@ class DocDict:
             ### use section title + last 5 digits of file id as key
             self.all_problems_struct['(' + c[-9:-4] + ')' + chap_name] = (str(cFile), all_seq_struct)
 
-        self.public_problems_struct = dict((k, v) for k, v in self.public_problems_struct.iteritems() if v)
+        self.public_problems_struct = dict((k, v) for k, v in iter(self.public_problems_struct.items()) if v)
 
     def describeSequen(self, seq, chapter_node):
         """
@@ -293,7 +292,7 @@ class DocDict:
                 ### use subsection title + last 5 digits of file id as key
                 all_seq['(' + s_name[-9:-4] + ')' + sequ_name] = (str(sFile), all_dict)
 
-        pub_seq = dict((k, v) for k, v in pub_seq.iteritems() if v)
+        pub_seq = dict((k, v) for k, v in iter(pub_seq.items()) if v)
         return pub_seq, all_seq
 
     def describeUnit(self, uni, subsection_node):
@@ -327,7 +326,7 @@ class DocDict:
             pub_uni[u_name] = pub_dict
             ### use unti title + last 5 digits of file id as key
             all_uni['(' + u[-9:-4] + ')' + u_name] = (str(uFile), all_dict)
-        pub_uni = dict((k, v) for k, v in pub_uni.iteritems() if v)
+        pub_uni = dict((k, v) for k, v in iter(pub_uni.items()) if v)
         return pub_uni, all_uni
 
     def describeProb(self, prob_list, unit_node):
@@ -375,7 +374,7 @@ class DocDict:
 
             pro_list.append((str(pFile), pro[0]))
 
-        pub_prob = dict((k, v) for k, v in pub_prob.iteritems() if v)
+        pub_prob = dict((k, v) for k, v in iter(pub_prob.items()) if v)
         return pub_prob, pro_list
 
     def describeDraftUnit(self, unit, subsection_node):
@@ -447,8 +446,8 @@ if __name__ == "__main__":
     package_course = args.package
     destination = args.destination_folder
     course_folder = args.course_folder
-    compress = args.compress
-    verify_course = args.verify
+    compress = True if args.verify == 'True' else False
+    verify_course = True if args.verify == 'True' else False
 
     if not course_folder:
         sys.exit("\033[91m Please pass in the name of the course folder.\033[0m")
