@@ -1,0 +1,8 @@
+<video url_name="b71b792b923643cbb057cf3df434b733" display_name="Video" download_video="false" edx_video_id="c86821ee-d30c-426d-86da-ec55e768515c" html5_sources="[]" sub="" youtube_id_1_0="">
+  <video_asset client_video_id="DSE230x-21_3_spark_architecture.mp4" duration="772.42" image="video-images/0ceebe15b78840859dc35d0ad69060e7.png">
+    <encoded_video bitrate="192" file_size="18538698" profile="audio_mp3" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000800_AUD.mp3"/>
+    <encoded_video bitrate="185" file_size="17902030" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000800_MB2.mp4"/>
+    <encoded_video bitrate="271" file_size="26208973" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000800_DTH.mp4"/>
+    <encoded_video bitrate="0" file_size="0" profile="hls" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000800/UCSDSE232018-V000800.m3u8"/>
+  </video_asset>
+</video>

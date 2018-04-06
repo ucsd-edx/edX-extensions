@@ -1,0 +1,11 @@
+<problem display_name="Cluster Manager" markdown="&gt;&gt;The role of the cluster manager is to:&lt;&lt;&#10;&#10;( ) Orchestrate tasks to executors on worker nodes&#10;(x) Maintain resource utilization information across the cluster and provide it to the master&#10;( ) Execute the tasks&#10;( ) Managing a single core&#10;">
+<multiplechoiceresponse>
+  <label>The role of the cluster manager is to:</label>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">Orchestrate tasks to executors on worker nodes</choice>
+    <choice correct="true">Maintain resource utilization information across the cluster and provide it to the master</choice>
+    <choice correct="false">Execute the tasks</choice>
+    <choice correct="false">Managing a single core</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

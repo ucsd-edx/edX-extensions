@@ -1,0 +1,10 @@
+<problem display_name="countByKey()" markdown="The pyspark API countByKey returns&#10;&#10;( ) A list of tuples&#10;( ) A list of lists&#10;(x) A dictionary&#10;">
+<multiplechoiceresponse>
+  <p>The pyspark API countByKey returns</p>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">A list of tuples</choice>
+    <choice correct="false">A list of lists</choice>
+    <choice correct="true">A dictionary</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

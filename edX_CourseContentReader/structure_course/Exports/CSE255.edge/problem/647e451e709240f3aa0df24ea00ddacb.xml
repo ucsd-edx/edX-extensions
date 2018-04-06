@@ -1,0 +1,11 @@
+<problem display_name="Cloud Computing" markdown="null" max_attempts="4" rerandomize="per_student">
+  <choiceresponse>
+    <label>Which of these are not properties of Cloud Computing servers? (Check all that apply)</label>
+    <checkboxgroup>
+      <choice correct="true">Expensive</choice>
+      <choice correct="false">Rented out to provide compute</choice>
+      <choice correct="false">Vast in number</choice>
+      <choice correct="true">Specialized Hardware</choice>
+    </checkboxgroup>
+  </choiceresponse>
+</problem>

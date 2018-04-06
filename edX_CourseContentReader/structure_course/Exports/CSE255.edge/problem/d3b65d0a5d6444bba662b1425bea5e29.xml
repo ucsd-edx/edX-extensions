@@ -1,0 +1,9 @@
+<problem display_name="Column Major" markdown="&gt;&gt; If a 2 dimensional array \(A\) is stored in a column major fashion in memory, then \(A[i, j]\) and \(A[i+1, j+1]\) are &lt;&lt;&#10;&#10;( ) next to each other&#10;(x) more than one memory location apart&#10;">
+<multiplechoiceresponse>
+  <label> If a 2 dimensional array \(A\) is stored in a column major fashion in memory, then \(A[i, j]\) and \(A[i+1, j+1]\) are </label>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">next to each other</choice>
+    <choice correct="true">more than one memory location apart</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

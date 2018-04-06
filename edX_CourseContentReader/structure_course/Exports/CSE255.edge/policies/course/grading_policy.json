@@ -1,0 +1,31 @@
+{
+    "GRADER": [
+        {
+            "drop_count": 2, 
+            "min_count": 9, 
+            "short_label": "PA", 
+            "type": "Programming assignment", 
+            "weight": 0.6
+        }, 
+        {
+            "drop_count": 1, 
+            "min_count": 5, 
+            "short_label": "Quiz", 
+            "type": "Quiz", 
+            "weight": 0.1
+        }, 
+        {
+            "drop_count": 0, 
+            "min_count": 1, 
+            "short_label": "Final", 
+            "type": "Final Exam", 
+            "weight": 0.3
+        }
+    ], 
+    "GRADE_CUTOFFS": {
+        "A": 0.85, 
+        "B": 0.7, 
+        "C": 0.6, 
+        "D": 0.5
+    }
+}

@@ -1,0 +1,8 @@
+<problem display_name="Final Submission" markdown="null" show_reset_button="true" showanswer="past_due" submission_wait_seconds="90"><startouttext/>
+    Upload your assignments.
+  <endouttext/>
+  <b>
+    Test problem for queue 'ucsdx_eg_test'.
+  </b>
+  <coderesponse queuename="ucsdx_eg_test"><filesubmission points="25"/><codeparam><grader_payload>ps1/collinearPoints</grader_payload></codeparam></coderesponse>
+</problem>

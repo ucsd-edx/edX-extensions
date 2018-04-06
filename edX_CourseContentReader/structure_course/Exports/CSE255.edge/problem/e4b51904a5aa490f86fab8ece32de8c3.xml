@@ -1,0 +1,9 @@
+<problem display_name="Storage Locality" markdown="&gt;&gt;Software that uses same or neighboring pages repeatedly is said to have a good locality of storage.&lt;&lt;&#10;&#10;(x) True&#10;( ) False">
+<multiplechoiceresponse>
+  <label>Software that uses same or neighboring pages repeatedly is said to have a good locality of storage.</label>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">True</choice>
+    <choice correct="false">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

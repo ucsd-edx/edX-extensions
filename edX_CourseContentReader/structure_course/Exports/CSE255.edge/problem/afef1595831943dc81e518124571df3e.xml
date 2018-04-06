@@ -1,0 +1,12 @@
+<problem display_name="HDFS" markdown="null">
+  <multiplechoiceresponse>
+    <label>Which of these are properties of HDFS</label>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Redundancy</choice>
+      <choice correct="true">Locality of data to CPU</choice>
+      <choice correct="true">Abstracts filesystem from user</choice>
+      <choice correct="true">Files divided into chunks</choice>
+      <choice correct="false">Provides computational abstraction</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+</problem>

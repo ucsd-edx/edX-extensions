@@ -1,0 +1,11 @@
+<problem display_name="Redundancy" markdown="&gt;&gt;Suppose that we maintain &lt;i&gt;N&lt;/i&gt; copies of every file on an &lt;i&gt;N&lt;/i&gt; node HDFS cluster. Assuming that each of these &lt;i&gt;N&lt;/i&gt; copies reside on a different server, how many failure nodes can we tolerate beyond which there is loss of data ?&lt;&lt;&#10;&#10;= N-1&#10;or= N - 1&#10;or=N - 1&#10;or=n-1&#10;or= n - 1&#10;or=n - 1">
+<stringresponse answer="N-1" type="ci">
+  <label>Suppose that we maintain <i>N</i> copies of every file on an <i>N</i> node HDFS cluster. Assuming that each of these <i>N</i> copies reside on a different server, how many failure nodes can we tolerate beyond which there is loss of data ?</label>
+<additional_answer answer="N - 1"/>
+  <additional_answer answer="N - 1"/>
+  <additional_answer answer="n-1"/>
+  <additional_answer answer="n - 1"/>
+  <additional_answer answer="n - 1"/>
+  <textline size="20"/>
+</stringresponse>
+</problem>

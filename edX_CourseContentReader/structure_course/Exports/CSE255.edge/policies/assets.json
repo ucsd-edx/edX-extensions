@@ -1,0 +1,43 @@
+{
+    "Week1_Notebooks.tgz": {
+        "contentType": "application/gzip", 
+        "content_son": {
+            "category": "asset", 
+            "course": "CSE255_DSE230", 
+            "name": "Week1_Notebooks.tgz", 
+            "org": "UCSDx", 
+            "revision": null, 
+            "run": "2018_Spring", 
+            "tag": "c4x"
+        }, 
+        "displayname": "Week1_Notebooks.tgz", 
+        "filename": "asset-v1:UCSDx+CSE255_DSE230+2018_Spring+type@asset+block@Week1_Notebooks.tgz", 
+        "import_path": null, 
+        "locked": false, 
+        "thumbnail_location": null
+    }, 
+    "shutterstock_529075177.jpg": {
+        "contentType": "image/jpeg", 
+        "content_son": {
+            "category": "asset", 
+            "course": "CSE255_DSE230", 
+            "name": "shutterstock_529075177.jpg", 
+            "org": "UCSDx", 
+            "revision": null, 
+            "run": "2018_Spring", 
+            "tag": "c4x"
+        }, 
+        "displayname": "shutterstock_529075177.jpg", 
+        "filename": "asset-v1:UCSDx+CSE255_DSE230+2018_Spring+type@asset+block@shutterstock_529075177.jpg", 
+        "import_path": "shutterstock_529075177.jpg", 
+        "locked": false, 
+        "thumbnail_location": [
+            "c4x", 
+            "UCSDx", 
+            "CSE255_DSE230", 
+            "thumbnail", 
+            "shutterstock_529075177.jpg", 
+            null
+        ]
+    }
+}

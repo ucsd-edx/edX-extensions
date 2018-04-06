@@ -1,0 +1,9 @@
+<problem display_name="Aggregation Functions" markdown="&gt;&gt;The efficiency of aggregation functions on DFs is enhanced because Spark combines the operations with other SQL operations on the same DF. &lt;&lt;&#10;&#10;(x) True&#10;( ) False">
+<multiplechoiceresponse>
+  <label>The efficiency of aggregation functions on DFs is enhanced because Spark combines the operations with other SQL operations on the same DF. </label>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">True</choice>
+    <choice correct="false">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

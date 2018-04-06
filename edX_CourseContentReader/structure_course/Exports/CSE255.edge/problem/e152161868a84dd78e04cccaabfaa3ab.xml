@@ -1,0 +1,11 @@
+<problem display_name="Lazy Evaluation" markdown="&gt;&gt;Mark all statements that are true for Lazy Evaluation:&lt;&lt;&#10;&#10;[x] Has lower memory requirements than Busy evaluation&#10;[x] Requires fewer scans of memory than Busy evaluation&#10;[ ] Stores intermediate results&#10;[x] Spark enables lazy evaluation by constructing a directed acyclic graph of operations">
+<choiceresponse>
+  <label>Mark all statements that are true for Lazy Evaluation:</label>
+<checkboxgroup>
+    <choice correct="true">Has lower memory requirements than Busy evaluation</choice>
+    <choice correct="true">Requires fewer scans of memory than Busy evaluation</choice>
+    <choice correct="false">Stores intermediate results</choice>
+    <choice correct="true">Spark enables lazy evaluation by constructing a directed acyclic graph of operations</choice>
+  </checkboxgroup>
+</choiceresponse>
+</problem>

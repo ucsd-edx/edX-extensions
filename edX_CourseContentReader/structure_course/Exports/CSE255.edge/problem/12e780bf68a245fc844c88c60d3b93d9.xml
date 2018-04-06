@@ -1,0 +1,19 @@
+<problem display_name="Cache effectiveness" markdown="&gt;&gt;&#10;Suppose that a CPU has an L1 cache access time of 10 ns. Also, assume that the main memory access time is 100 ns. Say that the cache hit rate is 90%, and the same object is read 10 times.&#10; &#10;=====&#10;Concretely, fill in the blanks:&#10;=====&#10;&#10;&#10;Total access time without cache enhancement = _____ ns&#10;&#10;= 1000&#10;&#10;=====&#10;Total access time with cache enhancement = _____ ns&#10;&#10;= 190&#10;&lt;&lt;&#10;&#10;" weight="1.0">
+<label>
+Suppose that a CPU has an L1 cache access time of 10 ns. Also, assume that the main memory access time is 100 ns. Say that the cache hit rate is 90%, and the same object is read 10 times.
+<h3 class="hd hd-2 problem-header"> </h3>
+<h3 class="hd hd-2 problem-header">Concretely, fill in the blanks:</h3>
+Total access time without cache enhancement = _____ ns
+
+<numericalresponse answer="1000">
+  <formulaequationinput/>
+</numericalresponse>
+<h3 class="hd hd-2 problem-header"/>
+Total access time with cache enhancement = _____ ns
+
+<numericalresponse answer="190">
+  <formulaequationinput/>
+</numericalresponse>
+</label>
+
+</problem>

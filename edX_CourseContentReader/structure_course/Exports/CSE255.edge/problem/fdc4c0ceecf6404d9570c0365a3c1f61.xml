@@ -1,0 +1,12 @@
+<problem display_name="Programmer and Memory hierarchy" markdown="&gt;&gt;The computer programmer has to always be aware of what data needs to be stored at various levels of the memory hierarchy.&lt;&lt;&#10;[[&#10;True&#10;(False)&#10;]]&#10;&#10;&#10;||The memory hierarchy is &quot;abstracted&quot; away from the programmer||&#10;">
+<optionresponse>
+  <label>The computer programmer has to always be aware of what data needs to be stored at various levels of the memory hierarchy.</label>
+<optioninput>
+    <option correct="False">True</option>
+    <option correct="True">False</option>
+  </optioninput>
+</optionresponse>
+<demandhint>
+  <hint>The memory hierarchy is "abstracted" away from the programmer</hint>
+</demandhint>
+</problem>

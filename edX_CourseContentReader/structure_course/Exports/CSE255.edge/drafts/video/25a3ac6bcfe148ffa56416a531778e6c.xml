@@ -1,0 +1,8 @@
+<video url_name="25a3ac6bcfe148ffa56416a531778e6c" display_name="Video" download_video="false" edx_video_id="9e9e73f5-c546-49a6-bf9f-3b4b8fd72b9d" html5_sources="[]" sub="" youtube_id_1_0="">
+  <video_asset client_video_id="DSE230x-26_4_NB_operations_on_KeyVal_RDDs.mp4" duration="772.37" image="video-images/3651a6f00e4841d688ddef3f9cce1531.png">
+    <encoded_video bitrate="192" file_size="18538122" profile="audio_mp3" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V001800_AUD.mp3"/>
+    <encoded_video bitrate="170" file_size="16482915" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V001800_MB2.mp4"/>
+    <encoded_video bitrate="233" file_size="22528147" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V001800_DTH.mp4"/>
+    <encoded_video bitrate="0" file_size="0" profile="hls" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V001800/UCSDSE232018-V001800.m3u8"/>
+  </video_asset>
+</video>

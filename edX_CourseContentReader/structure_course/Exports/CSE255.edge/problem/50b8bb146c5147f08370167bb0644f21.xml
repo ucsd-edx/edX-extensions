@@ -1,0 +1,13 @@
+<problem display_name="Parquet File Format" markdown="&gt;&gt;Parquet files are stored in a _______ format. &lt;&lt;&#10;&#10;= columnar {{Good job.}}&#10;or= column major&#10;not= row major  {{Parquet files are stored in a columnar format.}}&#10;not= row-wise {{Parquet files are stored in a columnar format.}}&#10;||Row major or column major?||">
+<stringresponse answer="columnar" type="ci">
+  <label>Parquet files are stored in a _______ format. </label>
+<correcthint>Good job.</correcthint>
+  <additional_answer answer="column major"/>
+  <stringequalhint answer="row major">Parquet files are stored in a columnar format.</stringequalhint>
+  <stringequalhint answer="row-wise">Parquet files are stored in a columnar format.</stringequalhint>
+  <textline size="20"/>
+</stringresponse>
+<demandhint>
+  <hint>Row major or column major?</hint>
+</demandhint>
+</problem>

@@ -1,0 +1,10 @@
+<problem display_name="Spatial Organization" markdown="The abstraction that encapsulates the cluster for the driver node is called ___________&#10;&#10;&#10;( ) SQL Context&#10;(x) Spark Context&#10;( ) Cluster Manager&#10;">
+<multiplechoiceresponse>
+  <p>The abstraction that encapsulates the cluster for the driver node is called ___________</p>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">SQL Context</choice>
+    <choice correct="true">Spark Context</choice>
+    <choice correct="false">Cluster Manager</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

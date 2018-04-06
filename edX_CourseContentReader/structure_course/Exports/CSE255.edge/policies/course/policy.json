@@ -1,0 +1,95 @@
+{
+    "course/course": {
+        "advanced_modules": [
+            "poll", 
+            "lti_consumer", 
+            "done"
+        ], 
+        "allow_anonymous": false, 
+        "allow_unsupported_xblocks": true, 
+        "cert_html_view_enabled": true, 
+        "course_image": "shutterstock_529075177.jpg", 
+        "discussion_topics": {
+            "General": {
+                "id": "course"
+            }
+        }, 
+        "display_name": "Big Data Analytics using Spark", 
+        "end": "2018-06-24T23:30:00Z", 
+        "enrollment_end": "2018-04-14T00:00:00Z", 
+        "enrollment_start": "2018-03-24T00:00:00Z", 
+        "graceperiod": "3600 seconds", 
+        "instructor_info": {
+            "instructors": []
+        }, 
+        "is_new": true, 
+        "language": "en", 
+        "learning_info": [], 
+        "minimum_grade_credit": 0.8, 
+        "start": "2018-04-02T00:00:00Z", 
+        "tabs": [
+            {
+                "course_staff_only": false, 
+                "name": "Home", 
+                "type": "course_info"
+            }, 
+            {
+                "course_staff_only": false, 
+                "name": "Course", 
+                "type": "courseware"
+            }, 
+            {
+                "course_staff_only": false, 
+                "name": "Textbooks", 
+                "type": "textbooks"
+            }, 
+            {
+                "course_staff_only": false, 
+                "name": "Discussion", 
+                "type": "discussion"
+            }, 
+            {
+                "course_staff_only": false, 
+                "name": "Wiki", 
+                "type": "wiki"
+            }, 
+            {
+                "course_staff_only": false, 
+                "name": "Progress", 
+                "type": "progress"
+            }
+        ], 
+        "user_partitions": [
+            {
+                "active": true, 
+                "description": "The groups in this configuration can be mapped to cohort groups in the LMS.", 
+                "groups": [
+                    {
+                        "id": 1744657943, 
+                        "name": "Audit learners", 
+                        "version": 1
+                    }, 
+                    {
+                        "id": 692869819, 
+                        "name": "Verified learners", 
+                        "version": 1
+                    }
+                ], 
+                "id": 482959664, 
+                "name": "Content Group Configuration", 
+                "parameters": {}, 
+                "scheme": "cohort", 
+                "version": 3
+            }
+        ], 
+        "video_upload_pipeline": {
+            "course_video_upload_token": "c4f8c3be1c0011e897831269ad350526"
+        }, 
+        "xml_attributes": {
+            "filename": [
+                "course/course.xml", 
+                "course/course.xml"
+            ]
+        }
+    }
+}

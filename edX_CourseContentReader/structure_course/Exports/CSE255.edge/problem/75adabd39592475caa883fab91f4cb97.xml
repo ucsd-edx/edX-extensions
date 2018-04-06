@@ -1,0 +1,9 @@
+<problem display_name="RDD Basics" markdown="The key in an RDD has to be unique.&#10;&#10;( ) True&#10;(x) False">
+<multiplechoiceresponse>
+  <p>The key in an RDD has to be unique.</p>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">True</choice>
+    <choice correct="true">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

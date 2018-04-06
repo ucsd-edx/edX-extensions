@@ -1,0 +1,9 @@
+<course advanced_modules="[&quot;poll&quot;, &quot;lti_consumer&quot;, &quot;done&quot;]" allow_anonymous="false" allow_unsupported_xblocks="true" cert_html_view_enabled="true" course_image="shutterstock_529075177.jpg" display_name="Big Data Analytics using Spark" end="&quot;2018-06-24T23:30:00+00:00&quot;" enrollment_end="&quot;2018-04-14T00:00:00+00:00&quot;" enrollment_start="&quot;2018-03-24T00:00:00+00:00&quot;" graceperiod="3600 seconds" instructor_info="{&quot;instructors&quot;: []}" is_new="true" language="en" learning_info="[]" minimum_grade_credit="0.8" start="&quot;2018-04-02T00:00:00+00:00&quot;" user_partitions="[{&quot;name&quot;: &quot;Content Group Configuration&quot;, &quot;parameters&quot;: {}, &quot;version&quot;: 3, &quot;groups&quot;: [{&quot;version&quot;: 1, &quot;id&quot;: 1744657943, &quot;name&quot;: &quot;Audit learners&quot;}, {&quot;version&quot;: 1, &quot;id&quot;: 692869819, &quot;name&quot;: &quot;Verified learners&quot;}], &quot;active&quot;: true, &quot;scheme&quot;: &quot;cohort&quot;, &quot;id&quot;: 482959664, &quot;description&quot;: &quot;The groups in this configuration can be mapped to cohort groups in the LMS.&quot;}]" video_upload_pipeline="{&quot;course_video_upload_token&quot;: &quot;c4f8c3be1c0011e897831269ad350526&quot;}">
+  <chapter url_name="2966295eefb4492b836de9ee34f05911"/>
+  <chapter url_name="21a3de418515472e93d9164fcc88e241"/>
+  <chapter url_name="5fcfe8d78549493c8ba8c954e7c322a7"/>
+  <chapter url_name="ff742364aabf4738bb80860d74d69276"/>
+  <chapter url_name="901bc7ff89c144ed8ff13adcf8ad9933"/>
+  <chapter url_name="77e0e74a26e2497c844b17e5884497a4"/>
+  <wiki slug="UCSanDiegoX.DSE230x.1T2018"/>
+</course>

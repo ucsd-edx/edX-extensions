@@ -1,0 +1,8 @@
+<problem display_name="Map Reduce" markdown="What does the following code yield? &#10;rdd = sc.parallelize([1,2,3,4,5])&#10;rdd.map(lambda x: x+1).reduce(lambda x,y: x*y)&#10;&#10;= 720&#10;">
+<numericalresponse answer="720">
+  <p>What does the following code yield? </p>
+<p>rdd = sc.parallelize([1,2,3,4,5])</p>
+<p>rdd.map(lambda x: x+1).reduce(lambda x,y: x*y)</p>
+<formulaequationinput/>
+</numericalresponse>
+</problem>

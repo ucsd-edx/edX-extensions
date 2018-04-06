@@ -1,0 +1,10 @@
+<problem display_name="Temporal Organization" markdown="A stage can be defined as:&#10;&#10;(x) A set of operations that can be done without materialization&#10;( ) A set of operations that require materialization&#10;( ) A set of operations that are carried out after materialization &#10;">
+<multiplechoiceresponse>
+  <p>A stage can be defined as:</p>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">A set of operations that can be done without materialization</choice>
+    <choice correct="false">A set of operations that require materialization</choice>
+    <choice correct="false">A set of operations that are carried out after materialization</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

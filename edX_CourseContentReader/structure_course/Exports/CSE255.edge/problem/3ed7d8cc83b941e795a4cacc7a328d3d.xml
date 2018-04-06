@@ -1,0 +1,9 @@
+<problem display_name="RDD Storage" markdown="RDDs, by default, are stored in memory. (True/False)&#10;&#10;( ) True&#10;(x) False&#10;">
+<multiplechoiceresponse>
+  <p>RDDs, by default, are stored in memory. (True/False)</p>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">True</choice>
+    <choice correct="true">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

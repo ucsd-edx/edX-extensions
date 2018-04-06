@@ -1,0 +1,9 @@
+<problem display_name="Replication Factor" markdown="&gt;&gt;Replication factor on a HDFS cluster defines the number of redundant copies of a file that is stored. Hence, if the replication factor is &lt;i&gt;N&lt;/i&gt;, and a file has a size &lt;i&gt;x&lt;/i&gt;, then it effectively occupies a space of &lt;i&gt;N*x&lt;/i&gt; on the cluster. &#10;&lt;br/&gt;&#10;&lt;br/&gt;&#10;You are given a cluster of 5 servers, each with 500GB of storage. You run HDFS on these 5 servers with a replication factor of 4. What is the effective amount of storage space available on the HDFS cluster?&lt;&lt;&#10;&#10;= 625&#10;">
+<numericalresponse answer="625">
+  <label>Replication factor on a HDFS cluster defines the number of redundant copies of a file that is stored. Hence, if the replication factor is <i>N</i>, and a file has a size <i>x</i>, then it effectively occupies a space of <i>N*x</i> on the cluster. 
+<br/>
+<br/>
+You are given a cluster of 5 servers, each with 500GB of storage. You run HDFS on these 5 servers with a replication factor of 4. What is the effective amount of storage space available on the HDFS cluster?</label>
+<formulaequationinput/>
+</numericalresponse>
+</problem>
