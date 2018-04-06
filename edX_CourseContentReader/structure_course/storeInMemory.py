@@ -421,7 +421,7 @@ class DocDict:
             pro_name = pro[1] + '.xml'
             pFile = self.draft_path / pro[0] / pro_name
             pro_xml = ET.parse(str(pFile)).getroot()
-            p_name = '' if pro_xml.attrib['display_name'].isdigit() else '_' + pro_xml.attrib['display_name']
+            p_name = '' if not 'display_name' in pro_xml.attrib or pro_xml.attrib['display_name'].isdigit() else '_' + pro_xml.attrib['display_name']
 
             if pro[0] == 'problem':
                 Node((self.get_valid_filename( 'draft_' + pro[0] + str(counts[pro[0]]) + p_name) + '.xml', str(pFile)), parent=unit_node)
