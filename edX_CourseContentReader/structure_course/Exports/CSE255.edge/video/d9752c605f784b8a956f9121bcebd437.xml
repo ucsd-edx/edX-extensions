@@ -1,0 +1,8 @@
+<video url_name="d9752c605f784b8a956f9121bcebd437" display_name="Video" download_video="false" edx_video_id="a219dc18-b8c6-473f-a968-6012a18ff14f" html5_sources="[]" sub="" youtube_id_1_0="">
+  <video_asset client_video_id="DSE230x-4-Memory-hierarchy.mp4" duration="264.01" image="video-images/aa889905d7694f60a129acf66b404499.png">
+    <encoded_video bitrate="189" file_size="6239718" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000200_MB2.mp4"/>
+    <encoded_video bitrate="192" file_size="6336607" profile="audio_mp3" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000200_AUD.mp3"/>
+    <encoded_video bitrate="292" file_size="9656014" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000200_DTH.mp4"/>
+    <encoded_video bitrate="0" file_size="0" profile="hls" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000200/UCSDSE232018-V000200.m3u8"/>
+  </video_asset>
+</video>

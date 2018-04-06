@@ -1,0 +1,9 @@
+<problem display_name="Memory Usage" markdown="&gt;&gt;Linked list uses at least as many pages of memory compared to an array to store a sequence of numbers.&lt;&lt;&#10;&#10;(x) True&#10;( ) False&#10;">
+<multiplechoiceresponse>
+  <label>Linked list uses at least as many pages of memory compared to an array to store a sequence of numbers.</label>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">True</choice>
+    <choice correct="false">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

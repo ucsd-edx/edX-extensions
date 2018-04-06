@@ -1,0 +1,11 @@
+<problem display_name="Locality" markdown="&gt;&gt;Which types of locality takes advantage of the fact that disk read heads move slowly? &lt;&lt;&#10;&#10;( ) Temporal Locality&#10;(x) Spatial Locality &#10;( ) Neither Temporal nor Spatial&#10;( ) Both Temporal and Spatial&#10;">
+<multiplechoiceresponse>
+  <label>Which types of locality takes advantage of the fact that disk read heads move slowly? </label>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">Temporal Locality</choice>
+    <choice correct="true">Spatial Locality</choice>
+    <choice correct="false">Neither Temporal nor Spatial</choice>
+    <choice correct="false">Both Temporal and Spatial</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

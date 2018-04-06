@@ -1,0 +1,9 @@
+<problem display_name="Storage" markdown="&gt;&gt;How does Numpy store arrays?&lt;&lt;&#10;&#10;(x) Row major fashion&#10;( ) Column major fashion&#10;">
+<multiplechoiceresponse>
+  <label>How does Numpy store arrays?</label>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">Row major fashion</choice>
+    <choice correct="false">Column major fashion</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

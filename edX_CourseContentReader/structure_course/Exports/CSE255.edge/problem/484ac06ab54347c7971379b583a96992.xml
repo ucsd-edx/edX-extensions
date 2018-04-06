@@ -1,0 +1,11 @@
+<problem display_name="Map Reduce" markdown="null">
+  <multiplechoiceresponse>
+    <label>Consider a list <b>L</b> of size <b>d</b>. What are the sizes of the results of <b>map</b>(lambda x: <i>operation</i>(x), L) and <b>reduce</b>(lambda x,y: <i>operation</i>(x,y), L) respectively? (operation() is some function that works on the elements of L)</label>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">d, d</choice>
+      <choice correct="true">d, 1</choice>
+      <choice correct="false">1, d</choice>
+      <choice correct="false">1, 1</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+</problem>

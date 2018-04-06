@@ -1,0 +1,9 @@
+<problem display_name="Dataframe Schema" markdown="&gt;&gt;Each DataFrame is associated with a schema that always has to be predefined. &lt;&lt;&#10;&#10;( ) True&#10;(x) False">
+<multiplechoiceresponse>
+  <label>Each DataFrame is associated with a schema that always has to be predefined. </label>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">True</choice>
+    <choice correct="true">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

@@ -1,0 +1,11 @@
+<problem display_name="Execution Time" markdown="null">
+  <multiplechoiceresponse>
+    <label>Consider a list L = [1,2,3,4,5,6,7,8]. The function <b>reduce</b>(lambda x,y:x+y,L) is executed in parallel across 4 CPU cores on a single machine. Each execution of x+y takes 1<i>ns</i>. How long should it take, theoretically, for the task to complete?</label>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">1<i>ns</i></choice>
+      <choice correct="false">2<i>ns</i></choice>
+      <choice correct="true">3<i>ns</i></choice>
+      <choice correct="false">4<i>ns</i></choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+</problem>

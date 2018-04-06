@@ -1,0 +1,9 @@
+<problem display_name="Row Major" markdown="&gt;&gt;If a 2 dimensional array \(A\) is stored in a row major fashion in memory, then \(A[i, j]\) and \(A[i, j + 1]\) are &lt;&lt;&#10;&#10;(x) next to each other&#10;( ) more than one memory location apart&#10;">
+<multiplechoiceresponse>
+  <label>If a 2 dimensional array \(A\) is stored in a row major fashion in memory, then \(A[i, j]\) and \(A[i, j + 1]\) are </label>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">next to each other</choice>
+    <choice correct="false">more than one memory location apart</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

@@ -1,0 +1,11 @@
+<problem display_name="Finding Average" markdown="null">
+  <multiplechoiceresponse>
+    <label>Given a list L of integers, which of the following expressions compute the average of the elements in the list?</label>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">reduce(lambda x,y: x+y, l) / reduce(lambda x,y: x+y, map(lambda x: 1, l))</choice>
+      <choice correct="false">reduce(lambda x,y: x+y, l) / reduce(lambda x,y: x+y, map(lambda x: x, l))</choice>
+      <choice correct="false">reduce(lambda x,y: x+y, l) / map(lambda x: x, reduce(lambda x,y: x+y, l))</choice>
+      <choice correct="false">reduce(lambda x,y: x+y, l) / reduce(lambda x,y: 1+1, l)</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+</problem>

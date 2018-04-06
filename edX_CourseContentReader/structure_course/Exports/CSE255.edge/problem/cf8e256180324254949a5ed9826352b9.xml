@@ -1,0 +1,9 @@
+<problem display_name="RDDs vs Dataframes" markdown="&gt;&gt;RDDs have structure while Dataframes do not. &lt;&lt;&#10;&#10;( ) True&#10;(x) False&#10;">
+<multiplechoiceresponse>
+  <label>RDDs have structure while Dataframes do not. </label>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">True</choice>
+    <choice correct="true">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

@@ -1,0 +1,9 @@
+<problem display_name="Dataframe manipulation" markdown="&gt;&gt;Imperative manipulation of a DF requires the specification of the order of execution. &lt;&lt;&#10;&#10;(x) True&#10;( ) False">
+<multiplechoiceresponse>
+  <label>Imperative manipulation of a DF requires the specification of the order of execution. </label>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">True</choice>
+    <choice correct="false">False</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

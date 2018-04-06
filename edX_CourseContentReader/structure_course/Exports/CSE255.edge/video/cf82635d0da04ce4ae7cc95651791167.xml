@@ -1,0 +1,8 @@
+<video url_name="cf82635d0da04ce4ae7cc95651791167" display_name="Video" download_video="false" edx_video_id="dc926ebd-5772-41a7-bea9-2770401a3c58" html5_sources="[]" sub="" youtube_id_1_0="">
+  <video_asset client_video_id="DSE230x-28_2_NB_memory_locality_rows_vs_columns.mp4" duration="319.23" image="">
+    <encoded_video bitrate="128" file_size="5126447" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V002000_MB2.mp4"/>
+    <encoded_video bitrate="192" file_size="7663242" profile="audio_mp3" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V002000_AUD.mp3"/>
+    <encoded_video bitrate="0" file_size="0" profile="hls" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V002000/UCSDSE232018-V002000.m3u8"/>
+    <encoded_video bitrate="230" file_size="9213576" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V002000_DTH.mp4"/>
+  </video_asset>
+</video>

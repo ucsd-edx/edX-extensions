@@ -1,0 +1,23 @@
+<problem display_name="Access Locality" markdown="&gt;&gt;Which of the following statements are true considering the below mentioned access patterns for an array &quot;A&quot; in a program?&#10;&#10;=====&#10;&#10;(1) A[1], A[2], A[3]&#10;=====&#10;&#10;(2) A[0][1], A[0][2], A[0][3]&#10;=====&#10;&#10;(3) A[1], A[5000], A[1], A[1], A[5000], A[30], A[30], A[5000], A[1], A[5000]&#10;=====&#10;&#10;|| There could be more than one option correct. &lt;&lt;&#10;&#10;[x] (1) demonstrates spatial locality&#10;[ ] (1) demonstrates temporal locality&#10;[x] (2) demonstrates spatial locality&#10;[ ] (2) demonstrates temporal locality&#10;[ ] (3) demonstrates spatial locality&#10;[x] (3) demonstrates temporal locality">
+<choiceresponse>
+  <label>Which of the following statements are true considering the below mentioned access patterns for an array "A" in a program?
+<h3 class="hd hd-2 problem-header"/>
+
+<h3 class="hd hd-2 problem-header">(1) A[1], A[2], A[3]</h3>
+
+<h3 class="hd hd-2 problem-header">(2) A[0][1], A[0][2], A[0][3]</h3>
+
+<h3 class="hd hd-2 problem-header">(3) A[1], A[5000], A[1], A[1], A[5000], A[30], A[30], A[5000], A[1], A[5000]</h3>
+
+</label>
+<description> There could be more than one option correct. </description>
+<checkboxgroup>
+    <choice correct="true">(1) demonstrates spatial locality</choice>
+    <choice correct="false">(1) demonstrates temporal locality</choice>
+    <choice correct="true">(2) demonstrates spatial locality</choice>
+    <choice correct="false">(2) demonstrates temporal locality</choice>
+    <choice correct="false">(3) demonstrates spatial locality</choice>
+    <choice correct="true">(3) demonstrates temporal locality</choice>
+  </checkboxgroup>
+</choiceresponse>
+</problem>

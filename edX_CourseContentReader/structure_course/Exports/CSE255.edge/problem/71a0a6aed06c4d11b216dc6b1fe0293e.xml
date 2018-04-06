@@ -1,0 +1,10 @@
+<problem display_name="I/O Latency" markdown="True/False&#10;&gt;&gt; When dealing with big data, I/O is a potential bottleneck for high throughput. &lt;&lt;&#10;[[&#10;(True)&#10;(False)&#10;]]&#10;" weight="1.0">
+<optionresponse>
+  <p>True/False</p>
+<label> When dealing with big data, I/O is a potential bottleneck for high throughput. </label>
+<optioninput>
+    <option correct="True">True</option>
+    <option correct="True">False</option>
+  </optioninput>
+</optionresponse>
+</problem>

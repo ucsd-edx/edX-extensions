@@ -1,0 +1,10 @@
+<problem display_name="RDD Basics" markdown="If &lt;b&gt;rdd&lt;/b&gt; is a resilient distributed dataset, &lt;b&gt;rdd.collect()&lt;/b&gt; returns a &#10;&#10;(x) list&#10;( ) dictionary&#10;( ) dataframe&#10;">
+<multiplechoiceresponse>
+  <p>If <b>rdd</b> is a resilient distributed dataset, <b>rdd.collect()</b> returns a </p>
+<choicegroup type="MultipleChoice">
+    <choice correct="true">list</choice>
+    <choice correct="false">dictionary</choice>
+    <choice correct="false">dataframe</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>

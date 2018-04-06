@@ -1,0 +1,8 @@
+<video url_name="18493c89f24e4c4ba38ba30cc770a2e5" display_name="Video" download_video="false" edx_video_id="f14f069e-bca1-4f3e-825c-7a868b79b1b8" html5_sources="[]" sub="" youtube_id_1_0="">
+  <video_asset client_video_id="DSE230x-22_1_manipulating_plain_rdd.mp4" duration="178.33" image="video-images/37c3dcd0c59d4e59bbe37edc190a1c0a.png">
+    <encoded_video bitrate="192" file_size="4280394" profile="audio_mp3" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000700_AUD.mp3"/>
+    <encoded_video bitrate="168" file_size="3755929" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000700_MB2.mp4"/>
+    <encoded_video bitrate="223" file_size="4973902" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000700_DTH.mp4"/>
+    <encoded_video bitrate="0" file_size="0" profile="hls" url="https://d2f1egay8yehza.cloudfront.net/UCSDSE232018-V000700/UCSDSE232018-V000700.m3u8"/>
+  </video_asset>
+</video>

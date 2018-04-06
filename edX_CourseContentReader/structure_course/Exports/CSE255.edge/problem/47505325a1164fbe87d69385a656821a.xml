@@ -1,0 +1,12 @@
+<problem display_name="Spark Languages" markdown="null">
+  <choiceresponse>
+    <label>What languages can Spark applications be written in?</label>
+    <checkboxgroup>
+      <choice correct="true">Java</choice>
+      <choice correct="false">Ruby</choice>
+      <choice correct="false">C++</choice>
+      <choice correct="true">Scala</choice>
+      <choice correct="true">Python</choice>
+    </checkboxgroup>
+  </choiceresponse>
+</problem>

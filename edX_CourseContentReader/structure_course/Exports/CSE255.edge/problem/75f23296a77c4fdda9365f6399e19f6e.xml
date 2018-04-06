@@ -1,0 +1,8 @@
+<problem markdown="null" show_reset_button="true" weight="0.0"><startouttext/>
+    Upload your assignments.
+  <endouttext/>
+  <b>
+    Test problem for queue 'ucsdx_eg_test'.
+  </b>
+  <coderesponse queuename="ucsdx_eg_test"><filesubmission points="1"/><codeparam><grader_payload>ps1/collinearPoints_visible</grader_payload></codeparam></coderesponse>
+</problem>

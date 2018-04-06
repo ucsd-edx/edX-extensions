@@ -1,0 +1,13 @@
+<problem display_name="RDD Operations" markdown="null">
+  <choiceresponse>
+    <label>Which of the following operations on an RDD also returns an RDD? Check all that apply</label>
+    <checkboxgroup>
+      <choice correct="true">map()</choice>
+      <choice correct="false">reduce()</choice>
+      <choice correct="false">collect()</choice>
+      <choice correct="true">sample()</choice>
+      <choice correct="false">take()</choice>
+      <choice correct="false">first()</choice>
+    </checkboxgroup>
+  </choiceresponse>
+</problem>

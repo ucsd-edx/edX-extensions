@@ -1,0 +1,13 @@
+<problem display_name="reduceByKey" markdown="a = sc.parallelize([(1,2), (1,-5), (7,30), (9,6), (1,3), (7,-2), (1,-3), (7,-1), (1,4)])&#10;a = a.reduceByKey(lambda x,y: x+y)&#10;What will a.collect() give?&#10;&#10;() [(1, 32), (9, 6), (7, 32)]&#10;() [(1, 180), (9, 6), (7, 60)]&#10;() ((1, -1), (9, 6), (7, 27))&#10;(x) [(1, -1), (9, 6), (7, 27)]&#10;">
+<multiplechoiceresponse>
+  <p>a = sc.parallelize([(1,2), (1,-5), (7,30), (9,6), (1,3), (7,-2), (1,-3), (7,-1), (1,4)])</p>
+<p>a = a.reduceByKey(lambda x,y: x+y)</p>
+<p>What will a.collect() give?</p>
+<choicegroup type="MultipleChoice">
+    <choice correct="false">[(1, 32), (9, 6), (7, 32)]</choice>
+    <choice correct="false">[(1, 180), (9, 6), (7, 60)]</choice>
+    <choice correct="false">((1, -1), (9, 6), (7, 27))</choice>
+    <choice correct="true">[(1, -1), (9, 6), (7, 27)]</choice>
+  </choicegroup>
+</multiplechoiceresponse>
+</problem>
