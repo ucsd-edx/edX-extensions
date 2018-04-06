@@ -107,23 +107,21 @@ class DocDict:
 
         folder_mapping = {}
         prefixes = []
+        default_folders = ['/about', '/assets', '/course','/info','/policies','/static','/tabs']
         for node in PreOrderIter(self.course_tree):
 
             if node == self.course_tree.root:
                 directory = os.path.dirname(node.name[1] + '/')
-                copytree(str(self.path) + '/about', directory + '/about')
-                copytree(str(self.path) + '/assets', directory + '/assets')
-                copytree(str(self.path) + '/course', directory + '/course')
-                copytree(str(self.path) + '/info', directory + '/info')
-                copytree(str(self.path) + '/policies', directory + '/policies')
-                copytree(str(self.path) + '/static', directory + '/static')
-                copytree(str(self.path) + '/tabs', directory + '/tabs')
+                for i in default_folders:
+                    if os.path.exists(str(self.path) + i):
+                        copytree(str(self.path) + i, directory + i)
                 folder_mapping['root'] = str(self.path)
             else:
                 directory = node.parent.name[1] + '/' + node.name[0]
 
             if node.name[0].endswith('.xml') or node.name[0].endswith('.html'):
-                copyfile(node.name[1], directory)
+                if os.path.exists(node.name[1]):
+                    copyfile(node.name[1], directory)
                 folder_mapping[directory] = node.name[1]
                 prefixes.append(directory)
             elif not os.path.exists(directory):
@@ -132,7 +130,7 @@ class DocDict:
 
         for k,v in iter(folder_mapping.items()):
             folder_mapping[k] = os.path.relpath(v,prefix)
-        self.save_mapping(folder_mapping, self.course_tree.root.name[1]  + '/mapping.json')
+        self.save_mapping(folder_mapping, self.course_tree.root.name[1] + '/mapping.json')
 
         if not self.duplicate:
             print('Deleting old course folder...')
@@ -167,10 +165,11 @@ class DocDict:
             copyfile(key,alternative_path)
 
         for p in misc_paths:
-            if not os.path.exists(new_folder + p):
-                copytree(str(self.path) + p, new_folder + p)
-            else:
-                print('Path  ' + new_folder + p + ' already exists. Skipping copying')
+            if os.path.exists(str(self.path) + p):
+                if not os.path.exists(new_folder + p):
+                    copytree(str(self.path) + p, new_folder + p)
+                else:
+                    print('Path  ' + new_folder + p + ' already exists. Skipping copying')
 
         if compress:
             print('Compressing course folder...')
@@ -200,7 +199,13 @@ class DocDict:
         Write header to the README.md with the course name.
         """
         if not destination:
-            self.course_tree = Node((str(self.path).rstrip('/'), str(self.path).rstrip('/') + '_structured'))
+            postfix = 1
+            destination = str(self.path).rstrip('/') + '_structured'
+            if os.path.exists(destination):
+                while os.path.exists(destination + '_' + str(postfix)):
+                    postfix += 1
+                destination = destination + '_' + str(postfix)
+            self.course_tree = Node((str(self.path).rstrip('/'), destination))
         else:
             self.course_tree = Node((str(self.path).rstrip('/'), destination))
 
@@ -360,7 +365,7 @@ class DocDict:
                     Node((self.get_valid_filename(problem_name) + '.xml', str(pFile)), parent=unit_node)
                 elif pro[0] == 'html':
                     Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.xml',  str(pFile)), parent=unit_node)
-                    Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.html',  str(pFile).split('.')[0] + '.html'), parent=unit_node)
+                    Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.html',  str(pFile).rsplit('.',1)[0] + '.html'), parent=unit_node)
 
                 else:
                     Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.xml', str(pFile)), parent=unit_node)
@@ -370,7 +375,7 @@ class DocDict:
                 problem_name = elements[0].split(':')[-1] if len(elements) > 0 else pro[0] + str(counts[pro[0]])
                 Node((self.get_valid_filename(problem_name) + '.xml', str(pFile)), parent=unit_node)
                 if pro[0] == 'html':
-                    Node((self.get_valid_filename(problem_name) + '.html', str(pFile).split('.')[0] + '.html'), parent=unit_node)
+                    Node((self.get_valid_filename(problem_name) + '.html', str(pFile).rsplit('.',1)[0] + '.html'), parent=unit_node)
 
             pro_list.append((str(pFile), pro[0]))
 
@@ -422,7 +427,7 @@ class DocDict:
                 Node((self.get_valid_filename( 'draft_' + pro[0] + str(counts[pro[0]]) + p_name) + '.xml', str(pFile)), parent=unit_node)
             elif pro[0] == 'html':
                 Node(('draft_' + pro[0] + str(counts[pro[0]]) + '.xml', str(pFile)), parent=unit_node)
-                Node(('draft_' + pro[0] + str(counts[pro[0]]) + '.html', str(pFile).split('.')[0] + '.html'), parent=unit_node)
+                Node(('draft_' + pro[0] + str(counts[pro[0]]) + '.html', str(pFile).rsplit('.',1)[0] + '.html'), parent=unit_node)
             else:
                 Node(('draft_' + pro[0] + str(counts[pro[0]]) + '.xml', str(pFile)), parent=unit_node)
 
