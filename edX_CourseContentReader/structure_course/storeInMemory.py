@@ -101,7 +101,7 @@ class DocDict:
 
     def get_valid_filename(self,s):
         s = str(s.encode('ascii','ignore')).strip().replace(' ', '_').replace('_-_','_')
-        return re.sub(r'(?u)[^-\w.]', '', s).lower()
+        return re.sub(r'(?u)[^-\w.]', '', s[1:]).lower()
 
     def createFolderStructure(self):
 
