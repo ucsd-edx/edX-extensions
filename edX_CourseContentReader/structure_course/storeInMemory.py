@@ -219,7 +219,6 @@ class DocDict:
         """
         Write section information into readme
         """
-        prefix = 'section_'
         count = 0
         for c in self.chapter_list:
             count+=1
@@ -230,10 +229,11 @@ class DocDict:
             # write to file
             chap_xml = ET.parse(str(cFile)).getroot()
 
-            chap_name = chap_xml.attrib['display_name']
-            folder = prefix + str(count)
+            chap_name = self.get_valid_filename(chap_xml.attrib['display_name'])
+            folder = chap_name
+            # chapter_node = Node((folder, self.course_tree.name[1] + '/' + folder), parent=self.course_tree)
             chapter_node = Node((folder, self.course_tree.name[1] + '/' + folder), parent=self.course_tree)
-            Node((self.get_valid_filename(chap_name) + '.xml', str(cFile)), parent=chapter_node)
+            Node((chap_name + '.xml', str(cFile)), parent=chapter_node)
             # remove empty sequential item
             seq_list = [child.attrib['url_name'] for child in chap_xml]
             # pass to describe the sequence further
@@ -254,8 +254,8 @@ class DocDict:
         """
         pub_seq = OrderedDict()
         all_seq = OrderedDict()
-        prefix = 'subsection_'
         count = 0
+        # prefix = 'section'
         for s in seq:
             count += 1
             unpublished = False
@@ -263,10 +263,13 @@ class DocDict:
             sFile = self.seq_path / s_name
 
             seq_xml = ET.parse(str(sFile)).getroot()
-            sequ_name = seq_xml.attrib['display_name']
-            folder = prefix + str(count)
+            sequ_name = self.get_valid_filename(seq_xml.attrib['display_name'])
+            # folder = prefix + str(count) + '_' + sequ_name
+
+            folder = sequ_name
             subsection_node = Node((folder, chapter_node.name[1] + '/' + folder), parent=chapter_node)
-            Node((self.get_valid_filename(sequ_name) + '.xml', str(sFile)), parent=subsection_node)
+
+            Node((sequ_name + '.xml', str(sFile)), parent=subsection_node)
             if len(seq_xml.getchildren()) > 0:
                 unit_list = [child.attrib['url_name'] for child in seq_xml]
                 pub_dict, all_dict = self.describeUnit(unit_list, subsection_node)
@@ -308,18 +311,19 @@ class DocDict:
         """
         pub_uni = OrderedDict()
         all_uni = OrderedDict()
-        prefix = 'unit_'
+        # prefix = 'unit'
         count = 0
         for u in uni:
             count += 1
             u += '.xml'
             uFile = self.vert_path / u
             uni_xml = ET.parse(str(uFile)).getroot()
-            u_name = uni_xml.attrib['display_name']
-            folder = prefix + str(count)
+            u_name = self.get_valid_filename(uni_xml.attrib['display_name'])
+            # folder = prefix + str(count) + '_' + u_name
+            folder = u_name
 
             unit_node = Node((folder, subsection_node.name[1] + '/' + folder), parent=subsection_node)
-            Node((self.get_valid_filename(u_name) + '.xml' , str(uFile)), parent=unit_node)
+            Node((u_name + '.xml' , str(uFile)), parent=unit_node)
             prob_list = []
             for child in uni_xml:
                 if child.tag in ['problem', 'video', 'html']:
@@ -334,7 +338,7 @@ class DocDict:
         pub_uni = dict((k, v) for k, v in iter(pub_uni.items()) if v)
         return pub_uni, all_uni
 
-    def describeProb(self, prob_list, unit_node):
+    def describeProb(self, prob_list, unit_node, draft=False):
         """
         Write component information into readme
         Input:
@@ -346,14 +350,22 @@ class DocDict:
         counts = {'video': 0,'html': 0, 'problem': 0}
         for pro in prob_list:
             pro_name = pro[1] + '.xml'
+
             pFile = self.path / pro[0] / pro_name
+            p_name = ''
+            if draft == True:
+                p_name = 'draft_'
+                pFile = self.draft_path / pro[0] / pro_name
             pro_xml = ET.parse(str(pFile)).getroot()
             counts[pro[0]] += 1
             elements = [elem.text for elem in pro_xml.iter('choicehint')]
+
+
             if 'display_name' in pro_xml.attrib.keys():
                 Dict = pro_xml.attrib
-                p_name = '' if Dict['display_name'].isdigit() or pro[0] == pro_xml.attrib['display_name'].lower() else '_' + pro_xml.attrib['display_name']
-                problem_name = pro[0] + str(counts[pro[0]]) + '_' + elements[0].split(':')[-1].strip(' ').strip('.') if len(elements) > 0 else pro[0] + str(counts[pro[0]])
+                p_name += pro[0] + str(counts[pro[0]]) if Dict['display_name'].isdigit() or pro[0] in Dict['display_name'].lower() else pro[0] + '_' + Dict['display_name']
+                if len(elements) > 0 and p_name == pro[0]:
+                    p_name += '_' + elements[0].split(':')[-1].strip(' ').strip('.')
 
                 if 'weight' in Dict.keys():
                     if 'max_attempts' in Dict.keys():
@@ -361,21 +373,20 @@ class DocDict:
                                             'max_attempts': Dict['max_attempts']}
                     else:
                         pub_prob[p_name] = {'file': pro_name, 'weight': Dict['weight']}
-                if pro[0] == 'problem':
-                    Node((self.get_valid_filename(problem_name) + '.xml', str(pFile)), parent=unit_node)
-                elif pro[0] == 'html':
-                    Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.xml',  str(pFile)), parent=unit_node)
-                    Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.html',  str(pFile).rsplit('.',1)[0] + '.html'), parent=unit_node)
 
-                else:
-                    Node((self.get_valid_filename(pro[0] + str(counts[pro[0]]) +  p_name) + '.xml', str(pFile)), parent=unit_node)
+                Node((self.get_valid_filename(p_name) + '.xml', str(pFile)),
+                         parent=unit_node)
+
+                if pro[0] == 'html':
+                    Node((self.get_valid_filename(p_name) + '.html',
+                          str(pFile).rsplit('.', 1)[0] + '.html'), parent=unit_node)
 
 
             else:
-                problem_name = elements[0].split(':')[-1] if len(elements) > 0 else pro[0] + str(counts[pro[0]])
-                Node((self.get_valid_filename(problem_name) + '.xml', str(pFile)), parent=unit_node)
+                p_name = pro[0] + str(counts[pro[0]]) + '_' + elements[0].split(':')[-1] if len(elements) > 0 else pro[0] + str(counts[pro[0]])
+                Node((self.get_valid_filename(p_name) + '.xml', str(pFile)), parent=unit_node)
                 if pro[0] == 'html':
-                    Node((self.get_valid_filename(problem_name) + '.html', str(pFile).rsplit('.',1)[0] + '.html'), parent=unit_node)
+                    Node((self.get_valid_filename(p_name) + '.html', str(pFile).rsplit('.',1)[0] + '.html'), parent=unit_node)
 
             pro_list.append((str(pFile), pro[0]))
 
@@ -390,18 +401,19 @@ class DocDict:
             [unit]: the list of unit files that need to be described further.
         """
         all_uni = OrderedDict()
-        prefix = 'draft_unit_'
+        prefix = 'draft_unit'
         count = 0
         for u in unit:
             count +=1
             uFile = Path(u[0])
             un_xml = ET.parse(str(uFile)).getroot()
-            u_name = un_xml.attrib['display_name']
-            folder = prefix + str(count)
+            u_name = self.get_valid_filename(un_xml.attrib['display_name'])
+            folder = prefix + str(count) + u_name
 
+            # unit_node = Node((folder, subsection_node.name[1] + '/' + folder), parent=subsection_node)
             unit_node = Node((folder, subsection_node.name[1] + '/' + folder), parent=subsection_node)
-            Node((self.get_valid_filename(u_name) + '.xml',  str(uFile)), parent=unit_node)
-            prob_list = self.describeDraftProb(u[1:],unit_node)
+            Node((u_name + '.xml',  str(uFile)), parent=unit_node)
+            prob_list = self.describeProb(u[1:],unit_node,draft=True)
             ### use unit title + last 5 digits of file id as key
             all_uni['(' + u[0][-9:-4] + ')(draft)' + u_name] = (str(uFile), prob_list)
         return all_uni
@@ -418,10 +430,32 @@ class DocDict:
 
         for pro in probs:
             counts[pro[0]] += 1
+            elements = [elem.text for elem in pro_xml.iter('choicehint')]
+
             pro_name = pro[1] + '.xml'
             pFile = self.draft_path / pro[0] / pro_name
             pro_xml = ET.parse(str(pFile)).getroot()
-            p_name = '' if not 'display_name' in pro_xml.attrib or pro_xml.attrib['display_name'].isdigit() else '_' + pro_xml.attrib['display_name']
+            if 'display_name' in pro_xml.attrib.keys():
+                Dict = pro_xml.attrib
+                p_name = pro[0] + str(counts[pro[0]]) if Dict['display_name'].isdigit() or pro[0] in Dict['display_name'].lower() else pro[0] + '_' + Dict['display_name']
+                if len(elements) > 0 and p_name == pro[0]:
+                    p_name += '_' + elements[0].split(':')[-1].strip(' ').strip('.')
+
+                Node((self.get_valid_filename(p_name) + '.xml', str(pFile)),
+                         parent=unit_node)
+                if pro[0] == 'html':
+                    Node((self.get_valid_filename(p_name) + '.html',
+                          str(pFile).rsplit('.', 1)[0] + '.html'), parent=unit_node)
+
+
+            else:
+                problem_name = elements[0].split(':')[-1] if len(elements) > 0 else pro[0] + str(counts[pro[0]])
+                Node((self.get_valid_filename(problem_name) + '.xml', str(pFile)), parent=unit_node)
+                if pro[0] == 'html':
+                    Node((self.get_valid_filename(problem_name) + '.html', str(pFile).rsplit('.',1)[0] + '.html'), parent=unit_node)
+            p_name = pro[0] + str(counts[pro[0]]) if Dict['display_name'].isdigit() or pro[0] in Dict['display_name'].lower() else pro[0] + '_' + Dict['display_name']
+            if len(elements) > 0 and p_name == pro[0]:
+                p_name += '_' + elements[0].split(':')[-1].strip(' ').strip('.')
 
             if pro[0] == 'problem':
                 Node((self.get_valid_filename( 'draft_' + pro[0] + str(counts[pro[0]]) + p_name) + '.xml', str(pFile)), parent=unit_node)
